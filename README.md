@@ -1,2 +1,48 @@
-# self-docs
-Gitbook documentation for Self
+---
+icon: user
+cover: .gitbook/assets/110ft QuickZip Straight.png
+coverY: 0
+layout:
+  cover:
+    visible: true
+    size: full
+  title:
+    visible: true
+  description:
+    visible: false
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+---
+
+# Self Protocol
+
+
+
+Verify real users while preserving privacy.
+
+## Overview
+
+Self is a **privacy-first, open-source identity protocol** that uses **zero-knowledge proofs** for secure identity verification.&#x20;
+
+It enables **Sybil resistance** and **selective disclosure** using real-world attestations like passports. With a few lines of code, developers can easily check if their users are humans, while preserving their privacy.
+
+### How it Works
+
+Self Protocol simplifies **digital identity verification** with **zero-knowledge proofs** in three steps:
+
+1. **Scan Your Passport:** Scan your passport using the NFC reader of your phone.
+2. **Generate a Proof:** Generate a zk proof over your passport, selecting only what you want to disclose.
+3. **Share Your Proof:** Share your zk proof with the selected application.
+
+### Common use cases for Self:
+
+* **Airdrop protection:** Protect a token distribution from bots
+* **Social media:** Add humanity checks to user's profiles
+* **Quadratic funding:** Prevent farmers from skewing rewards
+* **Wallet recovery:** Safeguard assets using IDs as recovery sources
+* **Sanction list checking:** Check users are not on sanctioned entity lists
+
