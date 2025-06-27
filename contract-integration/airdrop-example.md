@@ -41,6 +41,9 @@ bytes32 public merkleRoot;
 /// @notice Phase control
 bool public isRegistrationOpen;
 bool public isClaimOpen;
+
+/// @notice Verification config ID for identity verification
+bytes32 public verificationConfigId;
 ```
 
 For standard V2 integration patterns (constructor, getConfigId), see [Basic Integration Guide](basic-integration.md#integration-implementation).
@@ -94,10 +97,46 @@ function claim(uint256 index, uint256 amount, bytes32[] memory merkleProof) exte
 }
 ```
 
+### Configuration Management
+
+The contract includes methods for managing verification configuration:
+
+```solidity
+// Set verification config ID
+function setConfigId(bytes32 configId) external onlyOwner {
+    verificationConfigId = configId;
+}
+
+// Override to provide configId for verification
+function getConfigId(
+    bytes32 destinationChainId,
+    bytes32 userIdentifier,
+    bytes memory userDefinedData
+) public view override returns (bytes32) {
+    return verificationConfigId;
+}
+```
+
+### Administrative Functions
+
+```solidity
+// Set Merkle root for claim validation
+function setMerkleRoot(bytes32 newMerkleRoot) external onlyOwner;
+
+// Update verification scope
+function setScope(uint256 newScope) external onlyOwner;
+
+// Phase control
+function openRegistration() external onlyOwner;
+function closeRegistration() external onlyOwner;
+function openClaim() external onlyOwner;
+function closeClaim() external onlyOwner;
+```
+
 ### Airdrop Flow
 
 1. **Deploy:** Owner deploys with hub address, scope, and token
-2. **Configure:** Set verification config and Merkle root
+2. **Configure:** Set verification config ID and Merkle root using `setConfigId()` and `setMerkleRoot()`
 3. **Open Registration:** Users prove identity to register
 4. **Close Registration:** Move to claim phase
 5. **Open Claims:** Registered users claim via Merkle proofs

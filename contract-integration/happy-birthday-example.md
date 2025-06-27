@@ -32,6 +32,9 @@ uint256 public claimableWindow = 1 days;
 /// @notice Tracks users who have claimed to prevent double claims
 mapping(uint256 nullifier => bool hasClaimed) public hasClaimed;
 
+/// @notice Verification config ID for identity verification
+bytes32 public verificationConfigId;
+
 uint256 public constant BASIS_POINTS = 10000;
 ```
 
@@ -141,6 +144,11 @@ function setEuidBonusMultiplier(uint256 newMultiplier) external onlyOwner {
     emit EuidBonusMultiplierUpdated(oldMultiplier, newMultiplier);
 }
 
+// Set verification config ID
+function setConfigId(bytes32 configId) external onlyOwner {
+    verificationConfigId = configId;
+}
+
 // Withdraw USDC from contract
 function withdrawUSDC(address to, uint256 amount) external onlyOwner {
     usdc.safeTransfer(to, amount);
@@ -157,10 +165,25 @@ function withdrawUSDC(address to, uint256 amount) external onlyOwner {
 For verification configuration setup, see [Hub Verification Process](../verification-in-the-identityverificationhub.md#v2-enhanced-verifications).
 
 
+### Configuration Management
+
+The contract includes methods for managing verification configuration:
+
+```solidity
+// Override to provide configId for verification
+function getConfigId(
+    bytes32 destinationChainId,
+    bytes32 userIdentifier,
+    bytes memory userDefinedData
+) public view override returns (bytes32) {
+    return verificationConfigId;
+}
+```
+
 ### Example Usage
 
 1. **Deploy Contract:** With hub address, scope, and USDC token address
-2. **Set Configuration:** Call `setupVerificationConfig()` to register with hub
+2. **Set Configuration:** Call `setConfigId()` with your verification config ID or use `setupVerificationConfig()` pattern
 3. **Fund Contract:** Transfer USDC to contract for distribution
 4. **User Claims:** Users verify identity and automatically receive birthday bonus
 5. **Document Bonuses:** EU ID card users get 2x, passport users get 1.5x the base amount
