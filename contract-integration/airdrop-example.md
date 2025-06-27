@@ -1,69 +1,113 @@
-# Airdrop Example
+# Airdrop Example V2
 
-Let’s take a closer look at how to integrate our smart contract by using a concrete example. In this case, we will demonstrate how to integrate our [Airdrop contract](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/Airdrop.sol).
+This example demonstrates V2 contract integration using the [Airdrop contract](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/Airdrop.sol), which supports both E-Passport and EU ID Card verification with registration/claim phases and Merkle tree token distribution.
 
-### Importing Required Files
+### Airdrop-Specific Features
 
-In the Airdrop contract, we override the `verifySelfProof` function to add custom functionality. For this purpose, import the following files:
+This contract demonstrates:
+- **Two-phase distribution:** Registration → Claim separation
+- **Merkle tree allocation:** Fair token distribution
+- **Multi-document registration:** Both E-Passport and EU ID cards supported
+- **Anti-duplicate measures:** Nullifier and user identifier tracking
+
+### Registration Logic
+
+The registration phase validates user eligibility and prevents duplicate registrations:
+
+**Key Validations:**
+- Registration phase must be open
+- Nullifier hasn't been used (prevents same document registering twice)
+- Valid user identifier provided
+- User identifier hasn't already registered (prevents address reuse)
+
+### State Variables
 
 ```solidity
-import {SelfVerificationRoot} from "@selfxyz/contracts/contracts//abstract/SelfVerificationRoot.sol";
-import {ISelfVerificationRoot} from "@selfxyz/contracts/contracts//interfaces/ISelfVerificationRoot.sol";
+/// @notice Maps nullifiers to user identifiers for registration tracking
+mapping(uint256 nullifier => uint256 userIdentifier) internal _nullifierToUserIdentifier;
+
+/// @notice Maps user identifiers to registration status
+mapping(uint256 userIdentifier => bool registered) internal _registeredUserIdentifiers;
+
+/// @notice Tracks addresses that have claimed tokens
+mapping(address => bool) public claimed;
+
+/// @notice ERC20 token to be airdropped
+IERC20 public immutable token;
+
+/// @notice Merkle root for claim validation
+bytes32 public merkleRoot;
+
+/// @notice Phase control
+bool public isRegistrationOpen;
+bool public isClaimOpen;
 ```
 
-### Verification Requirements for the Airdrop
+For standard V2 integration patterns (constructor, getConfigId), see [Basic Integration Guide](basic-integration.md#integration-implementation).
 
-For the Airdrop use case, the following verification checks are required:
-
-* **Scope Verification:**\
-  Confirm that the proof was generated specifically for the Airdrop application by checking the scope used in the proof.
-* **Attestation ID Verification:**\
-  Ensure the proof was generated using the correct attestation ID corresponding to the document type intended for the Airdrop.
-* **Nullifier Registration and Verification:**\
-  Prevent double claims by registering and verifying a nullifier. Although the nullifier does not reveal any document details, it is uniquely tied to the document.&#x20;
-* **User Identifier Registration:**\
-  Verify that the proof includes a valid user identifier (in this case, the address that will receive the Airdrop).
-* **Proof Verification by IdentityVerificationHub:**\
-  Validate the proof itself using our IdentityVerificationHub, which also performs additional checks (e.g., olderThan, forbiddenCountries, and OFAC validations) as configured for the Airdrop.
-
-### State Variables for Nullifier and User Identifier
-
-Within the Airdrop contract, mappings are declared to keep track of used nullifiers and registered user identifiers:
-
+**Registration Verification Hook:**
 ```solidity
-mapping(uint256 => uint256) internal _nullifiers;
-mapping(uint256 => bool) internal _registeredUserIdentifiers;
-```
+function customVerificationHook(
+    ISelfVerificationRoot.GenericDiscloseOutputV2 memory output,
+    bytes memory /* userData */
+) internal override {
+    // Airdrop-specific validations
+    if (!isRegistrationOpen) revert RegistrationNotOpen();
+    if (_nullifierToUserIdentifier[output.nullifier] != 0) revert RegisteredNullifier();
+    if (output.userIdentifier == 0) revert InvalidUserIdentifier();
+    if (_registeredUserIdentifiers[output.userIdentifier]) revert UserIdentifierAlreadyRegistered();
 
-### Overriding the `verifySelfProof` Function
-
-The `verifySelfProof` function is overridden as follows to include all necessary checks:
-
-```solidity
-function verifySelfProof(
-    IVcAndDiscloseCircuitVerifier.VcAndDiscloseProof memory proof
-) 
-    public 
-    override 
-{
-    if (!isRegistrationOpen) {
-        revert RegistrationNotOpen();
-    }
-
-    if (_nullifiers[proof.pubSignals[NULLIFIER_INDEX]] != 0) {
-        revert RegisteredNullifier();
-    }
+    // Register user for airdrop
+    _nullifierToUserIdentifier[output.nullifier] = output.userIdentifier;
+    _registeredUserIdentifiers[output.userIdentifier] = true;
     
-    if (proof.pubSignals[USER_IDENTIFIER_INDEX] == 0) {
-        revert InvalidUserIdentifier();
-    }
-
-    super.verifySelfProof(proof);
-
-    _nullifiers[proof.pubSignals[NULLIFIER_INDEX]] = proof.pubSignals[USER_IDENTIFIER_INDEX];
-    _registeredUserIdentifiers[proof.pubSignals[USER_IDENTIFIER_INDEX]] = true;
-
-    emit UserIdentifierRegistered(proof.pubSignals[USER_IDENTIFIER_INDEX], proof.pubSignals[NULLIFIER_INDEX]);
+    emit UserIdentifierRegistered(output.userIdentifier, output.nullifier);
 }
 ```
 
+### Claim Function Implementation
+
+```solidity
+function claim(uint256 index, uint256 amount, bytes32[] memory merkleProof) external {
+    if (isRegistrationOpen) {
+        revert RegistrationNotClosed();
+    }
+    if (!isClaimOpen) {
+        revert ClaimNotOpen();
+    }
+    if (claimed[msg.sender]) {
+        revert AlreadyClaimed();
+    }
+    if (!_registeredUserIdentifiers[uint256(uint160(msg.sender))]) {
+        revert NotRegistered(msg.sender);
+    }
+
+    // Verify the Merkle proof
+    bytes32 node = keccak256(abi.encodePacked(index, msg.sender, amount));
+    if (!MerkleProof.verify(merkleProof, merkleRoot, node)) revert InvalidProof();
+
+    // Mark as claimed and transfer tokens
+    claimed[msg.sender] = true;
+    token.safeTransfer(msg.sender, amount);
+
+    emit Claimed(index, msg.sender, amount);
+}
+```
+
+### Airdrop Flow
+
+1. **Deploy:** Owner deploys with hub address, scope, and token
+2. **Configure:** Set verification config and Merkle root
+3. **Open Registration:** Users prove identity to register
+4. **Close Registration:** Move to claim phase
+5. **Open Claims:** Registered users claim via Merkle proofs
+6. **Distribution Complete:** Tokens distributed to verified users
+
+For verification configuration setup, see [Hub Verification Process](../verification-in-the-identityverificationhub.md#v2-enhanced-verifications).
+
+## Related Documentation
+
+- [Basic Integration Guide](basic-integration.md) - Core V2 integration patterns
+- [Hub Verification Process](../verification-in-the-identityverificationhub.md) - Verification configuration
+- [Identity Attributes](utilize-passport-attributes.md) - Working with verified data
+- [Happy Birthday Example](happy-birthday-example.md) - Date-based verification example
