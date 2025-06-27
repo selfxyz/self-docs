@@ -69,18 +69,26 @@ contract ExampleV2 is SelfVerificationRoot, Ownable {
     function getConfigId(
         bytes32 destinationChainId,
         bytes32 userIdentifier, 
-        bytes memory userDefinedData
+        bytes memory userDefinedData // Custom data from the qr code configuration
     ) public view override returns (bytes32) {
         // Return your app's configuration ID
-        // This can be static or dynamic based on your needs
-        return configId;
+        // Can be static or dynamic based on your needs
+        
+        // Example: Dynamic configuration based on user-defined data
+        if (keccak256(userDefinedData) == keccak256("premium")) {
+            return PREMIUM_CONFIG_ID;
+        }
+        return configId; // Default configuration
     }
 
     // Override to handle successful verification
     function customVerificationHook(
         ISelfVerificationRoot.GenericDiscloseOutputV2 memory output,
-        bytes memory userData
+        bytes memory userData // Contains: destChainId(32) + userIdentifier(32) + userDefinedData
     ) internal virtual override {
+        // Extract userDefinedData from userData
+        bytes memory userDefinedData = userData[64:]; // Skip first 64 bytes
+        
         // Your custom logic here
         // output contains verified user data including:
         // - attestationId (E_PASSPORT or EU_ID_CARD)
@@ -93,6 +101,11 @@ contract ExampleV2 is SelfVerificationRoot, Ownable {
         } else if (output.attestationId == AttestationId.EU_ID_CARD) {
             // Handle EU ID card verification
             require(bytes(output.issuingState).length > 0, "Issuing state required");
+        }
+        
+        // Example: Use userDefinedData for business logic
+        if (userDefinedData.length > 0) {
+            handleCustomData(output, userDefinedData);
         }
     }
 }
