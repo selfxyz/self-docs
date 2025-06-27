@@ -37,3 +37,7 @@
 * [Overview](technical-docs/overview.md)
 * [Architecture](technical-docs/architecture.md)
 * [Copy of Deployments](technical-docs/copy-of-deployments.md)
+
+***
+
+* [Self Map countries list](self-map-countries-list.md)
