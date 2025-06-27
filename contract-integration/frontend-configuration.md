@@ -28,6 +28,7 @@ const selfApp = new SelfAppBuilder({
             ofac: true // OFAC compliance checking (boolean)
         },
         devMode: true, // Set to false for production
+        userDefinedData: "", // Optional: custom data passed to contract
 }).build();
 ```
 
@@ -46,6 +47,7 @@ const selfApp = new SelfAppBuilder({
 - `logoBase64`: Base64-encoded logo for the Self app
 - `devMode`: Development mode flag (default: false)
 - `disclosures`: Identity attributes and verification rules
+- `userDefinedData`: Custom string data passed to your contract (default: "")
 
 **V2 Disclosures:**
 - Passport data fields: `name`, `nationality`, `date_of_birth`, `issuing_state`, `passport_number`, `gender`, `expiry_date`
@@ -74,6 +76,43 @@ disclosures: {
 ```
 
 For detailed passport attribute usage, see [Identity Attributes](utilize-passport-attributes.md).
+
+### User Defined Data
+
+The `userDefinedData` parameter allows you to pass arbitrary string data through the verification flow to your contract. This data is cryptographically included in the verification process and cannot be tampered with.
+
+**Common Use Cases:**
+- **Dynamic Configuration:** Select different verification configs based on user context
+- **Business Logic:** Include application-specific data for custom verification logic
+
+**Data Flow:**
+1. Frontend sets `userDefinedData` in SelfAppBuilder
+2. Data flows through mobile app and TEE processing
+3. Contract receives data in both `getConfigId()` and `customVerificationHook()` functions
+
+**Contract Access:**
+```solidity
+// In getConfigId - used for dynamic configuration selection
+function getConfigId(
+    bytes32 destinationChainId,
+    bytes32 userIdentifier,
+    bytes memory userDefinedData  // ← Your custom data here
+) public view override returns (bytes32) {
+    if (keccak256(userDefinedData) == keccak256("premium")) {
+        return PREMIUM_CONFIG_ID;
+    }
+    return BASIC_CONFIG_ID;
+}
+
+// In customVerificationHook - userData contains full context including userDefinedData
+function customVerificationHook(
+    ISelfVerificationRoot.GenericDiscloseOutputV2 memory output,
+    bytes memory userData  // ← First 64 bytes are destChainId+userIdentifier, rest is userDefinedData
+) internal override {
+    bytes memory userDefinedData = userData[64:];  // Extract custom data
+    // Implement your business logic based on userDefinedData
+}
+```
 
 ### Configuration Examples
 
@@ -118,6 +157,36 @@ const selfApp = new SelfAppBuilder({
         name: true, 
         date_of_birth: true, 
         ofac: true
+    }
+}).build();
+```
+
+**Dynamic Configuration with User Tiers:**
+```typescript
+// Premium user gets stricter verification
+const premiumSelfApp = new SelfAppBuilder({
+    appName: "Premium Service",
+    scope: "Premium-App",
+    endpoint: "YOUR_CONTRACT_ADDRESS",
+    userId: userAddress,
+    userDefinedData: "premium", // Contract will use PREMIUM_CONFIG_ID
+    disclosures: { 
+        name: true,
+        nationality: true,
+        minimumAge: 21,
+        ofac: true
+    }
+}).build();
+
+// Basic user with relaxed requirements
+const basicSelfApp = new SelfAppBuilder({
+    appName: "Basic Service", 
+    scope: "Basic-App",
+    endpoint: "YOUR_CONTRACT_ADDRESS",
+    userId: userAddress,
+    userDefinedData: "basic", // Contract will use BASIC_CONFIG_ID
+    disclosures: { 
+        minimumAge: 18
     }
 }).build();
 ```
