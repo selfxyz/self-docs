@@ -1,5 +1,6 @@
 ---
 description: 'list of countries supported by self protocol : https://map.self.xyz/'
+icon: globe
 ---
 
 # Self Map countries list

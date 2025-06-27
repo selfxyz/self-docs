@@ -8,6 +8,7 @@
 * [Disclosures](use-self/disclosures.md)
 * [Use deeplinking](use-self/use-deeplinking.md)
 * [Using mock passports](use-self/using-mock-passports.md)
+* [Self Map countries list](use-self/self-map-countries-list.md)
 
 ## SDK Reference
 
@@ -37,7 +38,3 @@
 * [Overview](technical-docs/overview.md)
 * [Architecture](technical-docs/architecture.md)
 * [Copy of Deployments](technical-docs/copy-of-deployments.md)
-
-***
-
-* [Self Map countries list](self-map-countries-list.md)
