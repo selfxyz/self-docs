@@ -1,189 +1,200 @@
-# Basic Integration
+# Basic Contract Integration Guide
 
 This document provides an overview and integration guide for our smart contract, available as an npm package. You can install it with:
 
-```
-npm i @selfxyz/contracts
+```bash
+npm install @selfxyz/contracts
 ```
 
-### Package Structure and Overview
+## V2 Integration
 
-The package structure and a brief explanation for each part are as follows:
+### Package Structure
+
+The V2 package supports multiple document types with enhanced verification architecture:
 
 ```bash
 .
 ├── abstract
-│ └── SelfVerificationRoot.sol # Base impl in self verification
+│ └── SelfVerificationRoot.sol # Base impl in self verification V2
 ├── constants
-│ ├── AttestationId.sol # A unique identifier assigned to the identity documents
-│ └── CircuitConstants.sol # Indices for public signals in our circuits
-├── interfaces # Interfaces for each contract
+│ ├── AttestationId.sol # Unique identifiers for identity documents (E_PASSPORT, EU_ID_CARD)
+│ └── CircuitConstantsV2.sol # V2 indices for public signals in our circuits
+├── interfaces # Interfaces for V2 contracts
 │ ├── IDscCircuitVerifier.sol
 │ ├── IIdentityRegistryV1.sol
-│ ├── IIdentityVerificationHubV1.sol
-│ ├── IPassportAirdropRoot.sol
+│ ├── IIdentityRegistryIdCardV1.sol # New: EU ID Card registry interface
+│ ├── IIdentityVerificationHubV2.sol # V2 hub interface
 │ ├── IRegisterCircuitVerifier.sol
 │ ├── ISelfVerificationRoot.sol
 │ └── IVcAndDiscloseCircuitVerifier.sol
-└── libraries
-  ├── SelfCircuitLibrary.sol # Library for summarize all functions in the Self protocol
-  ├── CircuitAttributeHandler.sol # Library to extract each attribute from public signals
-  └── Formatter.sol # Utility functions to manage public signals to meaningful format
+├── libraries
+│ ├── SelfStructs.sol # V2 data structures for verification
+│ ├── CustomVerifier.sol # Custom verification logic for different document types
+│ ├── CircuitAttributeHandlerV2.sol # V2 attribute extraction
+│ ├── GenericFormatter.sol # V2 output formatting
+│ └── Formatter.sol # Utility functions (maintained for compatibility)
+└── example
+  ├── HappyBirthday.sol # Updated V2 example supporting both passports and EU ID cards
+  ├── Airdrop.sol # V2 airdrop example
+  └── SelfIdentityERC721.sol # NFT example with identity verification
 ```
 
+### Integration Implementation
 
-
-### Basic Integration Strategy
-
-To leverage the apps and infrastructure provided by Self, extend the `SelfVerificationRoot` contract and use the `verifySelfProof` function. Since `SelfVerificationRoot` already contains a simple implementation, you usually won’t need to add extra code. For example:
+Extend `SelfVerificationRoot` and implement the required methods `customVerificationHook` and `getConfigId`:
 
 ```solidity
 import {SelfVerificationRoot} from "@selfxyz/contracts/contracts/abstract/SelfVerificationRoot.sol";
 import {ISelfVerificationRoot} from "@selfxyz/contracts/contracts/interfaces/ISelfVerificationRoot.sol";
+import {IIdentityVerificationHubV2} from "@selfxyz/contracts/contracts/interfaces/IIdentityVerificationHubV2.sol";
+import {SelfStructs} from "@selfxyz/contracts/contracts/libraries/SelfStructs.sol";
+import {AttestationId} from "@selfxyz/contracts/contracts/constants/AttestationId.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Example is SelfVerificationRoot {
-    constructor(
-        address _identityVerificationHub,
-        uint256 _scope, 
-        uint256[] memory _attestationIds,
-    ) 
-        SelfVerificationRoot(
-            _identityVerificationHub, // Address of our Verification Hub, e.g., "0x77117D60eaB7C044e785D68edB6C7E0e134970Ea"
-            _scope, // An application-specific identifier for the integrated contract
-            _attestationIds[], // The id specifying the type of document to verify (e.g., 1 for passports)
-        )
-    {} 
+contract ExampleV2 is SelfVerificationRoot, Ownable {
+    // Your app-specific configuration ID
+    bytes32 public configId;
     
-    function verifySelfProof(
-        ISelfVerificationRoot.DiscloseCircuitProof memory proof
+    constructor(
+        address _identityVerificationHubV2, // V2 Hub address
+        uint256 _scope // Application-specific scope identifier
     ) 
-        public 
-        override 
+        SelfVerificationRoot(_identityVerificationHubV2, _scope)
+        Ownable(msg.sender)
     {
-        super.verifySelfProof(proof);
+        // Set up your verification configuration (see setVerificationConfigV2 below)
+    }
+
+    // Required: Override to provide configId for verification
+    function getConfigId(
+        bytes32 destinationChainId,
+        bytes32 userIdentifier, 
+        bytes memory userDefinedData // Custom data from the qr code configuration
+    ) public view override returns (bytes32) {
+        // Return your app's configuration ID
+        // Can be static or dynamic based on your needs
+        
+        // Example: Dynamic configuration based on user-defined data
+        if (keccak256(userDefinedData) == keccak256("premium")) {
+            return PREMIUM_CONFIG_ID;
+        }
+        return configId; // Default configuration
+    }
+
+    // Override to handle successful verification
+    function customVerificationHook(
+        ISelfVerificationRoot.GenericDiscloseOutputV2 memory output,
+        bytes memory userData // Contains: destChainId(32) + userIdentifier(32) + userDefinedData
+    ) internal virtual override {
+        // Extract userDefinedData from userData
+        bytes memory userDefinedData = userData[64:]; // Skip first 64 bytes
+        
+        // Your custom logic here
+        // output contains verified user data including:
+        // - attestationId (E_PASSPORT or EU_ID_CARD)
+        // - userIdentifier, nullifier, name, nationality, etc.
+        
+        // Example: Check document type
+        if (output.attestationId == AttestationId.E_PASSPORT) {
+            // Handle passport verification
+            require(bytes(output.nationality).length > 0, "Nationality required");
+        } else if (output.attestationId == AttestationId.EU_ID_CARD) {
+            // Handle EU ID card verification
+            require(bytes(output.issuingState).length > 0, "Issuing state required");
+        }
+        
+        // Example: Use userDefinedData for business logic
+        if (userDefinedData.length > 0) {
+            handleCustomData(output, userDefinedData);
+        }
     }
 }
 ```
 
-For more details on the server-side architecture of Self, please refer to [the detailed documentation on our website](../technical-docs/architecture.md).
+For more details on the server-side architecture of Self, please refer to [the detailed architecture documentation](../technical-docs/architecture.md).
 
-#### How our infrastructure work
+### Verification Flow
 
 1. **Application Integration:**\
    In your third-party application (which integrates our SDK), specify the target contract address for verification.
-2. **User Interaction:**\
-   The user scans their passport on their device. The passport data, along with the contract address specified by your application, is sent to our TEE (Trusted Execution Environment) server.
-3. **Proof Generation:**\
-   Our TEE server generates a proof based on the passport information and automatically calls the specified contract address.
-4. **Fixed Interface:**\
-   The called contract uses a fixed interface—the `verifySelfProof` function in the abstract contract `SelfVerificationRoot`—ensuring consistency across integrations.
+2. **Document Scan:**\
+   User scans passport/EU ID card via mobile app. The document data, along with the contract address specified by your application, is sent to our TEE.
+3. **TEE Processing:**\
+   Trusted Execution Environment generates zero-knowledge proof and calls your contract.
+4. **Contract Execution:**\
+   Your contract's `verifySelfProof` method is called with proof data, which triggers verification in the hub and then calls your `customVerificationHook` callback with structured output data.
 
+### Verification Configuration
 
-
-### Further Verifications Using Passport Attributes
-
-In addition to verifying the validity of the passport itself, our SDK allows for customized verification using specific attributes contained within the passport. Examples include:
-
-#### Minimum Age Check
-
-This verification allows confirming that a user is above a certain age without revealing their exact date of birth or actual age.\
-For instance, even if the user is asked to prove they are over 18, the proof will still pass on-chain even if the contract verifies whether the user is over 20.
-
-#### Excluded Countries Check
-
-Without disclosing the user's nationality, this check allows the contract to verify that the user does **not** belong to any of the countries in a predefined exclusion list.\
-To reduce the computational load of proof generation and on-chain verification, the list of excluded countries is packed into four field values on BN254 curve.\
-It is **crucial** that the country list defined in the frontend exactly matches the packed value expected by the contract to ensure consistent verification results.
-
-#### OFAC Check
-
-The OFAC (Office of Foreign Assets Control) list consists of individuals and entities sanctioned by the U.S. government, with whom U.S. persons and companies are generally prohibited from engaging in transactions.
-
-Using the passport attributes, Self enables verification that a user is **not** listed on the OFAC list based on one of the following combinations of information:
-
-* Passport number
-* Name and date of birth
-* Name and year of birth
-
-**Important Note:**\
-If the contract attempts to verify information that was **not requested** by the frontend (e.g., name or passport number), an error will occur.\
-Make sure the attributes requested on the frontend are consistent with what the contract verifies on-chain.
-
-
-
-### How To Set These Custom Verifications
-
-To perform these customized verifications, you need to define a separate function that specifies which attributes should be verified.
-
-The `SelfVerificationRoot.sol` contract already includes internal functions to handle these elements. Therefore, we recommend defining corresponding setter and getter functions as shown below:
+For interactive configuration management, use the [Self Configuration Tools](https://tools-mu-one.vercel.app/) to easily create and validate your `VerificationConfigV2` settings.
 
 ```solidity
-function setVerificationConfig(
-        ISelfVerificationRoot.VerificationConfig memory newVerificationConfig
-) external onlyOwner {
-        _setVerificationConfig(newVerificationConfig);
-}
+import {IIdentityVerificationHubV2} from "@selfxyz/contracts/contracts/interfaces/IIdentityVerificationHubV2.sol";
+import {SelfStructs} from "@selfxyz/contracts/contracts/libraries/SelfStructs.sol";
 
-function getVerificationConfig() external view returns (ISelfVerificationRoot.VerificationConfig memory) {
-        return _getVerificationConfig();
+function setupVerificationConfig() external onlyOwner {
+    IIdentityVerificationHubV2 hub = IIdentityVerificationHubV2(_identityVerificationHubV2);
+    
+    SelfStructs.VerificationConfigV2 memory config = SelfStructs.VerificationConfigV2({
+        olderThanEnabled: true,
+        olderThan: 18, // Require users to be at least 18 years old
+        forbiddenCountriesEnabled: false,
+        forbiddenCountriesListPacked: [uint256(0), uint256(0), uint256(0), uint256(0)],
+        ofacEnabled: [false, false, false] // Disable OFAC checks
+    });
+    
+    configId = hub.setVerificationConfigV2(config);
 }
 ```
 
-The input values for these configuration functions will be as follows:
+### Attribute Access
+
+V2 provides direct access to verified identity attributes. See [Utilize Identity Attributes](utilize-passport-attributes.md) for comprehensive attribute handling patterns.
 
 ```solidity
-struct VerificationConfig {
-        bool olderThanEnabled;
-        uint256 olderThan;
-        bool forbiddenCountriesEnabled;
-        uint256[4] forbiddenCountriesListPacked;
-        bool[3] ofacEnabled;
-}.
+function customVerificationHook(
+    ISelfVerificationRoot.GenericDiscloseOutputV2 memory output,
+    bytes memory userData
+) internal override {
+    // Document type validation
+    if (output.attestationId == AttestationId.E_PASSPORT) {
+        require(bytes(output.nationality).length > 0, "Nationality required");
+    } else if (output.attestationId == AttestationId.EU_ID_CARD) {
+        require(bytes(output.issuingState).length > 0, "Issuing state required");
+    }
+    
+    // Your application logic here...
+}
 ```
 
+For detailed verification configuration options (age, country restrictions, OFAC), see [Hub Verification Process](../verification-in-the-identityverificationhub.md).
 
+### Deployment Configuration
 
-### Contract Deployment
+**Hub Addresses** (see [Deployed Contracts](deployed-contracts.md)):
+- Celo Mainnet: `0x77117D60eaB7C044e785D68edB6C7E0e134970Ea`
+- Celo Testnet: `0x68c931C9a534D37aa78094877F46fE46a49F1A51`
 
-If you want to perform on-chain verification using our infrastructure, please provide the following parameters to the constructor:
-
-**- `IdentityVerificationHub`**
-
-Specify the address of the Identity Verification Hub that we operate.\
-Note that the address differs between Celo Mainnet and Celo Alfajores Testnet.\
-Refer to the [**Deployed Contracts**](deployed-contracts.md) section for the correct address to use for each network.
-
-**- `scope`**
-
-The `scope` is a unique identifier specific to your application.\
-For security purposes, the scope is calculated as follows:
-
-$$
-Poseidon("\mathrm{YourContractAddress}", "\mathrm{YourApplicationName}")
-$$
-
-So, before you actually deploy your contract, you need to calculate the future contract address.  Also, to simplify scope generation, we provide a helper function in the [@selfxyz/core](https://www.npmjs.com/package/@selfxyz/core) package:
-
+**Scope Generation:**
 ```typescript
 import { hashEndpointWithScope } from "@selfxyz/core";
-import { ethers } from "hardhat";
-
-async function main() {
-  const [deployer] = await ethers.getSigners();
-  console.log("Deploying contracts with the account:", deployer.address);
-  
-  const nonce = await ethers.provider.getTransactionCount(deployer.address);
-  console.log("Account nonce:", nonce);
-  
-  const futureAddress = ethers.getCreateAddress({
-    from: deployer.address,
-    nonce: nonce
-  });
-  console.log("Calculated future contract address:", futureAddress);
-  
-  const scope = hashEndpointWithScope("futureAddress", 'Self-Example-App');
-  
-  // etc...
-}
+const scope = hashEndpointWithScope(contractAddress, 'your-scope-value');
 ```
 
+You can use the [Self Configuration Tools](https://tools-mu-one.vercel.app/) to calculate the scope for your contract.
+
+### Reference Implementations
+
+**[Airdrop Contract](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/Airdrop.sol)**: Token distribution with registration/claim phases, nullifier management, and Merkle tree validation supporting both E-Passport and EU ID cards
+
+**[Happy Birthday Contract](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/HappyBirthday.sol)**: USDC distribution on birthdays with document type bonuses (EU ID cards get higher bonus)
+
+**[Identity NFT](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/SelfIdentityERC721.sol)**: NFT minting with complete on-chain identity attribute storage using the V2 structured output
+
+### Documentation Map
+
+- **[Hub Verification Process](../verification-in-the-identityverificationhub.md)** - Detailed V2 verification flow and configuration
+- **[Identity Attributes](utilize-passport-attributes.md)** - Comprehensive attribute access patterns
+- **[SDK Configuration](frontend-configuration.md)** - Frontend integration setup
+- **[Deployed Contracts](deployed-contracts.md)** - Network addresses and integration notes
+- **Examples:** [Airdrop](airdrop-example.md) | [Birthday](happy-birthday-example.md)

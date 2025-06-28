@@ -6,7 +6,7 @@ Usage of the Self protocol involves two main steps: registration and disclosure.
 
 <figure><img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXfGhkaTL8E0BZjO90mM7zUu0ZrhWswbbcfmbeqNXaJEOi225_GzefTZ1pmI1vDuuhNlj6rOcbjY9BWl1dcckiN65GFjMVw8CyUTRo5VBDTvWCcnZGPQVdRjr2xlR8QlDASDEddW?key=zXb3nihNyp9ChW3RfTALsL42" alt=""><figcaption></figcaption></figure>
 
-First, users prove they own a valid passport by generating a zero-knowledge proof of validity of their passport. This is done by proving the existence of a valid certificate authority chain for user's passport data. This proof is generated in a TEE rather than on the user's mobile phone for performance reasons. To ensure that the TEE doesn't save or leak the user's personal information, the mobile app will connect to the TEE only after it verifies the TEE attestation which can verify the code that is running on the TEE.
+First, users prove they own a valid identity document (passport or EU ID card) by generating a zero-knowledge proof of validity. This is done by proving the existence of a valid certificate authority chain for the user's document data. This proof is generated in a TEE rather than on the user's mobile phone for performance reasons. To ensure that the TEE doesn't save or leak the user's personal information, the mobile app will connect to the TEE only after it verifies the TEE attestation which can verify the code that is running on the TEE.
 
 <figure><img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXcd613h-jB86X20eiivmvD8aVQF6XheqW9bYz-k78x5s8Gg0xn_ws1NIoFT-7VWGsAX6HiKRaMs3p3d8NyXOcRpoG-uCuPuBWT1mFziq9-GOXSqDiklo9FRgin0Y6IqObSZg63IOQ?key=zXb3nihNyp9ChW3RfTALsL42" alt=""><figcaption></figcaption></figure>
 
