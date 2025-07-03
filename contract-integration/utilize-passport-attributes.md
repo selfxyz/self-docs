@@ -1,4 +1,6 @@
-# Utilize Passport Attributes
+# Utilize Identity Attributes V2
+
+> **V2 Simplified Access**: V2 provides direct access to verified attributes through the `GenericDiscloseOutputV2` structure, eliminating the need for complex data extraction in most cases.
 
 In the happy-birthday example, we demonstrated one way to utilize the passport information when integrating Self. Note that the passport details—and the forbiddenCountries data—are bundled into the circuit’s public signals in order to reduce onchain data. This bundled format is not very user-friendly for reading.
 

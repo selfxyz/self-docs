@@ -27,7 +27,7 @@ const selfApp = new SelfAppBuilder({
             excludedCountries: [], // Array of 3-letter country codes (e.g., ["USA", "RUS"])
             ofac: true // OFAC compliance checking (boolean)
         },
-        devMode: true, // Set to false for production
+        devMode: true, // Set to true for development/testing, false for production
         userDefinedData: "", // Optional: custom data passed to contract
 }).build();
 ```
@@ -45,7 +45,7 @@ const selfApp = new SelfAppBuilder({
 - `userIdType`: `"uuid"` or `"hex"` (default: "uuid")
 - `version`: SDK version (default: 2 for V2)
 - `logoBase64`: Base64-encoded logo for the Self app
-- `devMode`: Development mode flag (default: false)
+- `devMode`: Development/testing mode flag - set to `true` during development, `false` for production (default: false)
 - `disclosures`: Identity attributes and verification rules
 - `userDefinedData`: Custom string data passed to your contract (default: "")
 
@@ -92,16 +92,14 @@ The `userDefinedData` parameter allows you to pass arbitrary string data through
 
 **Contract Access:**
 ```solidity
-// In getConfigId - used for dynamic configuration selection
+// In getConfigId - used for configuration selection
 function getConfigId(
     bytes32 destinationChainId,
     bytes32 userIdentifier,
     bytes memory userDefinedData  // ← Your custom data here
 ) public view override returns (bytes32) {
-    if (keccak256(userDefinedData) == keccak256("premium")) {
-        return PREMIUM_CONFIG_ID;
-    }
-    return BASIC_CONFIG_ID;
+    // Return your configuration ID
+    return YOUR_CONFIG_ID;
 }
 
 // In customVerificationHook - userData contains full context including userDefinedData
@@ -161,31 +159,32 @@ const selfApp = new SelfAppBuilder({
 }).build();
 ```
 
-**Dynamic Configuration with User Tiers:**
+**Development vs Production Setup:**
 ```typescript
-// Premium user gets stricter verification
-const premiumSelfApp = new SelfAppBuilder({
-    appName: "Premium Service",
-    scope: "Premium-App",
-    endpoint: "YOUR_CONTRACT_ADDRESS",
+// Development configuration
+const devSelfApp = new SelfAppBuilder({
+    appName: "My App (Dev)",
+    scope: "My-App-Dev",
+    endpoint: "YOUR_TESTNET_CONTRACT_ADDRESS",
+    endpointType: "staging_celo", // Use testnet
     userId: userAddress,
-    userDefinedData: "premium", // Contract will use PREMIUM_CONFIG_ID
+    devMode: true, // Enable for development
     disclosures: { 
         name: true,
-        nationality: true,
-        minimumAge: 21,
-        ofac: true
+        minimumAge: 18
     }
 }).build();
 
-// Basic user with relaxed requirements
-const basicSelfApp = new SelfAppBuilder({
-    appName: "Basic Service", 
-    scope: "Basic-App",
-    endpoint: "YOUR_CONTRACT_ADDRESS",
+// Production configuration
+const prodSelfApp = new SelfAppBuilder({
+    appName: "My App",
+    scope: "My-App",
+    endpoint: "YOUR_MAINNET_CONTRACT_ADDRESS",
+    endpointType: "celo", // Use mainnet
     userId: userAddress,
-    userDefinedData: "basic", // Contract will use BASIC_CONFIG_ID
+    devMode: false, // Disable for production
     disclosures: { 
+        name: true,
         minimumAge: 18
     }
 }).build();
