@@ -56,7 +56,7 @@ const verifier = new SelfBackendVerifier(
   false,  // Use real passports
   AllIds, // Accept all supported attestation types
   new DefaultConfigStore({ 
-    olderThan: 18,
+    minimumAge: 18,
     excludedCountries: ['IRN', 'PRK'],
     ofac: true 
   }),
@@ -196,7 +196,7 @@ Configuration for verification requirements:
 
 ```typescript
 {
-  olderThan?: number;              // Minimum age requirement
+  minimumAge?: number;             // Minimum age requirement
   excludedCountries?: string[];    // ISO 3-letter country codes
   ofac?: boolean;                  // Enable OFAC sanctions checking
 }
@@ -225,12 +225,12 @@ const configStorage = new InMemoryConfigStore(
 
 // Set up configurations
 await configStorage.setConfig('standard_config', {
-  olderThan: 18,
+  minimumAge: 18,
   ofac: false
 });
 
 await configStorage.setConfig('strict_config', {
-  olderThan: 21,
+  minimumAge: 21,
   excludedCountries: ['IRN', 'PRK', 'CUB'],
   ofac: true
 });
@@ -323,7 +323,7 @@ verifier.enableNameAndDobOfacCheck();
 ```typescript
 // ✅ Configuration via IConfigStorage
 const configStorage = new DefaultConfigStore({
-  olderThan: 18,
+  minimumAge: 18,
   excludedCountries: ['IRN', 'PRK'],
   ofac: true
 });
