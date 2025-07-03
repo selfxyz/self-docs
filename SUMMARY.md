@@ -38,3 +38,9 @@
 * [Overview](technical-docs/overview.md)
 * [Architecture](technical-docs/architecture.md)
 * [Copy of Deployments](technical-docs/copy-of-deployments.md)
+
+## Concepts
+
+* [attestation IDs](concepts/attestation-ids.md)
+* [Config Storage](concepts/config-storage.md)
+* [User context data](concepts/user-context-data.md)
