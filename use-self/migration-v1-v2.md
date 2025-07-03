@@ -308,7 +308,9 @@ contract MyContract is SelfVerificationRoot {
         bytes32 userIdentifier,
         bytes memory userDefinedData
     ) public view override returns (bytes32) {
-        return keccak256("my-config");
+        // Generate your config ID at https://tools.self.xyz/
+        // Default config ID: 0x7b6436b0c98f62380866d9432c2af0ee08ce16a171bda6951aecd95ee1307d61
+        return 0x7b6436b0c98f62380866d9432c2af0ee08ce16a171bda6951aecd95ee1307d61;
     }
 }
 ```
