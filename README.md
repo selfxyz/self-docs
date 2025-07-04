@@ -6,8 +6,6 @@ coverY: 0
 
 # Self Protocol
 
-
-
 Verify real users while preserving privacy.
 
 ## Overview
@@ -15,6 +13,12 @@ Verify real users while preserving privacy.
 Self is a **privacy-first, open-source identity protocol** that uses **zero-knowledge proofs** for secure identity verification.&#x20;
 
 It enables **Sybil resistance** and **selective disclosure** using real-world attestations like passports. With a few lines of code, developers can easily check if their users are humans, while preserving their privacy.
+
+### All you need for building on Self
+
+- [Self Developer Tools](https://tools.self.xyz)
+- [Self Builder Group](https://t.me/+d2TGsbkSDmgzODVi)
+- [Celo Testnet Faucet](https://faucet.celo.org/alfajores)
 
 ### How it Works
 
