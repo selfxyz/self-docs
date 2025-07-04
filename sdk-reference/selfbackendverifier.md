@@ -166,6 +166,7 @@ await configStore.setConfig('strict_verification', {
 
 await configStore.setConfig('standard_verification', {
   minimumAge: 18,
+  excludedCountries: [],
   ofac: false
 });
 ```
@@ -301,11 +302,15 @@ await configStorage.setConfig('standard_kyc', {
 });
 
 await configStorage.setConfig('age_check_only', {
-  minimumAge: 18
+  minimumAge: 18,
+  excludedCountries: [],
+  ofac: false
 });
 
 await configStorage.setConfig('country_filter', {
-  excludedCountries: ['IRN', 'PRK', 'CUB']
+  minimumAge: 0,
+  excludedCountries: ['IRN', 'PRK', 'CUB'],
+  ofac: false
 });
 
 // Initialize the verifier
@@ -474,9 +479,9 @@ Configuration object for verification requirements:
 
 ```typescript
 {
-  minimumAge?: number;             // Minimum age requirement
-  excludedCountries?: string[];    // ISO 3-letter country codes to exclude
-  ofac?: boolean;                  // Enable OFAC sanctions checking
+  minimumAge: number;             // Minimum age requirement
+  excludedCountries: string[];    // ISO 3-letter country codes to exclude
+  ofac: boolean;                  // Enable OFAC sanctions checking
 }
 ```
 
