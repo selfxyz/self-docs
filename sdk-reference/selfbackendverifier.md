@@ -327,92 +327,99 @@ const verifier = new SelfBackendVerifier(
 ### API Endpoint Implementation
 
 ```typescript
-// Next.js API route example
-import { NextRequest, NextResponse } from 'next/server';
-import { BigNumberish } from 'ethers';
+import { NextRequest, NextResponse } from "next/server";
+import { countries, Country3LetterCode, SelfAppDisclosureConfig } from "@selfxyz/common";
+import {
+  countryCodes,
+  SelfBackendVerifier,
+  AllIds,
+  DefaultConfigStore,
+  VerificationConfig
+} from "@selfxyz/core";
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
+  console.log("Received request");
   try {
-    const { attestationId, proof, pubSignals, userContextData } = await request.json();
-    
-    // Validate input
-    if (!attestationId || !proof || !pubSignals || !userContextData) {
-      return NextResponse.json(
-        { error: 'Missing required verification parameters' },
-        { status: 400 }
-      );
+    const { attestationId, proof, publicSignals, userContextData } = await req.json();
+
+    if (!proof || !publicSignals || !attestationId || !userContextData) {
+      return NextResponse.json({
+        message: "Proof, publicSignals, attestationId and userContextData are required",
+      }, { status: 400 });
     }
-    
-    // Verify the proof
-    const result = await verifier.verify(
+
+    const disclosures_config: VerificationConfig = {
+      excludedCountries: [],
+      ofac: false,
+      minimumAge: 18,
+    };
+
+    const configStore = new DefaultConfigStore(disclosures_config);
+
+    const selfBackendVerifier = new SelfBackendVerifier(
+      "self-workshop",
+      process.env.NEXT_PUBLIC_SELF_ENDPOINT || "",
+      true,
+      AllIds,
+      configStore,
+      "hex",
+    );
+
+    const result = await selfBackendVerifier.verify(
       attestationId,
       proof,
-      pubSignals as BigNumberish[],
+      publicSignals,
       userContextData
     );
     
-    // Check overall verification result
     if (!result.isValidDetails.isValid) {
-      return NextResponse.json(
-        { error: 'Cryptographic proof verification failed' },
-        { status: 400 }
-      );
-    }
-    
-    // Check specific requirements
-    if (!result.isValidDetails.isOlderThanValid) {
-      return NextResponse.json(
-        { error: 'Age requirement not met' },
-        { status: 403 }
-      );
-    }
-    
-    if (!result.isValidDetails.isOfacValid) {
-      return NextResponse.json(
-        { error: 'OFAC sanctions check failed' },
-        { status: 403 }
-      );
-    }
-    
-    // Parse user context to understand the request
-    const userContext = JSON.parse(result.userData.userDefinedData);
-    
-    // Verification successful - return relevant information
-    return NextResponse.json({
-      verified: true,
-      verificationId: result.discloseOutput.nullifier,
-      userIdentifier: result.userData.userIdentifier,
-      nationality: result.discloseOutput.nationality,
-      ageVerified: result.isValidDetails.isOlderThanValid,
-      context: userContext,
-      // Include disclosed information based on your requirements
-      disclosedData: {
-        name: result.discloseOutput.name,
-        dateOfBirth: result.discloseOutput.dateOfBirth,
-        issuingState: result.discloseOutput.issuingState
-      }
-    });
-    
-  } catch (error: any) {
-    console.error('Verification error:', error);
-    
-    if (error.name === 'ConfigMismatchError') {
-      // Log detailed configuration mismatches for debugging
-      console.error('Config mismatches:', error.issues);
-      
       return NextResponse.json({
-        error: 'Configuration mismatch',
-        details: error.issues.map(issue => ({
-          type: issue.type,
-          message: issue.message
-        }))
+        status: "error",
+        result: false,
+        message: "Verification failed",
+        details: result.isValidDetails,
+      }, { status: 500 });
+    }
+
+    const saveOptions = (await configStore.getConfig(
+      result.userData.userIdentifier
+    )) as unknown as SelfAppDisclosureConfig;
+
+    if (result.isValidDetails.isValid) {
+      console.log(result.discloseOutput);
+
+      return NextResponse.json({
+        status: "success",
+        result: result.isValidDetails.isValid,
+        credentialSubject: result.discloseOutput,
+        verificationOptions: {
+          minimumAge: saveOptions.minimumAge,
+          ofac: saveOptions.ofac,
+          excludedCountries: saveOptions.excludedCountries?.map(
+            (countryName) => {
+              const entry = Object.entries(countryCodes).find(
+                ([_, name]) => name === countryName
+              );
+              return entry ? entry[0] : countryName;
+            }
+          ),
+        },
+      });
+    } else {
+      return NextResponse.json({
+        status: "error",
+        result: result.isValidDetails.isValid,
+        message: "Verification failed",
+        details: result,
       }, { status: 400 });
     }
-    
-    return NextResponse.json(
-      { error: 'Internal verification error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    console.error("Error verifying proof:", error);
+    return NextResponse.json({
+      status: "error",
+      result: false,
+      message: error instanceof Error ? error.message : "Unknown error",
+    }, { status: 500 });
   }
 }
 ```

@@ -146,41 +146,74 @@ Here's how the pieces fit together in a real application:
 
 ### Frontend (React Component)
 ```typescript
-import { SelfAppBuilder } from '@selfxyz/core';
-import { SelfQRcodeWrapper } from '@selfxyz/qrcode';
+"use client";
 
-function AgeVerificationComponent({ userId }) {
-  const selfApp = new SelfAppBuilder({
-    appName: "My Age-Gated Service",
-    scope: "myservice-prod",
-    endpoint: "https://api.myservice.com/verify",
-    userId: userId,
-    version: 2,
-    userDefinedData: Buffer.from(JSON.stringify({
-      action: "age_verification",
-      required_age: 21
-    })).toString('hex').padEnd(128, '0'),
-    disclosures: {
-      minimumAge: 21,
-      excludedCountries: ['IRN', 'PRK'],
-      ofac: true
+import React, { useState, useEffect, useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { countries, getUniversalLink } from "@selfxyz/core";
+import {
+  SelfQRcodeWrapper,
+  SelfAppBuilder,
+  type SelfApp,
+} from "@selfxyz/qrcode";
+import { ethers } from "ethers";
+
+export default function Home() {
+  const router = useRouter();
+  const [selfApp, setSelfApp] = useState<SelfApp | null>(null);
+  const [universalLink, setUniversalLink] = useState("");
+  const [userId, setUserId] = useState(ethers.ZeroAddress);
+  const excludedCountries = useMemo(() => [countries.NORTH_KOREA], []);
+
+  useEffect(() => {
+    try {
+      const app = new SelfAppBuilder({
+        version: 2,
+        appName: process.env.NEXT_PUBLIC_SELF_APP_NAME || "Self Workshop",
+        scope: process.env.NEXT_PUBLIC_SELF_SCOPE || "self-workshop",
+        endpoint: `${process.env.NEXT_PUBLIC_SELF_ENDPOINT}`,
+        logoBase64: "https://i.postimg.cc/mrmVf9hm/self.png",
+        userId: userId,
+        endpointType: "staging_https",
+        userIdType: "hex",
+        userDefinedData: "Bonjour Cannes!",
+        disclosures: {
+          minimumAge: 18,
+          nationality: true,
+          gender: true,
+        }
+      }).build();
+
+      setSelfApp(app);
+      setUniversalLink(getUniversalLink(app));
+    } catch (error) {
+      console.error("Failed to initialize Self app:", error);
     }
-  }).build();
+  }, []);
 
-  const handleSuccess = () => {
-    console.log("Age verification successful!");
-    // Redirect to age-gated content
+  const handleSuccessfulVerification = () => {
+    router.push("/verified");
   };
 
   return (
-    <div>
-      <h2>Verify Your Age</h2>
-      <p>Scan the QR code with your Self app to verify you're 21+</p>
-      <SelfQRcodeWrapper 
-        selfApp={selfApp}
-        onSuccess={handleSuccess}
-        size={300}
-      />
+    <div className="min-h-screen w-full bg-gray-50 flex flex-col items-center justify-center p-4">
+      <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md mx-auto">
+        <div className="flex justify-center mb-6">
+          {selfApp ? (
+            <SelfQRcodeWrapper
+              selfApp={selfApp}
+              onSuccess={handleSuccessfulVerification}
+              onError={() => {
+                console.error("Error: Failed to verify identity");
+              }}
+            />
+          ) : (
+            <div className="w-[256px] h-[256px] bg-gray-200 animate-pulse flex items-center justify-center">
+              <p className="text-gray-500 text-sm">Loading QR Code...</p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
