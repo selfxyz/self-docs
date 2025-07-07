@@ -4,7 +4,7 @@ icon: passport
 
 # Using mock passports
 
-To create a mock passport, on the first screen, tap 5 times with 2 fingers on the Self card.
+To create a mock passport, on the first screen, tap 5 times with one finger on the Self card.
 
 <figure><img src="../.gitbook/assets/IMG_AFD54FE4EA59-1 (1).jpeg" alt="" width="188"><figcaption></figcaption></figure>
 
