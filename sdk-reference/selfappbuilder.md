@@ -203,7 +203,10 @@ export default function Home() {
             <SelfQRcodeWrapper
               selfApp={selfApp}
               onSuccess={handleSuccessfulVerification}
-              onError={() => {
+              onError={(error) => {
+                const errorCode = error.error_code || 'Unknown';
+                const reason = error.reason || 'Unknown error';
+                console.error(`Error ${errorCode}: ${reason}`);
                 console.error("Error: Failed to verify identity");
               }}
             />

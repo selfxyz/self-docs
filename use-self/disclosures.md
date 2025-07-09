@@ -112,9 +112,11 @@ import { countries, SelfVerificationResult } from "@selfxyz/core";
 
 const result: SelfVerificationResult = await selfBackendVerifier.verify(request.body.proof, request.body.publicSignals);
 if (result.credentialSubject.nationality === countries.IRAN ) { 
-    return res.status(403).json({
+    return res.status(200).json({
           status: 'failure',
           result: false,
+          reason: "User nationality is not allowed",
+          error_code: "RESTRICTED_NATIONALITY"
     });
 }
 ```

@@ -274,29 +274,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           credentialSubject: result.discloseOutput
         });
       } else {
-        // Return failed verification response
-        return res.status(400).json({
+        // Return failed verification response 
+        // Return 200 to ensure the error message displays in the mobile app
+        return res.status(200).json({
           status: 'error',
           result: false,
-          message: 'Verification failed',
+          reason: 'Verification failed', //Displayed to the users in the app
+          error_code: "VERIFICATION_FAILED" //received in onError() of SelfQRcodeWrapper
           details: result.isValidDetails
         });
       }
     } catch (error) {
       if (error instanceof ConfigMismatchError) {
-        return res.status(400).json({
+        // Return 200 to ensure the error message displays in the mobile app
+        return res.status(200).json({
           status: 'error',
           result: false,
-          message: 'Configuration mismatch',
+          reason: 'Config Mismatch', //Displayed to the users in the app
+          error_code: "CONFIG_MISMATCH" //received in onError() of SelfQRcodeWrapper
           issues: error.issues
         });
       }
       
       console.error('Error verifying proof:', error);
-      return res.status(500).json({
+
+      // Return 200 to ensure the error message displays in the mobile app
+      return res.status(200).json({
         status: 'error',
         result: false,
-        message: error instanceof Error ? error.message : 'Unknown error'
+        reason: 'Internal Error', //Displayed to the users in the app
+        error_code: "INTERNAL_ERROR" //received in onError() of SelfQRcodeWrapper
       });
     }
   } else {
@@ -353,7 +360,7 @@ const selfApp = new SelfAppBuilder({
   appName: "My App",
   scope: "my-app-scope", 
   endpoint: "https://myapp.com/api/verify",
-  logoBase64: "<base64EncodedLogo>", // Optional, accepts also PNG url
+  logoBase64: "<base64-logo-or-png-url>", // Optional, accepts also PNG url
   userId,
   disclosures: {                      // NEW: Specify verification requirements
     minimumAge: 18,                   // Must match backend config
@@ -445,6 +452,12 @@ function VerificationPage() {
           // Handle successful verification
           console.log("Verification successful!");
           // Redirect or update UI
+        }}
+        onError={(error) => {
+          const errorCode = error.error_code || 'Unknown';
+          const reason = error.reason || 'Unknown error';
+          console.error(`Error ${errorCode}: ${reason}`);
+          console.error('Error generating QR code');
         }}
         size={350}
       />
