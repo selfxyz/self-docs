@@ -344,8 +344,11 @@ export async function POST(req: NextRequest) {
 
     if (!proof || !publicSignals || !attestationId || !userContextData) {
       return NextResponse.json({
-        message: "Proof, publicSignals, attestationId and userContextData are required",
-      }, { status: 400 });
+        status: 'error',
+        result: false,
+        reason: "Proof, publicSignals, attestationId and userContextData are required",
+        error_code: "INVALID_INPUTS"
+      }, { status: 200 });
     }
 
     const disclosures_config: VerificationConfig = {
@@ -376,9 +379,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         status: "error",
         result: false,
-        message: "Verification failed",
+        reason: "Verification failed",
+        error_code: "VERIFICATION_FAILED"
         details: result.isValidDetails,
-      }, { status: 500 });
+      }, { status: 200 });
     }
 
     const saveOptions = (await configStore.getConfig(
@@ -409,17 +413,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         status: "error",
         result: result.isValidDetails.isValid,
-        message: "Verification failed",
+        reason: "Verification failed",
+        error_code: "VERIFICATION_FAILED"
         details: result,
-      }, { status: 400 });
+      }, { status: 200 });
     }
   } catch (error) {
     console.error("Error verifying proof:", error);
     return NextResponse.json({
       status: "error",
       result: false,
-      message: error instanceof Error ? error.message : "Unknown error",
-    }, { status: 500 });
+      reason: "Internal Error",
+      error_code: "INTERNAL_ERROR"
+    }, { status: 200 });
   }
 }
 ```
@@ -467,8 +473,13 @@ export async function POST(request: NextRequest) {
   // Check if nullifier has been used before
   if (usedNullifiers.has(result.discloseOutput.nullifier)) {
     return NextResponse.json(
-      { error: 'Proof has already been used' },
-      { status: 400 }
+      { 
+        status: 'error',
+        result: false,
+        reason: 'Proof has already been used',
+        error_code: "ALREADY_REGISTERED"
+      },
+      { status: 200 }
     );
   }
   
