@@ -44,14 +44,14 @@ The `SelfAppBuilder` configures your application's verification requirements. Th
 | Parameter         | Type                                                           | Required | Description                                                           |
 | ----------------- | -------------------------------------------------------------- | -------- | --------------------------------------------------------------------- |
 | `appName`         | string                                                         | Yes      | The name of your application (shown in Self mobile app)              |
-| `scope`           | string                                                         | Yes      | A unique identifier for your application (max 25 chars)               |
+| `scope`           | string                                                         | Yes      | A unique identifier for your application (max 30 chars)               |
 | `endpoint`        | string                                                         | Yes      | The endpoint that will verify the proof                               |
 | `endpointType`    | `'celo'` \| `'https'` \| `'staging_celo'` \| `'staging_https'` | No       | Whether the endpoint verifies proofs on-chain or off-chain            |
 | `logoBase64`      | string                                                         | No       | Base64-encoded logo or PNG URL to display in the Self app             |
 | `userId`          | string                                                         | Yes      | Unique identifier for the user                                        |
 | `userIdType`      | `'uuid'` \| `'hex'`                                            | No       | `'hex'` for on-chain addresses, `'uuid'` for off-chain identification |
-| `version`         | number                                                         | Yes (V2) | Protocol version (use `2` for latest)                                 |
-| `userDefinedData` | string                                                         | Yes (V2) | 64-byte hex string for custom data                                    |
+| `version`         | number                                                         | No       | Protocol version (defaults to `2`)                                    |
+| `userDefinedData` | string                                                         | No       | 64-byte hex string for custom data (defaults to empty)                |
 | `disclosures`     | object                                                         | No       | Disclosure and verification requirements                              |
 | `devMode`         | boolean                                                        | No       | Enable development mode for testing                                   |
 
@@ -77,7 +77,7 @@ The `disclosures` object defines what information to request and verify:
 #### Scope - Your Application's Fingerprint
 The `scope` acts as your application's unique fingerprint in the Self ecosystem:
 
-- **Maximum 25 characters** to fit in zero-knowledge circuits
+- **Maximum 30 characters** to fit in zero-knowledge circuits
 - **Used to prevent replay attacks** - proofs generated for one app can't be used in another
 
 ```typescript
@@ -299,7 +299,7 @@ const selfApp = new SelfAppBuilder({
 ## Best Practices
 
 1. **Use Descriptive App Names**: Users see this in the Self mobile app
-2. **Keep Scopes Short**: Stay under 25 characters for compatibility
+2. **Keep Scopes Short**: Stay under 30 characters for compatibility
 3. **Validate User Input**: Always validate `userId` format matches `userIdType`
 4. **Handle Errors Gracefully**: Implement proper error handling in `onSuccess`/`onError`
 5. **Test with Dev Mode**: Use `devMode: true` for development and testing

@@ -107,8 +107,11 @@ function VerificationComponent() {
     <SelfQRcodeWrapper
       selfApp={selfApp}
       onSuccess={() => {
-        console.log('Verification successful!');
+        console.log('Verification successful');
         // Handle successful verification
+      }}
+      onError={() => {
+        console.error('Failed to verify identity');
       }}
     />
   );
