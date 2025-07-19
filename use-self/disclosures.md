@@ -4,31 +4,19 @@ icon: eye
 
 # Disclosures
 
-Disclosures allow you to reveal information about your passport. For example, if you want to check if a user is above the age of 18 then at the very least you will end up disclosing the lower bound of the age range of the user.
+Disclosures control what information users reveal during identity verification. You configure them in the frontend `disclosures` object, which contains two types of settings:
 
-### How to set the minimum age
+1. **Verification Requirements** - conditions that must be met (must match backend)
+2. **Disclosure Requests** - information users will reveal (frontend only)
 
-In your QRCode component, you must first make sure that you disclose the minimum age before sending it to our servers to generate the proof.&#x20;
+## Verification Requirements
 
-```typescript
-import { SelfAppBuilder } from '@selfxyz/qrcode';
-import { v4 as uuidv4 } from 'uuid';
+These settings define verification conditions and must match your backend `verification_config`:
 
-const userId = uuidv4();
-​
-const selfApp = new SelfAppBuilder({
-  appName: "My App",
-  scope: "my-app-scope", 
-  endpoint: "https://myapp.com/api/verify",
-  endpointType: "https",
-  logoBase64: "<base64EncodedLogo>",
-  userId,
-  disclosures: {
-    minimumAge: 18,
-  }
-}).build();
-```
+### `minimumAge`
+Verifies user is at least this age without revealing exact age or date of birth.
 
+<<<<<<< HEAD
 Once you've made the changes in the frontend, you can change your backend verifier to make use of  the `SelfBackendVerifier` ,checking for the minimum age is as simple as:&#x20;
 
 ```typescript
@@ -118,11 +106,115 @@ if (result.credentialSubject.nationality === countries.IRAN ) {
           reason: "User nationality is not allowed",
           error_code: "RESTRICTED_NATIONALITY"
     });
+=======
+```javascript
+disclosures: {
+  minimumAge: 18, // User must be 18 or older
+>>>>>>> eff2f79 (Revise disclosures documentation to clarify the purpose and configuration of verification requirements and disclosure requests. Introduce new sections for `minimumAge`, `excludedCountries`, and `ofac`, along with examples for better understanding. Emphasize privacy best practices and common use cases for disclosures.)
 }
 ```
 
-### Nullifiers
+### `excludedCountries` 
+Blocks users from specific countries using ISO 3-letter country codes.
 
-If you're verifying proofs offchain, you will want to store nullifiers. If someone tries to do two proofs with the same passport, you can reject them as you see their new proof has the same nullifier.
+```javascript
+disclosures: {
+  excludedCountries: ['IRN', 'PRK'], // Block Iran and North Korea
+}
+```
 
-For onchain usage, this is handled by smart contracts. You can see an example in our [happy birthday contract](https://github.com/selfxyz/happy-birthday/blob/main/contracts/contracts/HappyBirthday.sol).
+### `ofac`
+Enables OFAC (sanctions) checking against official watchlists.
+
+```javascript
+disclosures: {
+  ofac: true, // Enable sanctions checking
+}
+```
+
+## Disclosure Requests
+
+These settings specify what information users will reveal. Configure only in frontend - backend receives this data automatically.
+
+### Personal Information
+
+- **`name`**: User's full name from passport
+- **`nationality`**: User's nationality 
+- **`gender`**: User's gender (M/F)
+- **`date_of_birth`**: Full date of birth
+
+### Document Information
+
+- **`passport_number`**: Passport number (use carefully for privacy)
+- **`expiry_date`**: Passport expiry date
+- **`issuing_state`**: Country that issued the passport
+
+## Example Configuration
+
+```javascript
+disclosures: {
+  // Verification requirements (must match backend)
+  minimumAge: 21,
+  excludedCountries: ['IRN'],
+  ofac: true,
+  
+  // Disclosure requests (frontend only)
+  nationality: true,
+  gender: true,
+  name: false,           // Don't request name
+  date_of_birth: true,
+  passport_number: false, // Don't request for privacy
+}
+```
+
+## Verification Result
+
+When verification succeeds, disclosed information is available in `result.discloseOutput`:
+
+```javascript
+const result = await selfBackendVerifier.verify(/*...*/);
+if (result.isValidDetails.isValid) {
+  const data = result.discloseOutput;
+  
+  console.log(data.nationality);    // "USA" (if requested)
+  console.log(data.gender);         // "M" or "F" (if requested)
+  console.log(data.olderThan);      // "18" (if minimumAge set)
+  console.log(data.name);           // undefined (if not requested)
+}
+```
+
+## Privacy Best Practices
+
+- **Request only what you need**: Each disclosure reveals personal information
+- **Avoid sensitive fields**: Be cautious with `passport_number` and `name`
+- **Consider alternatives**: Use `minimumAge` instead of `date_of_birth` for age verification
+- **Store carefully**: Implement proper data protection for disclosed information
+
+## Common Use Cases
+
+**Age verification only:**
+```javascript
+disclosures: {
+  minimumAge: 18, // No personal data revealed
+}
+```
+
+**Basic identity with nationality:**
+```javascript
+disclosures: {
+  minimumAge: 18,
+  nationality: true,
+  gender: true,
+}
+```
+
+**Complete identity verification:**
+```javascript
+disclosures: {
+  minimumAge: 21,
+  ofac: true,
+  nationality: true,
+  name: true,
+  date_of_birth: true,
+}
+```
