@@ -1,6 +1,8 @@
 # SelfQRcodeWrapper
 
-`SelfQRcodeWrapper` wraps `SelfQRcode` to prevent server-side rendering when using nextjs. When not using nextjs, `SelfQRcode` can be used instead.
+A React component wrapper that prevents server-side rendering issues with QR code generation in Next.js applications.
+
+## Props
 
 The `SelfQRcodeWrapper` component accepts the following props:
 
@@ -14,5 +16,3 @@ The `SelfQRcodeWrapper` component accepts the following props:
 | `size`         | number          | No       | 300             | QR code size in pixels                                |
 | `darkMode`     | boolean         | No       | false           | Enable dark mode styling                              |
 | `children`     | React.ReactNode | No       | -               | Custom children to render                             |
-
-\
