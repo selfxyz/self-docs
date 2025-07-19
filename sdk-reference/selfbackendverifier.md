@@ -52,18 +52,18 @@ async verify(
 
 #### Return Value
 
-Returns a `VerificationResult` object:
+The method returns a `VerificationResult` object with comprehensive verification details:
 
 ```typescript
 {
-  attestationId: AttestationId;
+  attestationId: AttestationId;           // Document type that was verified
   isValidDetails: {
     isValid: boolean;                     // Overall cryptographic proof validity
     isOlderThanValid: boolean;            // Age requirement validation
     isOfacValid: boolean;                 // OFAC sanctions check result
   };
   forbiddenCountriesList: string[];      // Countries excluded from the proof
-  discloseOutput: {
+  discloseOutput: {                       // Disclosed document information
     nullifier: string;                    // Unique proof identifier (prevents reuse)
     forbiddenCountriesListPacked: string[];
     issuingState: string;                 // Country that issued the document
@@ -83,9 +83,34 @@ Returns a `VerificationResult` object:
 }
 ```
 
-#### Throws
+#### Error Handling
 
-- `ConfigMismatchError` - When verification requirements don't match configuration
+The method throws `ConfigMismatchError` when verification requirements don't match:
+
+```typescript
+try {
+  const result = await verifier.verify(attestationId, proof, pubSignals, userContextData);
+  // Handle successful verification
+} catch (error: any) {
+  if (error.name === 'ConfigMismatchError') {
+    console.error('Configuration mismatches:', error.issues);
+    // error.issues contains detailed information about what failed
+  } else {
+    console.error('Verification error:', error);
+  }
+}
+```
+
+Common ConfigMismatch Types:
+
+- `InvalidId` - Attestation ID not in allowedIds
+- `InvalidScope` - Proof was generated for a different application
+- `InvalidRoot` - Merkle root not found on blockchain
+- `InvalidForbiddenCountriesList` - Countries don't match configuration
+- `InvalidMinimumAge` - Age requirement mismatch
+- `InvalidTimestamp` - Proof timestamp out of valid range (±1 day)
+- `InvalidOfac` - OFAC check requirements mismatch
+- `ConfigNotFound` - Configuration not found in storage
 
 ## Types
 
@@ -183,3 +208,21 @@ await configStore.setConfig('standard_verification', {
   ofac: false
 });
 ```
+
+## Best Practices
+
+### Configuration Management
+- **Use appropriate config storage**: DefaultConfigStore for simple apps, InMemoryConfigStore for dynamic requirements
+- **Validate attestation IDs**: Ensure the attestation ID is in your allowedIds map
+
+### Error Handling
+- **Always catch ConfigMismatchError**: This provides detailed information about verification failures
+- **Validate scope matching**: Ensure frontend and backend scopes match exactly
+
+### Security
+- **Store nullifiers**: Track used nullifiers in your database to prevent proof reuse
+- **Validate input**: Always validate all parameters before calling verify()
+
+### Development and Testing
+- **Use mockPassport: true**: Enable for development and testing environments
+- **Test different scenarios**: Test with various age requirements, countries, and document types
