@@ -289,7 +289,7 @@ struct GenericDiscloseOutputV2 {
 ### Flexible Configuration Management
 - Reusable `VerificationConfigV2` stored in Hub
 - Create configurations without contract redeployment
-- Use [Self Configuration Tools](https://tools.self.xyz/) to manage configs
+- Use [Self Configuration Tools](https://tools.self.xyz/) to register configs
 
 ### Enhanced Security
 - Separate verification logic for each document type
