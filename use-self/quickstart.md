@@ -120,7 +120,7 @@ function VerificationComponent() {
 
 SelfQRcodeWrapper wraps SelfQRcode to prevent server-side rendering when using nextjs. When not using nextjs, SelfQRcode can be used instead.
 
-Your scope is an identifier for your application. It makes sure people can't use proofs destined for other applications in yours. You'll have to use the same scope in the backend verification SDK if you need to verify proofs offchain. Make sure it's no longer than 25 characters.
+Your scope is an identifier for your application. It makes sure people can't use proofs destined for other applications in yours. You'll have to use the same scope in the backend verification SDK if you need to verify proofs offchain. Make sure it's no longer than 30 characters.
 
 To see how you can configure your SelfApp take a look at `SelfAppBuilder`. You can also find the SDK reference for `SelfQRcodeWrapper`.
 

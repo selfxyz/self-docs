@@ -1,81 +1,74 @@
-# SDK Configuration
+# Frontend SDK Configuration
 
-Below is an example of how to configure the QR code for on-chain verification using our SDK.
+Configure the frontend SDK for on-chain verification. For basic setup and installation, see the [Quickstart Guide](../use-self/quickstart.md).
 
-```typescript
+## Contract-Specific Configuration
+
+When integrating with contracts, configure your SelfApp with these key parameters:
+
+```javascript
 const selfApp = new SelfAppBuilder({
-        appName: "Self Example App V2",
-        scope: "Self-Example-App-V2",
-        endpoint: "YOUR_DEPLOYED_CONTRACT_ADDRESS", // Your SelfVerificationRoot contract
-        endpointType: "staging_celo", // "staging_celo" for testnet, "celo" for mainnet
-        logoBase64: logo,
-        userId: address, // User's wallet address (required)
-        userIdType: "hex", // "uuid" or "hex"
-        version: 2, // V2 configuration
-        disclosures: { 
-            // Passport data fields
-            date_of_birth: true,
-            nationality: true,
-            name: true,
-            issuing_state: true,
-            passport_number: true, // Passport number field
-            gender: true,
-            expiry_date: true,
-            
-            // Verification rules (integrated in disclosures for V2)
-            minimumAge: 18, // Age requirement (10-100)
-            excludedCountries: [], // Array of 3-letter country codes (e.g., ["USA", "RUS"])
-            ofac: true // OFAC compliance checking (boolean)
-        },
-        devMode: true, // Set to true for development/testing, false for production
-        userDefinedData: "", // Optional: custom data passed to contract
+    // Contract integration settings
+    endpoint: "YOUR_DEPLOYED_CONTRACT_ADDRESS",  // Your SelfVerificationRoot contract
+    endpointType: "staging_celo",               // "staging_celo" or "celo"
+    userIdType: "hex",                          // Use "hex" for wallet addresses
+    version: 2,                                 // Always use V2 for contracts
+    
+    // Your app details
+    appName: "Your App Name",
+    scope: "your-app-scope",                    // Max 30 characters
+    userId: userWalletAddress,
+    
+    // Verification configuration (must match your contract)
+    disclosures: { /* see below */ },
+    userDefinedData: "",                        // Optional: dynamic data for contract
 }).build();
 ```
 
-## Configuration Parameters
+## Key Configuration for Contracts
 
-**Required Parameters:**
-- `appName`: Name of your application
-- `scope`: Application identifier (max 31 ASCII characters)
-- `endpoint`: Your deployed `SelfVerificationRoot` contract address
-- `userId`: User's unique identifier (wallet address or UUID)
+**Contract Integration:**
+- `endpoint`: Your deployed contract address
+- `endpointType`: `"staging_celo"` (testnet) or `"celo"` (mainnet)  
+- `userIdType`: Use `"hex"` for wallet addresses
 
-**Optional Parameters:**
-- `endpointType`: `"celo"` (mainnet) or `"staging_celo"` (testnet)
-- `userIdType`: `"uuid"` or `"hex"` (default: "uuid")
-- `version`: SDK version (default: 2 for V2)
-- `logoBase64`: Base64-encoded logo for the Self app
-- `devMode`: Development/testing mode flag - set to `true` during development, `false` for production (default: false)
-- `disclosures`: Identity attributes and verification rules
-- `userDefinedData`: Custom string data passed to your contract (default: "")
+**Important:** Your `disclosures` configuration must exactly match your contract's verification requirements.
 
-**V2 Disclosures:**
-- Passport data fields: `name`, `nationality`, `date_of_birth`, `issuing_state`, `passport_number`, `gender`, `expiry_date`
-- Verification rules: `minimumAge`, `excludedCountries`, `ofac`
+## Disclosures Configuration
 
-**Important:** Your verification configuration in the SDK should match the configuration set in your contract.
+Configure what users must verify and what data they reveal:
 
-### Available Disclosures
-
-```typescript
+### Verification Rules
+```javascript
 disclosures: {
-    // Passport data fields (boolean)
-    name?: boolean,                 // Full name
-    date_of_birth?: boolean,        // Date of birth
-    nationality?: boolean,          // Nationality/citizenship
-    gender?: boolean,               // Gender
-    issuing_state?: boolean,        // Document issuing country
-    passport_number?: boolean,      // Passport number
-    expiry_date?: boolean,         // Document expiration date
+    // Age verification
+    minimumAge: 18,                    // Minimum age requirement
     
-    // Verification rules
-    minimumAge?: number,           // Minimum age requirement (10-100)
-    excludedCountries?: string[],  // Array of 3-letter country codes (max 40)
-    ofac?: boolean,               // OFAC compliance checking
+    // Geographic restrictions  
+    excludedCountries: ["USA", "RUS"], // Array of 3-letter country codes
+    
+    // Compliance checking
+    ofac: false,                       // OFAC sanctions list checking
 }
 ```
 
-For detailed passport attribute usage, see [Identity Attributes](utilize-passport-attributes.md).
+### Data Disclosures  
+```javascript
+disclosures: {
+    // Personal information
+    name: true,                       // Full name
+    date_of_birth: true,              // Date of birth
+    gender: true,                     // Gender
+    
+    // Document information
+    nationality: true,                // Nationality/citizenship
+    issuing_state: true,              // Document issuing country
+    passport_number: true,            // Passport number
+    expiry_date: true,                // Document expiration date
+}
+```
+
+> **Important:** Your frontend disclosures must match your contract's verification configuration.
 
 ### User Defined Data
 
@@ -112,80 +105,35 @@ function customVerificationHook(
 }
 ```
 
-### Configuration Examples
+## Common Contract Integration Examples
 
-**Age Verification (21+):**
-```typescript
+### Age-Gated Contract (21+)
+```javascript
+disclosures: { 
+    minimumAge: 21,
+    date_of_birth: true  // Optional: reveal birth date
+}
+```
+
+### Geographic Restrictions
+```javascript  
+disclosures: { 
+    excludedCountries: ["USA", "RUS"],
+    nationality: true,      // Required for geo-filtering
+    issuing_state: true     // Optional: additional geo data
+}
+```
+
+### Dynamic Configuration with userDefinedData
+```javascript
+// Pass action type for dynamic config selection
 const selfApp = new SelfAppBuilder({
-    appName: "Age Verification App",
-    scope: "Age-Verification-App",
     endpoint: "YOUR_CONTRACT_ADDRESS",
-    userId: userAddress,
-    endpointType: "staging_celo",
+    userDefinedData: "0x01",  // Action type for contract routing
     disclosures: { 
-        date_of_birth: true,
-        minimumAge: 21
+        minimumAge: 18,
+        nationality: true
     }
-}).build();
-```
-
-**Geographic Restrictions:**
-```typescript
-const selfApp = new SelfAppBuilder({
-    appName: "Geographic Restricted App",
-    scope: "Geographic-App",
-    endpoint: "YOUR_CONTRACT_ADDRESS", 
-    userId: userAddress,
-    disclosures: { 
-        nationality: true, 
-        issuing_state: true,
-        excludedCountries: ["USA", "RUS", "CHN"]
-    }
-}).build();
-```
-
-**OFAC Compliance:**
-```typescript
-const selfApp = new SelfAppBuilder({
-    appName: "OFAC Compliant App",
-    scope: "OFAC-App",
-    endpoint: "YOUR_CONTRACT_ADDRESS",
-    userId: userAddress,
-    disclosures: { 
-        name: true, 
-        date_of_birth: true, 
-        ofac: true
-    }
-}).build();
-```
-
-**Development vs Production Setup:**
-```typescript
-// Development configuration
-const devSelfApp = new SelfAppBuilder({
-    appName: "My App (Dev)",
-    scope: "My-App-Dev",
-    endpoint: "YOUR_TESTNET_CONTRACT_ADDRESS",
-    endpointType: "staging_celo", // Use testnet
-    userId: userAddress,
-    devMode: true, // Enable for development
-    disclosures: { 
-        name: true,
-        minimumAge: 18
-    }
-}).build();
-
-// Production configuration
-const prodSelfApp = new SelfAppBuilder({
-    appName: "My App",
-    scope: "My-App",
-    endpoint: "YOUR_MAINNET_CONTRACT_ADDRESS",
-    endpointType: "celo", // Use mainnet
-    userId: userAddress,
-    devMode: false, // Disable for production
-    disclosures: { 
-        name: true,
-        minimumAge: 18
-    }
+    // ... other config
 }).build();
 ```
