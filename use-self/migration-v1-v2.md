@@ -96,7 +96,7 @@ class ConfigStorage implements IConfigStorage {
   async getConfig(configId: string) {
     // All configuration in one place
     return {
-      olderThan: 18,
+      minimumAge: 18,
       excludedCountries: ['IRN', 'PRK'],  // Use ISO 3-letter codes
       ofac: true  // Single boolean for all OFAC checks
     };
@@ -261,7 +261,7 @@ disclosures: {
   nationality: true,                   // Nationality
   dateOfBirth: true,                   // Date of birth
   issuingState: true,                  // Issuing country
-  passportNumber: true,                // Document number
+  idNumber: true,                      // Document number
   gender: true,                        // Gender
   expiryDate: true                     // Expiration date
 }
@@ -530,8 +530,7 @@ try {
 
 - [Quickstart Guide](quickstart.md) - Basic V2 setup
 - [Basic Integration](../contract-integration/basic-integration.md) - Contract examples
-- [Workshop Example](../contract-integration/workshop-example.md) - Simple implementation
-- [SDK Reference](../sdk-reference/selfbackendverifier.md) - Detailed API docs
+- [Workshop Example](https://github.com/selfxyz/workshop) - Simple implementation
 
 ## Need Help?
 
