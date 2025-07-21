@@ -2,15 +2,6 @@
 
 The IdentityVerificationHub V2 is the core verification engine that processes zero-knowledge proofs and executes identity verification workflows.
 
-## Architecture Overview
-
-```mermaid
-graph LR
-    A[User Contract] -->|verifySelfProof| B[IdentityVerificationHub V2]
-    B --> C[8-Step Verification Process]
-    C -->|onVerificationSuccess| A
-```
-
 ## How the Hub Works
 
 The Hub operates as a central verification coordinator that:
