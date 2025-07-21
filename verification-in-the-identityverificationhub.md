@@ -219,7 +219,7 @@ ISelfVerificationRoot(callingContract).onVerificationSuccess(
 ### VerificationConfigV2
 ```solidity
 struct VerificationConfigV2 {
-    bool olderThanEnabled;                     // Enable age verification
+    bool olderThanEnabled;                    // Enable age verification
     uint256 olderThan;                        // Minimum age requirement  
     bool forbiddenCountriesEnabled;           // Enable country restrictions
     uint256[4] forbiddenCountriesListPacked;  // Packed forbidden countries
@@ -233,20 +233,20 @@ struct GenericDiscloseOutputV2 {
     bytes32 attestationId;                    // E_PASSPORT or EU_ID_CARD
     uint256 userIdentifier;                   // User's unique identifier
     uint256 nullifier;                        // Anti-replay nullifier
-    uint256[4] forbiddenCountriesListPacked; // Forbidden countries used
+    uint256[4] forbiddenCountriesListPacked;  // Forbidden countries used
     
     // Disclosed identity information
-    string issuingState;                     // Document issuing country
-    string[] name;                           // [first, middle, last] names
-    string idNumber;                         // Passport/ID number
-    string nationality;                      // User's nationality
-    string dateOfBirth;                     // Birth date (DD-MM-YY)
-    string gender;                          // User's gender
-    string expiryDate;                      // Document expiry date
+    string issuingState;                      // Document issuing country
+    string[] name;                            // [first, middle, last] names
+    string idNumber;                          // Passport/ID number
+    string nationality;                       // User's nationality
+    string dateOfBirth;                       // Birth date (DD-MM-YY)
+    string gender;                            // User's gender
+    string expiryDate;                        // Document expiry date
     
     // Verification results
-    uint256 olderThan;                      // Verified minimum age
-    bool[3] ofac;                          // OFAC results [passport, name+dob, name+yob]
+    uint256 olderThan;                        // Verified minimum age
+    bool[3] ofac;                             // OFAC results [passport, name+dob, name+yob]
 }
 ```
 
@@ -271,4 +271,3 @@ struct GenericDiscloseOutputV2 {
 - Separate verification logic for each document type
 - Improved timestamp and replay protection
 - Gas-optimized verification checks
-
