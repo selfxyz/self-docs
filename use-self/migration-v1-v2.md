@@ -536,6 +536,5 @@ try {
 ## Need Help?
 
 If you encounter issues during migration:
-1. Check the [troubleshooting guide](quickstart.md#common-issues)
-2. Review example implementations
-3. Report issues at [GitHub Issues](https://github.com/selfxyz/self/issues)
+1. Review example implementations
+2. Report issues at [GitHub Issues](https://github.com/selfxyz/self/issues)
