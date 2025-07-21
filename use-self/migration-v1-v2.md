@@ -43,19 +43,22 @@ const verifier = new SelfBackendVerifier(
 
 **V2 (New):**
 ```javascript
-import { SelfBackendVerifier, AttestationId, UserIdType, IConfigStorage } from '@selfxyz/core';
+import { SelfBackendVerifier, AttestationId, UserIdType, IConfigStorage, AllIds } from '@selfxyz/core';
 
-// Define allowed document types
-const allowedIds = new Map();
-allowedIds.set(AttestationId.E_PASSPORT, true);  // Accept passports
-allowedIds.set(AttestationId.EU_ID_CARD, true);  // Accept EU ID cards
+// Option 1: Use AllIds for all document types (recommended for most cases)
+const allowedIds = AllIds;
+
+// Option 2: Define specific allowed document types
+// const allowedIds = new Map();
+// allowedIds.set(AttestationId.E_PASSPORT, true);  // Accept passports
+// allowedIds.set(AttestationId.EU_ID_CARD, true);  // Accept EU ID cards
 
 // Implement configuration storage
 class ConfigStorage implements IConfigStorage {
   async getConfig(configId: string) {
     // Return your verification requirements
     return {
-      olderThan: 18,
+      minimumAge: 18,
       excludedCountries: ['IRN', 'PRK'],
       ofac: true
     };
@@ -181,7 +184,7 @@ true/false
   forbiddenCountriesList: [],    // Excluded countries
   discloseOutput: {              // Pre-extracted data
     nationality: "USA",
-    olderThan: "21",
+    minimumAge: "21",
     name: ["JOHN", "DOE"],
     dateOfBirth: "01-01-1990",
     issuingState: "USA",
@@ -352,7 +355,7 @@ struct GenericDiscloseOutputV2 {
     string dateOfBirth;              // Pre-extracted format
     string gender;                   // Pre-extracted
     string expiryDate;               // Pre-extracted
-    uint256 olderThan;
+    uint256 minimumAge;
     bool[3] ofac;                    // Bool array
     uint256[4] forbiddenCountriesListPacked;
 }
@@ -378,7 +381,7 @@ disclosures: {
 
 // Backend (in getConfig)
 return {
-  olderThan: 18,  // Note: backend uses 'olderThan'
+  minimumAge: 18,
   excludedCountries: ['IRN', 'PRK'],
   ofac: true
 };
@@ -414,9 +417,13 @@ const userContextData = '0x' + '0'.repeat(512);  // 512 hex chars = 256 bytes
 
 **Solution:** Add document type to allowedIds:
 ```javascript
-const allowedIds = new Map();
-allowedIds.set(AttestationId.E_PASSPORT, true);  // Add passport
-allowedIds.set(AttestationId.EU_ID_CARD, true);  // Add EU ID card
+// Option 1: Use AllIds for all document types
+const allowedIds = AllIds;
+
+// Option 2: Define specific allowed document types
+// const allowedIds = new Map();
+// allowedIds.set(AttestationId.E_PASSPORT, true);  // Add passport
+// allowedIds.set(AttestationId.EU_ID_CARD, true);  // Add EU ID card
 ```
 
 ## Testing Your Migration
@@ -438,7 +445,7 @@ const verifier = new SelfBackendVerifier(
 class ConfigStorage {
   async getConfig() {
     return {
-      olderThan: 18,
+      minimumAge: 18,
       ofac: false  // Must be false for mock passports
     };
   }
@@ -472,11 +479,11 @@ class DynamicConfigStorage {
   async getConfig(configId: string) {
     switch(configId) {
       case 'strict':
-        return { olderThan: 21, ofac: true };
+        return { minimumAge: 21, ofac: true };
       case 'relaxed':
-        return { olderThan: 18, ofac: false };
+        return { minimumAge: 18, ofac: false };
       default:
-        return { olderThan: 18, ofac: true };
+        return { minimumAge: 18, ofac: true };
     }
   }
   
