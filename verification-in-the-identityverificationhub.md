@@ -14,14 +14,6 @@ The Hub operates as a central verification coordinator that:
 
 ### 1. Request Initiation
 
-```mermaid
-graph LR
-    A[User Mobile App] -->|Identity Data| B[TEE - Trusted Execution Environment]
-    B -->|Generates ZK Proof| C[Relayer]
-    C -->|Submits to Blockchain| D[User Contract]
-    D -->|verifySelfProof| E[IdentityVerificationHub V2]
-```
-
 ```solidity
 // User contract calls Hub with proof data
 function verifySelfProof(bytes calldata proofPayload, bytes calldata userContextData) external;
@@ -71,13 +63,6 @@ VerificationConfigV2 memory config = $v2._v2VerificationConfigs[configId];
 - If config doesn't exist, verification fails
 
 ### 4. Document Type Detection & Routing
-
-```mermaid
-graph LR
-    A[attestationId] --> B{Type?}
-    B -->|E_PASSPORT| C[Passport]
-    B -->|EU_ID_CARD| D[EU ID]
-```
 
 ```solidity
 // Based on attestationId in header
