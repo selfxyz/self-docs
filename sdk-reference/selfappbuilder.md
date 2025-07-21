@@ -49,6 +49,6 @@ The `disclosures` object defines what information to request and verify:
 
 Returns the configured `SelfApp` object.
 
-w```typescript
+```typescript
 build(): SelfApp
 ```
