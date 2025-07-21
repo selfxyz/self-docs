@@ -335,7 +335,7 @@ struct VcAndDiscloseVerificationResult {
     uint256 scope;
     uint256 userIdentifier;
     uint256 nullifier;
-    uint256[3] revealedDataPacked;  // Packed data
+    uint256[3] revealedDataPacked;   // Packed data
 }
 ```
 
@@ -349,11 +349,11 @@ struct GenericDiscloseOutputV2 {
     string[] name;                   // Pre-extracted array
     string idNumber;                 // Renamed from passportNumber
     string nationality;              // Pre-extracted
-    string dateOfBirth;             // Pre-extracted format
+    string dateOfBirth;              // Pre-extracted format
     string gender;                   // Pre-extracted
-    string expiryDate;              // Pre-extracted
+    string expiryDate;               // Pre-extracted
     uint256 olderThan;
-    bool[3] ofac;                   // Bool array
+    bool[3] ofac;                    // Bool array
     uint256[4] forbiddenCountriesListPacked;
 }
 ```

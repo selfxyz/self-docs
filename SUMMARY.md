@@ -9,6 +9,7 @@
 * [Use deeplinking](use-self/use-deeplinking.md)
 * [Using mock passports](use-self/using-mock-passports.md)
 * [Self Map countries list](use-self/self-map-countries-list.md)
+* [V1 to V2 Migration Guide](use-self/migration-v1-v2.md)
 
 ## SDK Reference
 
@@ -27,7 +28,7 @@
 * [Deployed Contracts](contract-integration/deployed-contracts.md)
 * [Airdrop Example](contract-integration/airdrop-example.md)
 * [Happy Birthday Example](contract-integration/happy-birthday-example.md)
-* [Utilize Passport Attributes](contract-integration/utilize-passport-attributes.md)
+* [Utilize Identity Attributes](contract-integration/utilize-identity-attributes.md)
 
 ***
 
