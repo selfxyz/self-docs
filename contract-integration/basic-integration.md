@@ -150,21 +150,19 @@ function getConfigId(
 ```
 
 **Option 2: Store and update via setter**
+
 ```solidity
-bytes32 public configId;
-
-function setConfigId(bytes32 _configId) external onlyOwner {
-    configId = _configId;
-}
-
-function getConfigId(
-    bytes32 _destinationChainId,
-    bytes32 _userIdentifier, 
-    bytes memory _userDefinedData
-) public view override returns (bytes32) {
-    return configId;
+/**
+ * @notice Expose the internal _setScope function for testing
+ * @param newScope The new scope value to set
+ */
+function setScope(uint256 newScope) external {
+    _setScope(newScope);
 }
 ```
+
+> **⚠️ Security Note:** In production environments, you should add proper access control to the `setScope` function (e.g., `onlyOwner` modifier) to prevent unauthorized scope modifications. The example above is suitable for testing but should not be deployed without access restrictions.
+
 
 **Option 3: Dynamic based on user context**
 
@@ -379,12 +377,12 @@ Your contract needs a proper scope for verification. You have two approaches:
 
 **Option 2: Update scope after deployment (easier)**
 ```solidity
-uint256 public scope;
-
-function setScope(uint256 _scope) external onlyOwner {
-    scope = _scope;
-    // Update the scope in the parent contract
-    _setScope(_scope);
+/**
+ * @notice Expose the internal _setScope function for testing
+ * @param newScope The new scope value to set
+ */
+function setScope(uint256 newScope) external {
+    _setScope(newScope);
 }
 ```
 
