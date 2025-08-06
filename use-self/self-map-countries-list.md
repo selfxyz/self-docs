@@ -59,7 +59,6 @@ These countries have both Document Signer Certificates and Country Signing Certi
 | 🇲🇳 Mongolia             | MN   | Asia            |
 | 🇲🇽 Mexico               | MX   | North America   |
 | 🇲🇾 Malaysia             | MY   | Asia            |
-| 🇳🇬 Nigeria              | NG   | Africa          |
 | 🇳🇴 Norway               | NO   | Europe          |
 | 🇳🇵 Nepal                | NP   | Asia            |
 | 🇳🇿 New Zealand          | NZ   | Oceania         |
