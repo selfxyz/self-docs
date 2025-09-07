@@ -21,13 +21,14 @@ const selfApp = new SelfAppBuilder({
     
     // Verification configuration (must match your contract)
     disclosures: { /* see below */ },
-    userDefinedData: "",                        // Optional: dynamic data for contract
+    userDefinedData: "Hello World",                        // Optional: dynamic data for contract
 }).build();
 ```
 
 ## Key Configuration for Contracts
 
 **Contract Integration:**
+
 - `endpoint`: Your deployed contract address
 - `endpointType`: `"staging_celo"` (testnet) or `"celo"` (mainnet)  
 - `userIdType`: Use `"hex"` for wallet addresses
@@ -39,6 +40,7 @@ const selfApp = new SelfAppBuilder({
 Configure what users must verify and what data they reveal:
 
 ### Verification Rules
+
 ```javascript
 disclosures: {
     // Age verification
@@ -53,6 +55,7 @@ disclosures: {
 ```
 
 ### Data Disclosures  
+
 ```javascript
 disclosures: {
     // Personal information
@@ -75,15 +78,18 @@ disclosures: {
 The `userDefinedData` parameter allows you to pass arbitrary string data through the verification flow to your contract. This data is cryptographically included in the verification process and cannot be tampered with.
 
 **Common Use Cases:**
+
 - **Dynamic Configuration:** Select different verification configs based on user context
 - **Business Logic:** Include application-specific data for custom verification logic
 
 **Data Flow:**
+
 1. Frontend sets `userDefinedData` in SelfAppBuilder
 2. Data flows through mobile app and TEE processing
 3. Contract receives data in both `getConfigId()` and `customVerificationHook()` functions
 
 **Contract Access:**
+
 ```solidity
 // In getConfigId - used for configuration selection
 function getConfigId(
@@ -108,6 +114,7 @@ function customVerificationHook(
 ## Common Contract Integration Examples
 
 ### Age-Gated Contract (21+)
+
 ```javascript
 disclosures: { 
     minimumAge: 21,
@@ -116,6 +123,7 @@ disclosures: {
 ```
 
 ### Geographic Restrictions
+
 ```javascript  
 disclosures: { 
     excludedCountries: ["USA", "RUS"],
@@ -125,6 +133,7 @@ disclosures: {
 ```
 
 ### Dynamic Configuration with userDefinedData
+
 ```javascript
 // Pass action type for dynamic config selection
 const selfApp = new SelfAppBuilder({

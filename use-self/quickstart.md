@@ -27,28 +27,34 @@ Install the required frontend packages:
 
 {% tabs %}
 {% tab title="npm" %}
+
 ```bash
 npm install @selfxyz/qrcode @selfxyz/core ethers
 ```
+
 {% endtab %}
 
 {% tab title="yarn" %}
+
 ```bash
 yarn add @selfxyz/qrcode @selfxyz/core ethers
 ```
+
 {% endtab %}
 
 {% tab title="bun" %}
+
 ```bash
 bun install @selfxyz/qrcode @selfxyz/core ethers
 ```
+
 {% endtab %}
 {% endtabs %}
 
 **Package purposes:**
-- `@selfxyz/qrcode`: QR code generation and display components
-- `@selfxyz/core`: Core utilities including `getUniversalLink` for deeplinks
-- `ethers`: Ethereum utilities for address handling
+* `@selfxyz/qrcode`: QR code generation and display components
+* `@selfxyz/core`: Core utilities including `getUniversalLink` for deeplinks
+* `ethers`: Ethereum utilities for address handling
 
 ### Basic Usage
 
@@ -156,7 +162,7 @@ function VerificationPage() {
         userId: userId,
         endpointType: "staging_https",
         userIdType: "hex",
-        userDefinedData: "Bonjour Cannes!",
+        userDefinedData: "Hello World",
         disclosures: {
           /* 1. what you want to verify from users' identity */
           minimumAge: 18,
@@ -213,14 +219,14 @@ export default VerificationPage;
 
 The `getUniversalLink` function from `@selfxyz/core` generates deep links that allow users to open the Self app directly instead of scanning a QR code. This is useful for:
 
-- **Mobile web experiences**: Users can tap a button to open the Self app directly
-- **Better UX on mobile**: Avoid the need to scan QR codes on the same device
-- **Share links**: Send verification links via messaging or email
+* **Mobile web experiences**: Users can tap a button to open the Self app directly
+* **Better UX on mobile**: Avoid the need to scan QR codes on the same device
+* **Share links**: Send verification links via messaging or email
 
 **When to use Universal Links:**
-- Building mobile-first applications
-- Want to provide alternative to QR code scanning
-- Need to integrate with messaging platforms or email
+* Building mobile-first applications
+* Want to provide alternative to QR code scanning
+* Need to integrate with messaging platforms or email
 
 **Example implementation:**
 
@@ -284,21 +290,27 @@ The QR code component displays the current verification status with an LED indic
 
 {% tabs %}
 {% tab title="npm" %}
+
 ```bash
 npm install @selfxyz/core 
 ```
+
 {% endtab %}
 
 {% tab title="yarn" %}
+
 ```bash
 yarn add @selfxyz/core 
 ```
+
 {% endtab %}
 
 {% tab title="bun" %}
+
 ```bash
 bun install @selfxyz/core 
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -384,6 +396,7 @@ if (result.isValidDetails.isValid) {
 ## Key Points
 
 ### Configuration Matching
+
 Your frontend and backend configurations must match exactly:
 
 ```javascript
