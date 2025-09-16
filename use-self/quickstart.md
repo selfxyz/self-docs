@@ -17,6 +17,8 @@ To use Self in your web app, you will display QR codes to request proofs from yo
 * The front-end SDK generates and displays QR codes containing information from your app and what you want users to disclose.
 * The back-end SDK verifies proofs on a node server (as in this quickstart) or [directly onchain](../contract-integration/basic-integration.md).
 
+* The mobile SDK allows you to embed a SELF ID document proving and identity disclosing app inside of your React Native app. This usecase is covered by [MobileSDK Docs](../mobile-sdk/intro.md)
+
 ## Add the QR code generator to your front-end
 
 `QRCodeGenerator` is a React component for generating QR codes for Self passport verification.
