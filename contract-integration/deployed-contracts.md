@@ -12,5 +12,4 @@ Deployment addresses for the Self protocol, on Celo mainnet and testnet.
 
 ### Celo Testnet — Mock passports
 
-<table><thead><tr><th width="374">Contract</th><th>Deployment address</th><th data-hidden></th></tr></thead><tbody><tr><td>IdentityVerificationHub</td><td><a href="https://alfajores.celoscan.io/address/0x68c931C9a534D37aa78094877F46fE46a49F1A51">0x68c931C9a534D37aa78094877F46fE46a49F1A51</a></td><td></td></tr></tbody></table>
-
+<table><thead><tr><th width="374">Contract</th><th>Deployment address</th><th data-hidden></th></tr></thead><tbody><tr><td>IdentityVerificationHub</td><td><a href="https://celo-sepolia.blockscout.com/address/0x16ECBA51e18a4a7e61fdC417f0d47AFEeDfbed74">0x16ECBA51e18a4a7e61fdC417f0d47AFEeDfbed74</a></td><td></td></tr></tbody></table>

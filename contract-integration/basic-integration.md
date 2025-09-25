@@ -1,55 +1,165 @@
-# Basic Contract Integration Guide
+---
+description: >-
+  This page explains how to integrate your smart contracts with Self’s on‑chain
+  verification flow using the abstract base SelfVerificationRoot.
+---
 
-This document provides an overview and integration guide for our smart contract, available as an npm package. You can install it with:
+# Basic Integration
 
-```bash
-npm install @selfxyz/contracts
+## Overview
+
+The `@selfxyz/contracts` SDK provides you with a `SelfVerificationRoot` abstract contract that wires your contract to the Identity Verification Hub V2. Your contract receives a callback with disclosed, verified attributes only after the proof succeeds.&#x20;
+
+### Key flow&#x20;
+
+1. Your contract exposes `verifySelfProof(bytes proofPayload, bytes userContextData)` from the abstract contract.&#x20;
+2. It takes a verification config from your contract and forwards a packed input to Hub V2.&#x20;
+3. If the proof is valid, the Hub calls back your contract’s `onVerificationSuccess(bytes output, bytes userData)` .
+4. You implement custom logic in `customVerificationHook(...)`.&#x20;
+
+## SelfVerificationRoot
+
+This is an abstract contract that you must override by providing custom logic for returning a config id along with a hook that is called with the disclosed attributes. Here's what you need to override:&#x20;
+
+### 1. `getConfigId`
+
+```solidity
+function getConfigId(
+    bytes32 destinationChainId,
+    bytes32 userIdentifier,
+    bytes memory userDefinedData
+) public view virtual override returns (bytes32) 
 ```
 
-## V2 Integration
+Return the **verification config ID** that the hub should enforce for this request. In simple cases, you may store a single config ID in storage and return it. In advanced cases, compute a dynamic config id based on the inputs.
 
-### Package Structure
+**Example (static config):**
 
-The V2 package supports multiple document types with enhanced verification architecture:
+```solidity
+bytes32 public verificationConfigId;
 
-```bash
-.
-├── abstract
-│ └── SelfVerificationRoot.sol # Base impl in self verification V2
-├── constants
-│ ├── AttestationId.sol # Unique identifiers for identity documents (E_PASSPORT, EU_ID_CARD)
-│ └── CircuitConstantsV2.sol # V2 indices for public signals in our circuits
-├── interfaces # Interfaces for V2 contracts
-│ ├── IDscCircuitVerifier.sol
-│ ├── IIdentityRegistryV1.sol
-│ ├── IIdentityRegistryIdCardV1.sol # New: EU ID Card registry interface
-│ ├── IIdentityVerificationHubV2.sol # V2 hub interface
-│ ├── IRegisterCircuitVerifier.sol
-│ ├── ISelfVerificationRoot.sol
-│ └── IVcAndDiscloseCircuitVerifier.sol
-├── libraries
-│ ├── SelfStructs.sol # V2 data structures for verification
-│ ├── CustomVerifier.sol # Custom verification logic for different document types
-│ ├── CircuitAttributeHandlerV2.sol # V2 attribute extraction
-│ ├── GenericFormatter.sol # V2 output formatting
-│ └── Formatter.sol # Utility functions (maintained for compatibility)
-└── example
-  ├── HappyBirthday.sol # Updated V2 example supporting both passports and EU ID cards
-  ├── Airdrop.sol # V2 airdrop example
-  └── SelfIdentityERC721.sol # NFT example with identity verification
+function getConfigId(
+    bytes32, bytes32, bytes memory
+) public view override returns (bytes32) {
+    return verificationConfigId;
+}
 ```
 
-## Step-by-Step Integration Guide
+### 2. `customVerificationHook`
 
-### Step 1: Install Dependencies
-
-```bash
-npm install @selfxyz/contracts
+```solidity
+function customVerificationHook(
+    ISelfVerificationRoot.GenericDiscloseOutputV2 memory output,
+    bytes memory userData
+) internal virtual override
 ```
 
-### Step 2: Create Your Contract
+This is called **after** hub verification succeeds. Use it to:
 
-Extend `SelfVerificationRoot` and implement the required methods:
+* Mark the user as verified
+* Mint/allowlist/gate features
+* Emit events or write your own structs
+
+## Constructor & Scope
+
+```solidity
+constructor(
+    address hubV2, 
+    string memory scopeSeed
+) SelfVerificationRoot(hubV2, scopeSeed) {}
+```
+
+`SelfVerificationRoot` computes a **scope** at deploy time:
+
+* It Poseidon‑hashes the **contract address** (chunked) with your **`scopeSeed`** to produce a unique `uint256` scope.
+* The hub enforces that **submitted proofs match this scope**.
+
+Why scope matters:
+
+* Prevents cross‑contract proof replay.
+* Allow anonymity between different applications as the nullifier is calculated as a function of the scope.&#x20;
+
+**Guidelines**
+
+* Keep `scopeSeed` short (≤31 ASCII bytes). Example: `"proof-of-human"`.
+* **Changing contract address changes the scope** (by design). Re‑deploys will need a fresh frontend config.
+* You can read the current scope on‑chain via `function scope() public view returns (uint256)`.
+
+{% hint style="info" %}
+You can get the hub addresses from [deployed-contracts.md](deployed-contracts.md "mention")
+{% endhint %}
+
+## Setting Verification Configs
+
+A verification config is simply what you want to verify your user against. Your contract must reference a **verification config** that the hub recognizes. Typical steps:
+
+1. **Format and register** the config off‑chain or in a setup contract:
+
+```solidity
+SelfStructs.VerificationConfigV2 public verificationConfig;
+bytes32 public verificationConfigId;
+
+constructor(
+    address hubV2, 
+    string memory scopeSeed, 
+    SelfUtils.UnformattedVerificationConfigV2 memory rawCfg
+) SelfVerificationRoot(hubV2, scopeSeed) {
+    // 1) Format the human‑readable struct into the on‑chain wire format
+    verificationConfig = SelfUtils.formatVerificationConfigV2(rawCfg);
+
+    // 2) Register the config in the Hub. **This call RETURNS the configId.**
+    verificationConfigId = IIdentityVerificationHubV2(hubV2).setVerificationConfigV2(verificationConfig);
+}
+```
+
+2. **Return the config id** from `getConfigId(...)` (static or dynamic):
+
+```solidity
+function getConfigId(
+    bytes32, 
+    bytes32, 
+    bytes memory
+) public view override returns (bytes32) {
+    return verificationConfigId;
+}
+```
+
+Here's how you would create a raw config:&#x20;
+
+```solidity
+import { SelfUtils } from "@selfxyz/contracts/contracts/libraries/SelfUtils.sol";
+
+//inside your contract
+string[] memory forbiddenCountries = new string[](1);
+  forbiddenCountries[0] = CountryCodes.UNITED_STATES;
+  SelfUtils.UnformattedVerificationConfigV2 memory verificationConfig = SelfUtils.UnformattedVerificationConfigV2({
+    olderThan: 18,
+    forbiddenCountries: forbiddenCountries,
+    ofacEnabled: false
+});
+
+```
+
+{% hint style="warning" %}
+Only a maximum of 40 countries are allowed!
+{% endhint %}
+
+### Frontend ↔ Contract config must match
+
+{% hint style="danger" %}
+The **frontend disclosure/verification config** used to produce the proof must **exactly match** the **contract’s verification config** (the `configId` you return). Otherwise the hub will detect a **mismatch** and verification fails.
+{% endhint %}
+
+Common pitfalls:
+
+* Frontend uses `minimumAge: 18` but contract config expects `21` .
+* Frontend uses different **scope** (e.g., points to a different contract address or uses a different `scopeSeed`).
+
+{% hint style="success" %}
+**Best practice:** Generate the config **once**, register it with the hub to get `configId`, and reference that same id in your dApp’s builder payload.
+{% endhint %}
+
+## Minimal Example: Proof Of Human
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -57,343 +167,61 @@ pragma solidity 0.8.28;
 
 import {SelfVerificationRoot} from "@selfxyz/contracts/contracts/abstract/SelfVerificationRoot.sol";
 import {ISelfVerificationRoot} from "@selfxyz/contracts/contracts/interfaces/ISelfVerificationRoot.sol";
+import {SelfStructs} from "@selfxyz/contracts/contracts/libraries/SelfStructs.sol";
+import {SelfUtils} from "@selfxyz/contracts/contracts/libraries/SelfUtils.sol";
+import {IIdentityVerificationHubV2} from "@selfxyz/contracts/contracts/interfaces/IIdentityVerificationHubV2.sol";
 
 /**
  * @title ProofOfHuman
- * @notice Simple example showing how to verify human identity using Self Protocol
+ * @notice Test implementation of SelfVerificationRoot for the docs
+ * @dev This contract provides a concrete implementation of the abstract SelfVerificationRoot
  */
 contract ProofOfHuman is SelfVerificationRoot {
-    // Store verification status for each user
-    mapping(address => bool) public verifiedHumans;
+    // Storage for testing purposes
+    SelfStructs.VerificationConfigV2 public verificationConfig;
     bytes32 public verificationConfigId;
-    address public lastUserAddress;
-    
-    // Event to track successful verifications
+
+    // Events for testing
     event VerificationCompleted(
         ISelfVerificationRoot.GenericDiscloseOutputV2 output,
         bytes userData
     );
-    
-    /**
-     * @notice Constructor for the contract
-     * @param _identityVerificationHubV2Address The address of the Identity Verification Hub V2
-     * @param _scope The scope of the contract
-     * @param _verificationConfigId The configuration ID for the contract
-     */
-    constructor(
-        address _identityVerificationHubV2Address,
-        uint256 _scope,
-        bytes32 _verificationConfigId
-    ) SelfVerificationRoot(_identityVerificationHubV2Address, _scope) {
-        verificationConfigId = _verificationConfigId;
-    }
 
     /**
-     * @notice Implementation of customVerificationHook
+     * @notice Constructor for the test contract
+     * @param identityVerificationHubV2Address The address of the Identity Verification Hub V2
+     */
+    constructor(
+        address identityVerificationHubV2Address,
+        uint256 scopeSeed,
+        SelfUtils.UnformattedVerificationConfigV2 memory _verificationConfig
+    ) SelfVerificationRoot(identityVerificationHubV2Address, scopeSeed) {
+        verificationConfig = 
+            SelfUtils.formatVerificationConfigV2(_verificationConfig);
+        verificationConfigId = 
+            IIdentityVerificationHubV2(identityVerificationHubV2Address)
+            .setVerificationConfigV2(verificationConfig);
+    }
+    
+    /**
+     * @notice Implementation of customVerificationHook for testing
      * @dev This function is called by onVerificationSuccess after hub address validation
      * @param output The verification output from the hub
      * @param userData The user data passed through verification
      */
     function customVerificationHook(
-        ISelfVerificationRoot.GenericDiscloseOutputV2 memory _output,
-        bytes memory _userData
+        ISelfVerificationRoot.GenericDiscloseOutputV2 memory output,
+        bytes memory userData
     ) internal override {
-        lastUserAddress = address(uint160(_output.userIdentifier));
-        verifiedHumans[lastUserAddress] = true;
-
-        emit VerificationCompleted(_output, _userData);
-        
-        // Add your custom logic here:
-        // - Mint NFT to verified user
-        // - Add to allowlist
-        // - Transfer tokens
-        // - etc.
+        emit VerificationCompleted(output, userData);
     }
 
     function getConfigId(
-        bytes32 _destinationChainId,
-        bytes32 _userIdentifier,
-        bytes memory _userDefinedData
+        bytes32 /* destinationChainId */,
+        bytes32 /* userIdentifier */,
+        bytes memory /* userDefinedData */
     ) public view override returns (bytes32) {
         return verificationConfigId;
     }
-
-    /**
-     * @notice Check if an address is a verified human
-     */
-    function isVerifiedHuman(address _user) external view returns (bool) {
-        return verifiedHumans[_user];
-    }
-
-    function setConfigId(bytes32 _configId) external {
-        verificationConfigId = _configId;
-    }
 }
 ```
-
-### Step 3: Generate Configuration ID
-
-Use the [Self Configuration Tools](https://tools.self.xyz/) to easily create your verification configuration and generate a config ID. This tool allows you to configure age requirements, country restrictions, and OFAC checks with a user-friendly interface.
-
-Once you have your config ID from the tool, you can use it in your contract in several ways:
-
-**Option 1: Hard-coded**
-```solidity
-function getConfigId(
-    bytes32 _destinationChainId,
-    bytes32 _userIdentifier, 
-    bytes memory _userDefinedData
-) public view override returns (bytes32) {
-    // Replace with your actual config ID from the tool
-    return 0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef;
-}
-```
-
-**Option 2: Store and update via setter**
-
-```solidity
-/**
- * @notice Expose the internal _setScope function for testing
- * @param newScope The new scope value to set
- */
-function setScope(uint256 newScope) external {
-    _setScope(newScope);
-}
-```
-
-> **⚠️ Security Note:** In production environments, you should add proper access control to the `setScope` function (e.g., `onlyOwner` modifier) to prevent unauthorized scope modifications. The example above is suitable for testing but should not be deployed without access restrictions.
-
-
-**Option 3: Dynamic based on user context**
-
-This advanced approach allows your contract to use different verification configurations based on user actions and context. Instead of having a single, fixed config ID, you can dynamically select which verification requirements to apply based on what the user is trying to do.
-
-**Why use dynamic config IDs?**
-- Different actions may require different verification levels (e.g., voting vs. general access)
-- External contracts might need specific identity requirements 
-- You can support multiple use cases in a single contract
-
-**Example scenario:**
-Users can join polls (actionType 0) with nationality verification, or get general verification (actionType 1) with basic identity proof.
-
-<details>
-<summary><strong>📋 View Complete Implementation</strong></summary>
-
-**How the system works:**
-The system encodes user intent in the `userData` parameter:
-- **Frontend sends:** `actionType + accessCode` (e.g., actionType=0, accessCode=bytes32 value)
-- **Contract receives:** Parsed action (uint8) and access code (bytes32) to determine appropriate config ID
-- **Verification flows:** Different configs = different requirements
-
-**Implementation breakdown:**
-1. **Data Structure:** Mappings to connect access codes → contracts → config IDs
-2. **Parsing Logic:** Extract action type and access code from frontend data
-3. **Config Resolution:** Route to appropriate verification configuration
-4. **Action Execution:** Perform different logic based on verification context
-
-```solidity
-// Default config ID for general verifications
-bytes32 private constant DEFAULT_VERIFICATION_CONFIG_ID = 
-    0x7b6436b0c98f62380866d9432c2af0ee08ce16a171bda6951aecd95ee1307d61;
-
-// Core mappings for dynamic config system
-mapping(bytes32 accessCode => address targetContract) public codeToContractAddress;
-mapping(address targetContract => bytes32 configId) public configIds;
-mapping(address participant => bool verified) public isVerified;
-
-// Example interface for external contract interaction
-interface ExternalContract {
-    function addParticipant(address participant, bytes memory nationality) external;
-}
-
-function getConfigId(
-    bytes32 _destinationChainId,
-    bytes32 _userIdentifier,
-    bytes memory _userDefinedData // Format: actionType + accessCode
-) public view override returns (bytes32) {
-    (uint8 actionCode, bytes32 accessCode) = parseUserData(_userDefinedData);
-    
-    if (actionCode == 0) {
-        // External contract interaction - use contract-specific config
-        address contractAddr = codeToContractAddress[accessCode];
-        return configIds[contractAddr];
-    } else if (actionCode == 1) {
-        // General verification - use default config
-        return DEFAULT_VERIFICATION_CONFIG_ID;
-    }
-    
-    revert("Invalid action code");
-}
-
-function customVerificationHook(
-    ISelfVerificationRoot.GenericDiscloseOutputV2 memory _output,
-    bytes memory _userData // Format: actionType + accessCode
-) internal override {
-    (uint8 actionCode, bytes32 accessCode) = parseUserData(_userData);
-    
-    address participant = address(uint160(_output.userIdentifier));
-    
-    if (actionCode == 0) {
-        // External contract interaction: call specific contract with nationality data
-        address contractAddress = codeToContractAddress[accessCode];
-        require(contractAddress != address(0), "Contract not found");
-        
-        ExternalContract externalContract = ExternalContract(contractAddress);
-        externalContract.addParticipant(participant, _output.nationality);
-        
-    } else if (actionCode == 1) {
-        // General verification: mark user as verified
-        isVerified[participant] = true;
-    }
-}
-
-// Enhanced parsing to handle frontend encoding variations
-function parseUserData(bytes memory userData) internal pure returns (uint8 actionCode, bytes32 accessCode) {
-    require(userData.length >= 33, "Invalid userData length");
-    
-    // Handle different encoding formats from frontend
-    uint8 firstByte = uint8(userData[0]);
-    if (firstByte == 0x30) {
-        // ASCII '0' (48 in decimal)
-        actionCode = 0;
-    } else if (firstByte == 0x31) {
-        // ASCII '1' (49 in decimal)
-        actionCode = 1;
-    } else if (firstByte == 0 || firstByte == 1) {
-        // Raw bytes
-        actionCode = firstByte;
-    } else {
-        revert("Invalid action code");
-    }
-    
-    // Extract accessCode from remaining bytes using assembly for efficiency
-    assembly {
-        accessCode := mload(add(userData, 33))
-    }
-    
-    // Handle string-encoded access codes from frontend
-    accessCode = bytes32(parseUint(abi.encodePacked(accessCode)));
-}
-
-function parseUint(bytes memory _b) internal pure returns (uint256 result) {
-    for (uint256 i = 1; i < _b.length; i++) {
-        require(_b[i] >= 0x30 && _b[i] <= 0x39, "Invalid character");
-        result = result * 10 + (uint8(_b[i]) - 48);
-    }
-}
-
-// Admin functions to manage contract mappings
-function setContractMapping(bytes32 _accessCode, address _contractAddress, bytes32 _configId) external {
-    codeToContractAddress[_accessCode] = _contractAddress;
-    configIds[_contractAddress] = _configId;
-}
-
-function removeContractMapping(bytes32 _accessCode) external {
-    address contractAddress = codeToContractAddress[_accessCode];
-    delete codeToContractAddress[_accessCode];
-    delete configIds[contractAddress];
-}
-```
-
-</details>
-
-<details>
-<summary><strong>🔧 Frontend-to-Backend Encoding Guide</strong></summary>
-
-#### How to encode data from frontend to backend
-
-**1. Frontend Data Preparation:**
-```javascript
-// Frontend prepares userData for verification
-const actionType = 0; // 0 = Join Poll (dynamic config ID), 1 = Register (Default Verification)
-const accessCode = '0x1234567890123456789012345678901234567890123456789012345678901234'; // 32-byte hex string
-
-// Encode userData: actionType (1 byte) + accessCode (32 bytes)
-function encodeUserData(actionType, accessCode) {
-    // Convert actionType to 2-digit hex string (e.g., 0 -> '00', 1 -> '01')
-    const actionHex = actionType.toString(16).padStart(2, '0');
-    
-    // Remove '0x' prefix from accessCode if present
-    const cleanAccessCode = accessCode.replace(/^0x/, '');
-    
-    // Concatenate: actionType (1 byte) + accessCode (32 bytes)
-    return `0x${actionHex}${cleanAccessCode}`;
-}
-
-const userDefinedData = encodeUserData(actionType, accessCode);
-// Result: "0x001234567890123456789012345678901234567890123456789012345678901234"
-```
-
-**2. Backend Parsing Process:**
-```solidity
-// The parseUserData function handles different encoding formats:
-
-function parseUserData(bytes memory _userData) internal pure returns (uint8 actionCode, bytes32 accessCode) {
-    require(_userData.length >= 33, "Invalid userData length");
-    
-    // Parse first byte for action type
-    uint8 firstByte = uint8(_userData[0]);
-    if (firstByte == 0x30) {        // ASCII '0' (48)
-        actionCode = 0;
-    } else if (firstByte == 0x31) { // ASCII '1' (49)  
-        actionCode = 1;
-    } else if (firstByte == 0 || firstByte == 1) { // Raw bytes
-        actionCode = firstByte;
-    } else {
-        revert("Invalid action code");
-    }
-    
-    // Extract accessCode from remaining bytes (position 33+)
-    assembly {
-        accessCode := mload(add(_userData, 33))
-    }
-    
-    // Convert string-encoded access code to number
-    accessCode = bytes32(parseUint(abi.encodePacked(accessCode)));
-}
-```
-
-**3. Config ID Resolution:**
-- **Action Code 0**: `accessCode → contractAddress → configId`
-- **Action Code 1**: Returns `DEFAULT_VERIFICATION_CONFIG_ID`
-
-</details>
-
-### Step 4: Deploy Your Contract
-
-Deploy with the V2 Hub address:
-- **Celo Mainnet:** `0xe57F4773bd9c9d8b6Cd70431117d353298B9f5BF`
-- **Celo Testnet:** `0x68c931C9a534D37aa78094877F46fE46a49F1A51`
-
-### Step 5: Set Up Scope
-
-Your contract needs a proper scope for verification. You have two approaches:
-
-**Option 1: Predict address with CREATE2 (advanced)**
-```solidity
-// Calculate scope before deployment using predicted address
-// Use tools.self.xyz to calculate scope with your predicted contract address
-```
-
-**Option 2: Update scope after deployment (easier)**
-```solidity
-/**
- * @notice Expose the internal _setScope function for testing
- * @param newScope The new scope value to set
- */
-function setScope(uint256 newScope) external {
-    _setScope(newScope);
-}
-```
-
-After deployment, use the [Self Configuration Tools](https://tools.self.xyz/) to calculate the actual scope with your deployed contract address and update it using the setter function.
-
-### Step 6: Configure Frontend SDK
-
-Set up your frontend with the deployed contract address (see [Frontend Configuration](frontend-configuration.md)).
-
-## Next Steps
-
-- **[Identity Attributes](utilize-passport-attributes.md)** - Learn how to access verified user data
-- **[Frontend Configuration](frontend-configuration.md)** - Set up your frontend integration
-- **[Example Contracts](airdrop-example.md)** - See complete implementation examples

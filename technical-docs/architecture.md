@@ -171,8 +171,7 @@ CA can’t be used to craft signatures because its all messages are repudiable, 
 
 To prevent issuers or attackers from pre-signing messages using AA when they have access to the passport, we can require the message to be a recent blockhash, for instance of the Ethereum blockchain. Assuming it’s infeasible to predict them and it’s impractical to extract private keys from secure chips, it would guarantee that the person registering is in physical possession of the passport.
 
-\
-
+\\
 
 <figure><img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXdQdcMtkAcMZZNEMANBY7vN-9Z26GXxesQ8VzgXhm-zwroGDcBzLMVRODhTGhQ_1LBVUF_YasngAVR_g0quhOr0zDuqw447B92XEx5uQwNmB_sijSMedSk-XFIKPsmcXlF7Pk0Lpg?key=zXb3nihNyp9ChW3RfTALsL42" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -186,8 +185,3 @@ Up until recently, we used to use only client-side proving, but we recently swit
 * For disclosure proofs, they are very light so they can be generated locally.
 
 We estimate the maximal size of the proving key for this new registration circuit to be around 30mb zipped, which should be manageable for most devices, even with poor bandwidth.
-
-\
-\
-
-

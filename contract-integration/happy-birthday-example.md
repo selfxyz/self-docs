@@ -1,15 +1,15 @@
-# Happy Birthday Example V2
+# Happy Birthday Example
 
 This example demonstrates the V2 [Happy Birthday contract](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/HappyBirthday.sol) that distributes USDC to users on their birthday, with document type bonuses and support for both E-Passport and EU ID Card verification.
 
 ## Birthday-Specific Features
 
-- **Birthday Window Validation:** Configurable time window around user's birthday
-- **Document Type Bonuses:** Different reward multipliers for E-Passport vs EU ID cards
-- **Date Processing:** Simplified handling of pre-extracted V2 date attributes
-- **One-time Claims:** Nullifier prevents multiple birthday claims
+* **Birthday Window Validation:** Configurable time window around user's birthday
+* **Document Type Bonuses:** Different reward multipliers for E-Passport vs EU ID cards
+* **Date Processing:** Simplified handling of pre-extracted V2 date attributes
+* **One-time Claims:** Nullifier prevents multiple birthday claims
 
-For standard V2 integration patterns, see [Basic Integration Guide](basic-integration.md#integration-implementation).
+For standard V2 integration patterns, see [Basic Integration Guide](broken-reference).
 
 ### State Variables
 
@@ -43,6 +43,7 @@ uint256 public constant BASIS_POINTS = 10000;
 The core birthday validation uses V2's pre-extracted date format:
 
 **Birthday Verification Hook:**
+
 ```solidity
 function customVerificationHook(
     ISelfVerificationRoot.GenericDiscloseOutputV2 memory output,
@@ -157,13 +158,9 @@ function withdrawUSDC(address to, uint256 amount) external onlyOwner {
 
 ### Birthday Contract Benefits
 
-**V2 Date Simplification:** Direct access to `output.dateOfBirth` eliminates complex parsing
-**Multi-Document Rewards:** Different bonus structures for passport vs EU ID card users
-**Flexible Windows:** Configurable birthday claim periods
-**Admin Controls:** Owner can adjust amounts, windows, and bonuses
+**V2 Date Simplification:** Direct access to `output.dateOfBirth` eliminates complex parsing **Multi-Document Rewards:** Different bonus structures for passport vs EU ID card users **Flexible Windows:** Configurable birthday claim periods **Admin Controls:** Owner can adjust amounts, windows, and bonuses
 
-For verification configuration setup, see [Hub Verification Process](../verification-in-the-identityverificationhub.md#v2-enhanced-verifications).
-
+For verification configuration setup, see [Hub Verification Process](../technical-docs/verification-in-the-identityverificationhub.md#v2-enhanced-verifications).
 
 ### Configuration Management
 
@@ -190,7 +187,7 @@ function getConfigId(
 
 ## Related Documentation
 
-- [Basic Integration Guide](basic-integration.md) - Core V2 integration patterns  
-- [Identity Attributes](utilize-passport-attributes.md) - Date handling and attribute access
-- [Airdrop Example](airdrop-example.md) - Registration-based verification example
-- [Hub Verification Process](../verification-in-the-identityverificationhub.md) - Verification configuration
+* [Basic Integration Guide](broken-reference) - Core V2 integration patterns
+* [Identity Attributes](broken-reference) - Date handling and attribute access
+* [Airdrop Example](airdrop-example.md) - Registration-based verification example
+* [Hub Verification Process](../technical-docs/verification-in-the-identityverificationhub.md) - Verification configuration

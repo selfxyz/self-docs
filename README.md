@@ -10,16 +10,15 @@ Verify real users while preserving privacy.
 
 ## Overview
 
-Self is a **privacy-first, open-source identity protocol** that uses **zero-knowledge proofs** for secure identity verification.&#x20;
+Self is a **privacy-first, open-source identity protocol** that uses **zero-knowledge proofs** for secure identity verification.
 
 It enables **Sybil resistance** and **selective disclosure** using real-world attestations like passports. With a few lines of code, developers can easily check if their users are humans, while preserving their privacy.
 
 ### All you need for building on Self
 
-- [Workshop (ETHGlobal Cannes)](https://www.youtube.com/live/0Jg1o9BFUBs?si=976RbmmCM-4kHToI) - Essential workshop for getting started
-- [Self Developer Tools](https://tools.self.xyz)
-- [Self Builder Group](https://t.me/+d2TGsbkSDmgzODVi)
-- [Celo Testnet Faucet](https://faucet.celo.org/alfajores)
+* [Workshop (ETHGlobal Cannes)](https://www.youtube.com/live/0Jg1o9BFUBs?si=976RbmmCM-4kHToI) - Essential workshop for getting started
+* [Self Builder Group](https://t.me/+d2TGsbkSDmgzODVi)
+* [Celo Testnet Faucet](https://faucet.celo.org/celo-sepolia)
 
 ### How it Works
 
@@ -36,4 +35,3 @@ Self Protocol simplifies **digital identity verification** with **zero-knowledge
 * **Quadratic funding:** Prevent farmers from skewing rewards
 * **Wallet recovery:** Safeguard assets using IDs as recovery sources
 * **Sanction list checking:** Check users are not on sanctioned entity lists
-

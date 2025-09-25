@@ -9,18 +9,20 @@ This guide helps you migrate from Self Protocol V1 to V2. V2 introduces multi-do
 ## Overview of Changes
 
 ### What's New in V2
-- **Multi-document support**: E-Passports and EU ID Cards
-- **Dynamic configuration**: Switch configurations without redeployment
-- **Enhanced data formats**: Pre-extracted, human-readable outputs
-- **User context data**: Pass custom data through verification flow
-- **Improved error handling**: Detailed configuration mismatch reporting
+
+* **Multi-document support**: E-Passports and EU ID Cards
+* **Dynamic configuration**: Switch configurations without redeployment
+* **Enhanced data formats**: Pre-extracted, human-readable outputs
+* **User context data**: Pass custom data through verification flow
+* **Improved error handling**: Detailed configuration mismatch reporting
 
 ### Breaking Changes
-- Backend SDK constructor requires new parameters
-- Configuration methods replaced with interface
-- Verification method signature changed
-- Frontend requires disclosures object
-- Smart contract interfaces updated
+
+* Backend SDK constructor requires new parameters
+* Configuration methods replaced with interface
+* Verification method signature changed
+* Frontend requires disclosures object
+* Smart contract interfaces updated
 
 ## Backend Migration
 
@@ -33,6 +35,7 @@ npm install @selfxyz/core@latest
 ### 2. Update Constructor
 
 **V1 (Old):**
+
 ```javascript
 const verifier = new SelfBackendVerifier(
   "my-app-scope",
@@ -42,6 +45,7 @@ const verifier = new SelfBackendVerifier(
 ```
 
 **V2 (New):**
+
 ```javascript
 import { SelfBackendVerifier, AttestationId, UserIdType, IConfigStorage, AllIds } from '@selfxyz/core';
 
@@ -83,6 +87,7 @@ const verifier = new SelfBackendVerifier(
 ### 3. Update Configuration
 
 **V1 (Old):**
+
 ```javascript
 // Direct method calls
 verifier.setMinimumAge(18);
@@ -93,6 +98,7 @@ verifier.enableDobOfacCheck();
 ```
 
 **V2 (New):**
+
 ```javascript
 // Configuration via IConfigStorage implementation
 class ConfigStorage implements IConfigStorage {
@@ -110,6 +116,7 @@ class ConfigStorage implements IConfigStorage {
 ### 4. Update Verification Method
 
 **V1 (Old):**
+
 ```javascript
 app.post('/api/verify', async (req, res) => {
   const { proof, publicSignals } = req.body;
@@ -124,6 +131,7 @@ app.post('/api/verify', async (req, res) => {
 ```
 
 **V2 (New):**
+
 ```javascript
 app.post('/api/verify', async (req, res) => {
   const { attestationId, proof, pubSignals, userContextData } = req.body;
@@ -167,12 +175,14 @@ app.post('/api/verify', async (req, res) => {
 ### 5. Handle New Response Format
 
 **V1 Response:**
+
 ```javascript
 // Simple boolean
 true/false
 ```
 
 **V2 Response:**
+
 ```javascript
 {
   attestationId: 1,              // Document type
@@ -211,6 +221,7 @@ npm install @selfxyz/qrcode@latest
 ### 2. Update QR Code Configuration
 
 **V1 (Old):**
+
 ```javascript
 import { SelfAppBuilder } from '@selfxyz/qrcode';
 
@@ -224,6 +235,7 @@ const selfApp = new SelfAppBuilder({
 ```
 
 **V2 (New):**
+
 ```javascript
 import { SelfAppBuilder } from '@selfxyz/qrcode';
 
@@ -275,6 +287,7 @@ disclosures: {
 ### 1. Update Contract Inheritance
 
 **V1 (Old):**
+
 ```solidity
 import { IIdentityVerificationHub } from "@selfxyz/contracts/interfaces/IIdentityVerificationHub.sol";
 
@@ -288,6 +301,7 @@ contract MyContract {
 ```
 
 **V2 (New):**
+
 ```solidity
 import { SelfVerificationRoot } from "@selfxyz/contracts/abstract/SelfVerificationRoot.sol";
 
@@ -321,6 +335,7 @@ contract MyContract is SelfVerificationRoot {
 ### 2. Update Hub Addresses
 
 **V2 Hub Addresses:**
+
 ```solidity
 // Celo Mainnet
 address constant HUB_V2 = 0xe57F4773bd9c9d8b6Cd70431117d353298B9f5BF;
@@ -332,6 +347,7 @@ address constant HUB_V2_STAGING = 0x68c931C9a534D37aa78094877F46fE46a49F1A51;
 ### 3. Handle New Data Structure
 
 **V1 Structure:**
+
 ```solidity
 struct VcAndDiscloseVerificationResult {
     uint256 attestationId;
@@ -343,6 +359,7 @@ struct VcAndDiscloseVerificationResult {
 ```
 
 **V2 Structure:**
+
 ```solidity
 struct GenericDiscloseOutputV2 {
     bytes32 attestationId;           // Now bytes32
@@ -366,11 +383,13 @@ struct GenericDiscloseOutputV2 {
 ### 1. Configuration Mismatch
 
 **Problem:** Frontend disclosures don't match backend configuration
+
 ```
 ConfigMismatchError: Configuration mismatch
 ```
 
 **Solution:** Ensure frontend and backend have identical settings:
+
 ```javascript
 // Frontend
 disclosures: {
@@ -392,6 +411,7 @@ return {
 **Problem:** Verification fails with missing attestation ID
 
 **Solution:** Frontend must send attestation ID:
+
 ```javascript
 const requestBody = {
   attestationId: 1,  // 1 for passport, 2 for EU ID
@@ -406,6 +426,7 @@ const requestBody = {
 **Problem:** User context data validation fails
 
 **Solution:** Ensure proper hex encoding:
+
 ```javascript
 // Create user context data (256 bytes total)
 const userContextData = '0x' + '0'.repeat(512);  // 512 hex chars = 256 bytes
@@ -416,6 +437,7 @@ const userContextData = '0x' + '0'.repeat(512);  // 512 hex chars = 256 bytes
 **Problem:** "Attestation ID is not allowed" error
 
 **Solution:** Add document type to allowedIds:
+
 ```javascript
 // Option 1: Use AllIds for all document types
 const allowedIds = AllIds;
@@ -498,10 +520,10 @@ class DynamicConfigStorage {
 
 ### 1. Configuration Management
 
-- Store configurations in a database for easy updates
-- Version your configurations for rollback capability
-- Use meaningful config IDs (not just hashes)
-- Document configuration requirements
+* Store configurations in a database for easy updates
+* Version your configurations for rollback capability
+* Use meaningful config IDs (not just hashes)
+* Document configuration requirements
 
 ### 2. Error Handling
 
@@ -521,26 +543,27 @@ try {
 
 ### 3. Security Considerations
 
-- Always validate attestation IDs
-- Store and check nullifiers to prevent replay
-- Use appropriate scopes for different use cases
-- Never expose configuration details to frontend
+* Always validate attestation IDs
+* Store and check nullifiers to prevent replay
+* Use appropriate scopes for different use cases
+* Never expose configuration details to frontend
 
 ### 4. Performance Optimization
 
-- Cache configuration objects
-- Reuse verifier instances
-- Batch verification requests when possible
-- Use connection pooling for RPC calls
+* Cache configuration objects
+* Reuse verifier instances
+* Batch verification requests when possible
+* Use connection pooling for RPC calls
 
 ## Resources
 
-- [Quickstart Guide](quickstart.md) - Basic V2 setup
-- [Basic Integration](../contract-integration/basic-integration.md) - Contract examples
-- [Workshop Example](https://github.com/selfxyz/workshop) - Simple implementation
+* [Quickstart Guide](quickstart.md) - Basic V2 setup
+* [Basic Integration](broken-reference) - Contract examples
+* [Workshop Example](https://github.com/selfxyz/workshop) - Simple implementation
 
 ## Need Help?
 
 If you encounter issues during migration:
+
 1. Review example implementations
 2. Report issues at [GitHub Issues](https://github.com/selfxyz/self/issues)

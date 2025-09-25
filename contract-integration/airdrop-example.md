@@ -1,24 +1,26 @@
-# Airdrop Example V2
+# Airdrop Example
 
 This example demonstrates V2 contract integration using the [Airdrop contract](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/Airdrop.sol), which supports both E-Passport and EU ID Card verification with registration/claim phases and Merkle tree token distribution.
 
 ### Airdrop-Specific Features
 
 This contract demonstrates:
-- **Two-phase distribution:** Registration → Claim separation
-- **Merkle tree allocation:** Fair token distribution
-- **Multi-document registration:** Both E-Passport and EU ID cards supported
-- **Anti-duplicate measures:** Nullifier and user identifier tracking
+
+* **Two-phase distribution:** Registration → Claim separation
+* **Merkle tree allocation:** Fair token distribution
+* **Multi-document registration:** Both E-Passport and EU ID cards supported
+* **Anti-duplicate measures:** Nullifier and user identifier tracking
 
 ### Registration Logic
 
 The registration phase validates user eligibility and prevents duplicate registrations:
 
 **Key Validations:**
-- Registration phase must be open
-- Nullifier hasn't been used (prevents same document registering twice)
-- Valid user identifier provided
-- User identifier hasn't already registered (prevents address reuse)
+
+* Registration phase must be open
+* Nullifier hasn't been used (prevents same document registering twice)
+* Valid user identifier provided
+* User identifier hasn't already registered (prevents address reuse)
 
 ### State Variables
 
@@ -46,9 +48,10 @@ bool public isClaimOpen;
 bytes32 public verificationConfigId;
 ```
 
-For standard V2 integration patterns (constructor, getConfigId), see [Basic Integration Guide](basic-integration.md#integration-implementation).
+For standard V2 integration patterns (constructor, getConfigId), see [Basic Integration Guide](broken-reference).
 
 **Registration Verification Hook:**
+
 ```solidity
 function customVerificationHook(
     ISelfVerificationRoot.GenericDiscloseOutputV2 memory output,
@@ -142,11 +145,11 @@ function closeClaim() external onlyOwner;
 5. **Open Claims:** Registered users claim via Merkle proofs
 6. **Distribution Complete:** Tokens distributed to verified users
 
-For verification configuration setup, see [Hub Verification Process](../verification-in-the-identityverificationhub.md#v2-enhanced-verifications).
+For verification configuration setup, see [Hub Verification Process](../technical-docs/verification-in-the-identityverificationhub.md#v2-enhanced-verifications).
 
 ## Related Documentation
 
-- [Basic Integration Guide](basic-integration.md) - Core V2 integration patterns
-- [Hub Verification Process](../verification-in-the-identityverificationhub.md) - Verification configuration
-- [Identity Attributes](utilize-passport-attributes.md) - Working with verified data
-- [Happy Birthday Example](happy-birthday-example.md) - Date-based verification example
+* [Basic Integration Guide](broken-reference) - Core V2 integration patterns
+* [Hub Verification Process](../technical-docs/verification-in-the-identityverificationhub.md) - Verification configuration
+* [Identity Attributes](broken-reference) - Working with verified data
+* [Happy Birthday Example](happy-birthday-example.md) - Date-based verification example
