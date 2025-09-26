@@ -6,6 +6,15 @@ description: >-
 
 # Basic Integration
 
+{% hint style="danger" %}
+**Troubleshooting Celo Sepolia**: If you encounter a `Chain 11142220 not supported` error when deploying to Celo Sepolia, try to update Foundry to version 0.3.0:
+
+```bash
+foundryup --install 0.3.0
+```
+
+{% endhint %}
+
 ## Overview
 
 The `@selfxyz/contracts` SDK provides you with a `SelfVerificationRoot` abstract contract that wires your contract to the Identity Verification Hub V2. Your contract receives a callback with disclosed, verified attributes only after the proof succeeds.&#x20;

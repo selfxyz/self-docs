@@ -16,7 +16,7 @@ It enables **Sybil resistance** and **selective disclosure** using real-world at
 
 ### All you need for building on Self
 
-* [Workshop (ETHGlobal Cannes)](https://www.youtube.com/live/0Jg1o9BFUBs?si=976RbmmCM-4kHToI) - Essential workshop for getting started
+* [Workshop (ETHGlobal New Delhi)](https://www.youtube.com/watch?v=2g0F5dWrUKk) - Essential workshop for getting started
 * [Self Builder Group](https://t.me/+d2TGsbkSDmgzODVi)
 * [Celo Testnet Faucet](https://faucet.celo.org/celo-sepolia)
 
