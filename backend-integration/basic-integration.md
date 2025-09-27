@@ -18,7 +18,7 @@ import {
 const selfBackendVerifier = new SelfBackendVerifier(
     'docs', // scope string
     'https://docs.self.xyz/api/verify', // endpoint (your backend verification API)
-    false, // mockPassport → false = testnet, realPassport → true = mainnet
+    false, // mockPassport → true = testnet, realPassport → false = mainnet
     AllIds, // allowed attestation IDs map
     new DefaultConfigStore({ // config store (see separate docs)
         minimumAge: 18,
@@ -127,10 +127,10 @@ app.post("/api/verify", async (req, res) => {
     );
 
     const { isValid, isMinimumAgeValid, isOfacValid } = result.isValidDetails;
-    if (!isValid || !isMinimumAgeValid || !isOfacValid) {
+    if (!isValid || !isMinimumAgeValid || isOfacValid) {
       let reason = "Verification failed"
       if (!isMinimumAgeValid) reason = "Minimum age verification failed"
-      if (!isOfacValid) reason = "OFAC verification failed"
+      if (isOfacValid) reason = "OFAC verification failed"
       return res.status(200).json({
         status: "error",
         result: false,
