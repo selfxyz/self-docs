@@ -57,10 +57,10 @@ The method returns a `VerificationResult` object with comprehensive verification
   attestationId: AttestationId;           // Document type that was verified
   isValidDetails: {
     isValid: boolean;                     // Overall cryptographic proof validity
-    isOlderThanValid: boolean;            // Age requirement validation
-    isOfacValid: boolean;                 // OFAC sanctions check result
+    isMinimumAgeValid: boolean;           // Age requirement validation, false if minimum age check does not pass
+    isOfacValid: boolean;                 // OFAC sanctions check result, true if in OFAC
   };
-  forbiddenCountriesList: string[];      // Countries excluded from the proof
+  forbiddenCountriesList: string[];       // Countries excluded from the proof
   discloseOutput: {                       // Disclosed document information
     nullifier: string;                    // Unique proof identifier (prevents reuse)
     forbiddenCountriesListPacked: string[];
