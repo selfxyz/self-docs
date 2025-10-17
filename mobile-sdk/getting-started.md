@@ -70,7 +70,7 @@ function App() {
 
 - **[SelfClient Provider Setup](selfclient-provider.md)** - Configure adapters and event listeners
 - **[Onboarding Screen Components](onboarding-screens.md)** - Use the available screen components
-- **[Implementation Examples](examples/)** - See complete integration patterns
+- **[Implementation Examples](examples/README.md)** - See complete integration patterns
 
 ## Important Notes
 

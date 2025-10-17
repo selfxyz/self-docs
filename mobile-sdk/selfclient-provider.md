@@ -192,3 +192,9 @@ addListener(SdkEvents.DOCUMENT_MRZ_READ_FAILURE, () => {
 | `DOCUMENT_TYPE_SELECTED` | `{ documentType, countryCode }` | User selected document type |
 | `DOCUMENT_MRZ_READ_SUCCESS` | `{}` | MRZ scanning completed successfully |
 | `DOCUMENT_MRZ_READ_FAILURE` | `{}` | MRZ scanning failed |
+
+## Related Documentation
+
+- [Getting Started Guide](getting-started.md) - SDK overview and basic setup
+- [Onboarding Screen Components](onboarding-screens.md) - Available screen components  
+- [Examples](examples/README.md) - Complete implementation examples

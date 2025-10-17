@@ -82,3 +82,10 @@ Manages document catalog and selected document state at the app level.
 Basic error handling with console warnings and fallback states.
 
 This demonstrates a practical, working integration you can reference for your own implementation.
+
+## Related Documentation
+
+- [Getting Started Guide](../getting-started.md) - SDK overview and installation
+- [SelfClient Provider Setup](../selfclient-provider.md) - Detailed adapter configuration
+- [Minimal Setup](minimal-setup.md) - Basic integration example  
+- [Navigation Setup](navigation-setup.md) - Event-driven navigation patterns

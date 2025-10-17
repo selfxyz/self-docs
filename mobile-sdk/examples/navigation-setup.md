@@ -102,3 +102,10 @@ DocumentCameraScreen
     ↓ (DOCUMENT_MRZ_READ_SUCCESS)
 [Your NFC Screen]
 ```
+
+## Related Documentation
+
+- [Getting Started Guide](../getting-started.md) - SDK overview and installation
+- [SelfClient Provider Setup](../selfclient-provider.md) - Detailed adapter and event listener configuration
+- [Minimal Setup](minimal-setup.md) - Basic integration example
+- [Demo Walkthrough](demo-walkthrough.md) - Production implementation patterns

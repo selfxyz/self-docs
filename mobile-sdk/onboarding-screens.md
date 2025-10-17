@@ -111,3 +111,9 @@ addListener(SdkEvents.DOCUMENT_MRZ_READ_FAILURE, () => {
   navigation.navigate('DocumentScanError');
 });
 ```
+
+## Related Documentation
+
+- [Getting Started Guide](getting-started.md) - SDK overview and installation
+- [SelfClient Provider Setup](selfclient-provider.md) - Configure adapters and event listeners
+- [Examples](examples/README.md) - Complete implementation examples
