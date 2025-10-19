@@ -2,6 +2,13 @@
 
 This example shows the bare minimum integration required to use the Mobile SDK screens.
 
+## Prerequisites
+
+Before running this example, complete the native modules setup:
+
+- **[Native Modules Setup](../native-modules-setup.md)** - Configure Android and iOS native modules
+- **Android**: MainActivity configuration, build.gradle setup, permissions
+
 ## Complete Example
 
 ```tsx
