@@ -1,6 +1,6 @@
 # Native Modules Setup
 
-The Self Mobile SDK requires minimal native module configuration for Android to enable camera access and NFC scanning.
+The Self Mobile SDK requires minimal native module configuration for Android and iOS to enable camera access and NFC scanning.
 
 ## Android Setup
 
@@ -89,4 +89,61 @@ android {
         viewBinding true
     }
 }
+```
+
+## iOS Setup
+
+### 1. Enable NFC Capability
+
+In Xcode, enable the NFC capability for your app:
+1. Open your project in Xcode
+2. Select your app target
+3. Go to "Signing & Capabilities"
+4. Click "+ Capability" and add "Near Field Communication Tag Reading"
+
+**Important**: Set your build scheme to **Release** as Debug mode is not currently supported.
+
+### 2. Info.plist Permissions
+
+Add these usage descriptions to your `ios/YourApp/Info.plist`:
+
+```xml
+<key>NSCameraUsageDescription</key>
+<string>Needed to scan the passport MRZ.</string>
+<key>NSFaceIDUsageDescription</key>
+<string>Needed to secure the secret</string>
+<key>NFCReaderUsageDescription</key>
+<string>Needed to read passport NFC chip for identity verification</string>
+```
+
+### 3. Podfile Configuration
+
+Add the following to your `ios/Podfile` in the `post_install` block:
+
+```ruby
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    if target.name == 'mobile-sdk-alpha'
+      target.build_configurations.each do |config|
+        xcframework_path = "$(PODS_ROOT)/../../mobile-sdk-alpha/ios/Frameworks/NFCPassportReader.xcframework"
+        modules_path_device = "#{xcframework_path}/ios-arm64/SelfSDK.framework/Modules"
+        modules_path_sim = "#{xcframework_path}/ios-arm64_x86_64-simulator/SelfSDK.framework/Modules"
+
+        # Add module search paths
+        config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)']
+        config.build_settings['OTHER_SWIFT_FLAGS'] << "-I#{modules_path_device}"
+        config.build_settings['OTHER_SWIFT_FLAGS'] << "-I#{modules_path_sim}"
+      end
+    end
+  end
+end
+```
+
+## Installation
+
+```bash
+npm install @selfxyz/mobile-sdk-alpha
+
+# For iOS, install pods
+cd ios && pod install && cd ..
 ```
