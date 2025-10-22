@@ -8,6 +8,13 @@ The Self Mobile SDK Alpha provides React Native screen components and client inf
 npm install @selfxyz/mobile-sdk-alpha
 ```
 
+## Native Modules Setup
+
+⚠️ **Important**: The Mobile SDK requires native module configuration for both Android and iOS platforms. Before using the SDK, you must complete the native setup:
+
+- **[Native Modules Setup](native-modules-setup.md)** - Complete Android and iOS native configuration
+- **Android**: MainActivity configuration, build.gradle setup, permissions
+
 ## Quick Start
 
 The SDK requires two main integration points:
@@ -68,6 +75,7 @@ function App() {
 
 ## Next Steps
 
+- **[Native Modules Setup](native-modules-setup.md)** - Configure Android and iOS native modules
 - **[SelfClient Provider Setup](selfclient-provider.md)** - Configure adapters and event listeners
 - **[Onboarding Screen Components](onboarding-screens.md)** - Use the available screen components
 - **[Implementation Examples](examples/README.md)** - See complete integration patterns
