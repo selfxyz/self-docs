@@ -35,6 +35,7 @@ const Stack = createStackNavigator();
 // Minimal adapter implementations
 const createAdapters = (): Adapters => ({
   auth: {
+    // you MUST provide a private key to the sdk that will be used when generating the zk circuits
     async getPrivateKey(): Promise<string | null> {
       // In production, get from secure storage
       return "0x" + "a".repeat(64); // Dummy key for demo
