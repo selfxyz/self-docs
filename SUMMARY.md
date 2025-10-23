@@ -35,6 +35,16 @@
 
 * [Aadhaar](document-specification/aadhaar.md)
 
+## Mobile SDK
+
+* [Getting Started](mobile-sdk/getting-started.md)
+* [SelfClient Provider Setup](mobile-sdk/selfclient-provider.md)
+* [Onboarding Screen Components](mobile-sdk/onboarding-screens.md)
+* [Examples](mobile-sdk/examples/README.md)
+  * [Minimal Setup](mobile-sdk/examples/minimal-setup.md)
+  * [Navigation Setup](mobile-sdk/examples/navigation-setup.md)
+  * [Demo Walkthrough](mobile-sdk/examples/demo-walkthrough.md)
+
 ***
 
 * [Self Attestation](self-attestation.md)
