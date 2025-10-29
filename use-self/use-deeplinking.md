@@ -3,16 +3,16 @@ description: Generate deep links to open the Self mobile app directly
 icon: mobile
 ---
 
-# Use Deeplinking
+# Use deeplinking
 
 Deep links allow users to open the Self mobile app directly instead of scanning QR codes. This provides a better mobile experience by eliminating the need to scan codes on the same device.
 
 ## When to Use Deep Links
 
-- **Mobile web applications**: Users can tap a button to open Self app
-- **Same-device verification**: Avoid QR code scanning on mobile
-- **Messaging platforms**: Share verification links via SMS, email, or chat
-- **Native mobile apps**: Direct integration with mobile applications
+* **Mobile web applications**: Users can tap a button to open Self app
+* **Same-device verification**: Avoid QR code scanning on mobile
+* **Messaging platforms**: Share verification links via SMS, email, or chat
+* **Native mobile apps**: Direct integration with mobile applications
 
 ## Basic Usage
 
@@ -33,6 +33,19 @@ const deeplink = getUniversalLink(selfApp);
 // Use the deep link
 window.open(deeplink, '_blank'); // Opens Self app
 ```
+
+### Auto Returning to Your App
+
+After the user's proof is verified, the Self app can automatically redirect them back to your app. Add the `deeplinkCallback` parameter with your app's deep link:
+
+```javascript
+const selfApp = new SelfAppBuilder({
+  // ... your configuration
+  deeplinkCallback: 'your-app-deeplink-url',
+}).build();
+```
+
+The Self app will show: **"Redirecting to \[your-callback-url] in 5...4...3...2...1"** and automatically open your callback URL at the end of the countdown.
 
 ## Implementation Examples
 
@@ -86,19 +99,20 @@ function VerificationOptions() {
 ## Platform Considerations
 
 ### Mobile Browsers
-- **iOS Safari**: Deep links work reliably
-- **Android Chrome**: Deep links work reliably  
-- **In-app browsers**: May have limitations
+
+* **iOS Safari**: Deep links work reliably
+* **Android Chrome**: Deep links work reliably
+* **In-app browsers**: May have limitations
 
 ### Desktop Browsers
-- Deep links will attempt to open the mobile app
-- If app not installed, may show app store page
-- Generally better to show QR codes on desktop
 
+* Deep links will attempt to open the mobile app
+* If app not installed, may show app store page
+* Generally better to show QR codes on desktop
 
 ## Best Practices
 
-- **Provide both options**: Offer both QR codes and deep links
-- **Mobile-first**: Prioritize deep links on mobile devices
-- **Clear labeling**: Make it obvious what the button does
-- **Testing**: Test on various mobile browsers and devices
+* **Provide both options**: Offer both QR codes and deep links
+* **Mobile-first**: Prioritize deep links on mobile devices
+* **Clear labeling**: Make it obvious what the button does
+* **Testing**: Test on various mobile browsers and devices
