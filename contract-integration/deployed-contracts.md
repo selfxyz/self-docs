@@ -1,5 +1,5 @@
 ---
-description: What you're looking for if you're implementing the onchain sdk
+description: What you're looking for if you're implementing the onchain SDK.
 ---
 
 # Deployed Contracts

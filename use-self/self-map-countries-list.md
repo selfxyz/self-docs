@@ -1,5 +1,4 @@
 ---
-description: 'list of countries supported by self protocol : https://map.self.xyz/'
 icon: globe
 ---
 
@@ -115,7 +114,7 @@ These countries have Country Signing Certificate Authority support:
 | 🇰🇪 Kenya                            | KE   | Africa          |
 | 🇰🇳 Saint Kitts and Nevis            | KN   | Caribbean       |
 | 🇰🇵 North Korea                      | KP   | Asia            |
-| 🇰🇸 Kosovo                           | KS   | Europe          |
+| 🇽🇰 Kosovo                           | KS   | Europe          |
 | 🇰🇼 Kuwait                           | KW   | Middle East     |
 | 🇰🇿 Kazakhstan                       | KZ   | Asia            |
 | 🇱🇧 Lebanon                          | LB   | Middle East     |
@@ -189,4 +188,3 @@ This information is compiled from our certificate registry:
 This list is regularly updated as new countries adopt electronic document standards and as we expand our certificate registry. For the most current information, please check our [Interactive Coverage Map](https://map.self.xyz/).
 
 ***
-
