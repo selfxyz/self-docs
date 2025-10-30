@@ -31,11 +31,3 @@ Click **Add New Document.**
 If the document is already registered, it can be selected from the Home page.
 
 <figure><img src="../.gitbook/assets/Select-Document (1).png" alt="" width="188"><figcaption></figcaption></figure>
-
-{% hint style="info" %}
-Two passports registered with the same private key will give the same disclosure nullifier, thus won't be able to e.g. claim an airdrop twice.
-
-If you want to use two passports in prod, you should backup your seed phrase then tap "Delete keychain secrets" before loading a new passport. If later you rescan the previous passport, you'll be able to pass your recovery phrase to recover the corresponding Self identity.
-
-The next versions will support multiple IDs natively.
-{% endhint %}
