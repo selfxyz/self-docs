@@ -10,6 +10,7 @@
 * [Using mock passports](use-self/using-mock-passports.md)
 * [Self Map countries list](use-self/self-map-countries-list.md)
 * [V1 to V2 Migration Guide](use-self/migration-v1-v2.md)
+* [Troubleshooting](use-self/troubleshooting.md)
 
 ## Frontend integration
 
