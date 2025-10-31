@@ -12,23 +12,22 @@ description: >-
 ```bash
 foundryup --install 0.3.0
 ```
-
 {% endhint %}
 
 ## Overview
 
-The `@selfxyz/contracts` SDK provides you with a `SelfVerificationRoot` abstract contract that wires your contract to the Identity Verification Hub V2. Your contract receives a callback with disclosed, verified attributes only after the proof succeeds.&#x20;
+The `@selfxyz/contracts` SDK provides you with a `SelfVerificationRoot` abstract contract that wires your contract to the Identity Verification Hub V2. Your contract receives a callback with disclosed, verified attributes only after the proof succeeds.
 
-### Key flow&#x20;
+### Key flow
 
-1. Your contract exposes `verifySelfProof(bytes proofPayload, bytes userContextData)` from the abstract contract.&#x20;
-2. It takes a verification config from your contract and forwards a packed input to Hub V2.&#x20;
+1. Your contract exposes `verifySelfProof(bytes proofPayload, bytes userContextData)` from the abstract contract.
+2. It takes a verification config from your contract and forwards a packed input to Hub V2.
 3. If the proof is valid, the Hub calls back your contract’s `onVerificationSuccess(bytes output, bytes userData)` .
-4. You implement custom logic in `customVerificationHook(...)`.&#x20;
+4. You implement custom logic in `customVerificationHook(...)`.
 
 ## SelfVerificationRoot
 
-This is an abstract contract that you must override by providing custom logic for returning a config id along with a hook that is called with the disclosed attributes. Here's what you need to override:&#x20;
+This is an abstract contract that you must override by providing custom logic for returning a config id along with a hook that is called with the disclosed attributes. Here's what you need to override:
 
 ### 1. `getConfigId`
 
@@ -86,7 +85,7 @@ constructor(
 Why scope matters:
 
 * Prevents cross‑contract proof replay.
-* Allow anonymity between different applications as the nullifier is calculated as a function of the scope.&#x20;
+* Allow anonymity between different applications as the nullifier is calculated as a function of the scope.
 
 **Guidelines**
 
@@ -133,7 +132,7 @@ function getConfigId(
 }
 ```
 
-Here's how you would create a raw config:&#x20;
+Here's how you would create a raw config:
 
 ```solidity
 import { SelfUtils } from "@selfxyz/contracts/contracts/libraries/SelfUtils.sol";
@@ -167,6 +166,16 @@ Common pitfalls:
 {% hint style="success" %}
 **Best practice:** Generate the config **once**, register it with the hub to get `configId`, and reference that same id in your dApp’s builder payload.
 {% endhint %}
+
+### Extracting data from a users proof
+
+[Various data fields](../technical-docs/verification-in-the-identityverificationhub.md) can be extracted from the user's disclosure proof.&#x20;
+
+* `attestationId`, `userIdentifier`, `nullifier`, `forbiddenCountriesListPacked`, `olderThan`, `ofac` can be extracted normally.
+* `issuingState`, `name`, `idNumber`, `nationality`, `dateOfBirth`, `gender`, `expiryDate` can be extracted only if the app requests the user to disclose this information.
+* User's address can be derived from userIdentifier with `address(uint160(output.userIdentifier))`&#x20;
+
+The [Happy Birthday Example](happy-birthday-example.md) contains a working example of how to extract data from the `output` object.
 
 ## Minimal Example: Proof Of Human
 

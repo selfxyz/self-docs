@@ -1,10 +1,12 @@
 # Working with userDefinedData
 
-The `userDefinedData` is mainly used in the frontend to allow users to pass in additional information during the time of verification.&#x20;
+The `userDefinedData` is mainly used in the frontend to allow users to pass in additional information during the time of verification. The data is passed into the `customVerificationHook` function on your `SelfVerificationRoot` contract, which can be used as desired to perform custom logic.
 
 {% hint style="warning" %}
 The `userDefinedData` passed in the QRCode gets converted from a **string** to **bytes**. You will have to convert it back from bytes to a string again and work on top of that.&#x20;
 {% endhint %}
+
+One use case that `userDefinedData` can be used for is to define what disclosures the user is asked to provide. In the example below, the `userDefinedData` is used create a key that maps to a particular setup of the verification config.&#x20;
 
 ## Setting a config
 

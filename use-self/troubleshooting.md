@@ -8,7 +8,7 @@ icon: hand-holding-medical
 
 ### ScopeMismatch
 
-There is a mismatch of the scope value between the smart contract and the front end. Check the `scopeSeed` value that was used to deploy the smart contract (in your .env/deployment script). Then, check the scope value you are passing into the `SelfAppBuilder` object you are building on your frontend (e.g. in your page.tsx). Ensure the `scope` string in `SelfAppBuilder` is the same as the `scopeSeed` used in your contract.
+There is a mismatch of the scope value between the smart contract and the front end. Check the `scopeSeed` value that was used to deploy the smart contract (in your .env/deployment script/smart contract). Then, check the scope value you are passing into the `SelfAppBuilder` object you are building on your frontend (e.g. in your page.tsx). Ensure the `scope` string in `SelfAppBuilder` is the same as the `scopeSeed` used in your contract.
 
 You should also ensure that the `endpoint` used for `SelfAppBuilder` is in lowercase (unchecksum/not in checksum format), if you are using an onchain contract address.
 
@@ -43,3 +43,12 @@ Can be caused by various different issues to do with a mismatch being found betw
 ### Transaction failed with error: 0xf4d678b8
 
 If you get an error with a message like this but with differing data after the 0x, it is likely the smart contract is hitting a custom error. The error displayed is the hex selector of the custom error you have defined, and so will be different based on the name of your custom error. For example, 0xf4d678b8 is the hex selector for the custom error `InsufficientBalance`.
+
+### DOCTYPE
+
+Caused when you are developing locally and defining your public endpoint (`NEXT_PUBLIC_SELF_ENDPOINT` in the workshop example) with an older version of ngrok, or ngrok not setup properly.
+
+### Due to technical issues
+
+This error can be caused from adding >40 countries to the exclusion list.
+

@@ -14,6 +14,7 @@ Disclosures control what information users reveal during identity verification. 
 These settings define verification conditions and must match your backend `verification_config`:
 
 ### `minimumAge`
+
 Verifies user is at least this age without revealing exact age or date of birth.
 
 ```javascript
@@ -22,8 +23,9 @@ disclosures: {
 }
 ```
 
-### `excludedCountries` 
-Blocks users from specific countries using ISO 3-letter country codes.
+### `excludedCountries`
+
+Blocks users from specific countries using [ISO 3-letter country codes](https://www.iso.org/obp/ui/#search).
 
 ```javascript
 disclosures: {
@@ -31,7 +33,12 @@ disclosures: {
 }
 ```
 
+{% hint style="info" %}
+The maximum amount of excluded countries you can specify is 40. Any more than this will cause proofs to fail verification on the Self App.
+{% endhint %}
+
 ### `ofac`
+
 Enables OFAC (sanctions) checking against official watchlists.
 
 ```javascript
@@ -46,16 +53,16 @@ These settings specify what information users will reveal. Configure only in fro
 
 ### Personal Information
 
-- **`name`**: User's full name from passport
-- **`nationality`**: User's nationality 
-- **`gender`**: User's gender (M/F)
-- **`date_of_birth`**: Full date of birth
+* **`name`**: User's full name from passport
+* **`nationality`**: User's nationality
+* **`gender`**: User's gender (M/F)
+* **`date_of_birth`**: Full date of birth
 
 ### Document Information
 
-- **`passport_number`**: Passport number (use carefully for privacy)
-- **`expiry_date`**: Passport expiry date
-- **`issuing_state`**: Country that issued the passport
+* **`passport_number`**: Passport number (use carefully for privacy)
+* **`expiry_date`**: Passport expiry date
+* **`issuing_state`**: Country that issued the passport
 
 ## Example Configuration
 
@@ -93,14 +100,15 @@ if (result.isValidDetails.isValid) {
 
 ## Privacy Best Practices
 
-- **Request only what you need**: Each disclosure reveals personal information
-- **Avoid sensitive fields**: Be cautious with `passport_number` and `name`
-- **Consider alternatives**: Use `minimumAge` instead of `date_of_birth` for age verification
-- **Store carefully**: Implement proper data protection for disclosed information
+* **Request only what you need**: Each disclosure reveals personal information
+* **Avoid sensitive fields**: Be cautious with `passport_number` and `name`
+* **Consider alternatives**: Use `minimumAge` instead of `date_of_birth` for age verification
+* **Store carefully**: Implement proper data protection for disclosed information
 
 ## Common Use Cases
 
 **Age verification only:**
+
 ```javascript
 disclosures: {
   minimumAge: 18, // No personal data revealed
@@ -108,6 +116,7 @@ disclosures: {
 ```
 
 **Basic identity with nationality:**
+
 ```javascript
 disclosures: {
   minimumAge: 18,
@@ -117,6 +126,7 @@ disclosures: {
 ```
 
 **Complete identity verification:**
+
 ```javascript
 disclosures: {
   minimumAge: 21,
