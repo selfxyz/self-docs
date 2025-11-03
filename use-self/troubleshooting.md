@@ -40,6 +40,14 @@ A common cause of this error is trying to use a Mock Passport to verify a proof 
 
 Can be caused by various different issues to do with a mismatch being found between the Verification Config specified in the smart contract and the frontend - see the [section in Basic Integration](https://docs.self.xyz/contract-integration/basic-integration#setting-verification-configs).&#x20;
 
+### error decoding response body: expected value at line 1 coloumn 1
+
+Not following the API spec properly. Check the [Endpoint API reference](https://docs.self.xyz/backend-integration/basic-integration#endpoint-api-reference) and verify you are following it.
+
+### builder error: relative URL
+
+URL being used for endpoint is malformed. Try verifying it is correct and is being input correctly.
+
 ### Transaction failed with error: 0xf4d678b8
 
 If you get an error with a message like this but with differing data after the 0x, it is likely the smart contract is hitting a custom error. The error displayed is the hex selector of the custom error you have defined, and so will be different based on the name of your custom error. For example, 0xf4d678b8 is the hex selector for the custom error `InsufficientBalance`.
