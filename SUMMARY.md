@@ -46,6 +46,12 @@
   * [Navigation Setup](mobile-sdk/examples/navigation-setup.md)
   * [Demo Walkthrough](mobile-sdk/examples/demo-walkthrough.md)
 
+## Self Connect
+
+* [Introduction & Overview](self-connect/introduction-and-overview.md)
+* [Architecture & How It Works](self-connect/architecture-and-how-it-works.md)
+* [Developer Guide](self-connect/developer-guide.md)
+
 ***
 
 * [Self Attestation](self-attestation.md)
