@@ -9,7 +9,7 @@ This example demonstrates the V2 [Happy Birthday contract](https://github.com/se
 * **Date Processing:** Simplified handling of pre-extracted V2 date attributes
 * **One-time Claims:** Nullifier prevents multiple birthday claims
 
-For standard V2 integration patterns, see [Basic Integration Guide](broken-reference).
+For standard V2 integration patterns, see [Basic Integration Guide](basic-integration.md).
 
 ### State Variables
 
