@@ -6,10 +6,10 @@ This example demonstrates V2 contract integration using the [Airdrop contract](h
 
 This contract demonstrates:
 
-- **Two-phase distribution:** Registration → Claim separation
-- **Merkle tree allocation:** Fair token distribution
-- **Multi-document registration:** Both E-Passport and EU ID cards supported
-- **Anti-duplicate measures:** Nullifier and user identifier tracking
+* **Two-phase distribution:** Registration → Claim separation
+* **Merkle tree allocation:** Fair token distribution
+* **Multi-document registration:** Both E-Passport and EU ID cards supported
+* **Anti-duplicate measures:** Nullifier and user identifier tracking
 
 ### Registration Logic
 
@@ -17,10 +17,10 @@ The registration phase validates user eligibility and prevents duplicate registr
 
 **Key Validations:**
 
-- Registration phase must be open
-- Nullifier hasn't been used (prevents same document registering twice)
-- Valid user identifier provided
-- User identifier hasn't already registered (prevents address reuse)
+* Registration phase must be open
+* Nullifier hasn't been used (prevents same document registering twice)
+* Valid user identifier provided
+* User identifier hasn't already registered (prevents address reuse)
 
 ### State Variables
 
@@ -48,7 +48,7 @@ bool public isClaimOpen;
 bytes32 public verificationConfigId;
 ```
 
-For standard V2 integration patterns (constructor, getConfigId), see [Basic Integration Guide](broken-reference).
+For standard V2 integration patterns (constructor, getConfigId), see [Basic Integration Guide](broken-reference/).
 
 **Registration Verification Hook:**
 
@@ -146,10 +146,3 @@ function closeClaim() external onlyOwner;
 6. **Distribution Complete:** Tokens distributed to verified users
 
 For verification configuration setup, see [Hub Verification Process](../technical-docs/verification-in-the-identityverificationhub.md#v2-enhanced-verifications).
-
-## Related Documentation
-
-- [Basic Integration Guide](./basic-integration.md) - Core V2 integration patterns
-- [Hub Verification Process](../technical-docs/verification-in-the-identityverificationhub.md) - Verification configuration
-- [Identity Attributes](./working-with-userdefineddata.md) - Working with user defined data
-- [Happy Birthday Example](happy-birthday-example.md) - Date-based verification example

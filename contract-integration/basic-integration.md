@@ -172,7 +172,7 @@ Common pitfalls:
 [Various data fields](../technical-docs/verification-in-the-identityverificationhub.md) can be extracted from the user's disclosure proof.&#x20;
 
 * `attestationId`, `userIdentifier`, `nullifier`, `forbiddenCountriesListPacked`, `olderThan`, `ofac` can be extracted normally.
-* `issuingState`, `name`, `idNumber`, `nationality`, `dateOfBirth`, `gender`, `expiryDate` can be extracted only if the app requests the user to disclose this information.
+* `issuingState`, `name`, `idNumber`, `nationality`, `dateOfBirth`, `gender`, `expiryDate` can be extracted only if the [app requests the user to disclose this information](../use-self/disclosures.md).
 * User's address can be derived from userIdentifier with `address(uint160(output.userIdentifier))`&#x20;
 
 The [Happy Birthday Example](happy-birthday-example.md) contains a working example of how to extract data from the `output` object.

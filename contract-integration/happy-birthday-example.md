@@ -184,10 +184,3 @@ function getConfigId(
 3. **Fund Contract:** Transfer USDC to contract for distribution
 4. **User Claims:** Users verify identity and automatically receive birthday bonus
 5. **Document Bonuses:** EU ID card users get 2x, passport users get 1.5x the base amount
-
-## Related Documentation
-
-* [Basic Integration Guide](broken-reference) - Core V2 integration patterns
-* [Identity Attributes](broken-reference) - Date handling and attribute access
-* [Airdrop Example](airdrop-example.md) - Registration-based verification example
-* [Hub Verification Process](../technical-docs/verification-in-the-identityverificationhub.md) - Verification configuration

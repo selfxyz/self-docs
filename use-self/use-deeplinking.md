@@ -34,7 +34,7 @@ const deeplink = getUniversalLink(selfApp);
 window.open(deeplink, '_blank'); // Opens Self app
 ```
 
-### Auto Returning to Your App
+## Returning User to App Automatically
 
 After the user's proof is verified, the Self app can automatically redirect them back to your app. Add the `deeplinkCallback` parameter with your app's deep link:
 

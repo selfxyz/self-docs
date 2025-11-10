@@ -4,7 +4,7 @@ icon: hand-holding-medical
 
 # Troubleshooting
 
-## Common errors while verifying proof
+## Common errors while verifying proofs
 
 ### ScopeMismatch
 
