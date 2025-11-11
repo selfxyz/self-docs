@@ -4,6 +4,8 @@ icon: hand-holding-medical
 
 # Troubleshooting
 
+Some of the most common errors you will encounter when integrating Self can be found below with possible solutions. If you find you are still having issues, further support can be found in our [Telegram group for builders](http://t.me/selfprotocolbuilder).&#x20;
+
 ## Common errors while verifying proofs
 
 ### ScopeMismatch
