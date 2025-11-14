@@ -4,6 +4,10 @@ The `@selfxyz/core` library provides the essential building blocks to integrate 
 
 Within this library, the `SelfBackendVerifier` class is the main tool you’ll use on the server. It helps you verify that the proofs produced by the frontend/mobile flow are valid against the on‑chain hub and your configured rules.
 
+{% hint style="info" %}
+Make sure your version of @selfxyz/core is >= 1.1.0-beta.1. Versions prior to this use Celo Alfajores for mock passports and will not verify correctly.
+{% endhint %}
+
 ## Creating a verifier instance
 
 You typically instantiate a `SelfBackendVerifier` once with your chosen **scope**, **endpoint**, and other settings.
@@ -18,29 +22,29 @@ import {
 const selfBackendVerifier = new SelfBackendVerifier(
     'docs', // scope string
     'https://docs.self.xyz/api/verify', // endpoint (your backend verification API)
-    false, // mockPassport → true = testnet, realPassport → false = mainnet
+    true, // mockPassport → true = testnet, realPassport → false = mainnet
     AllIds, // allowed attestation IDs map
     new DefaultConfigStore({ // config store (see separate docs)
         minimumAge: 18,
-        excludedCountries: ['IRN', 'PRK', 'RUS', 'SYR'],
-        ofac: true,
+        excludedCountries: ['USA'],
+        ofac: false,
     }),
-    'uuid' // user identifier type
+    'hex' // user identifier type
 );
 ```
 
 ### Parameters
 
-* **scope**: identifier for your application. Must match the frontend scope.&#x20;
-* **endpoint**: the URL where your proofs will be verified (including the route). Must match the frontend endpoint.&#x20;
+* **scope**: identifier for your application. Must match the frontend scope.
+* **endpoint**: the URL where your proofs will be verified (including the route). Must match the frontend endpoint.
 * **mockPassport**: toggle to use testnet/staging vs mainnet hub.
 * **allowedIds**: map of attestation IDs you want to accept.
-* **configStorage**: implementation of `IConfigStorage` (for now, use `DefaultConfigStore` or `InMemoryConfigStore`  see [configstore.md](configstore.md "mention")).
+* **configStorage**: implementation of `IConfigStorage` (for now, use `DefaultConfigStore` or `InMemoryConfigStore` see [configstore.md](configstore.md "mention")).
 * **userIdentifierType**: either `'uuid'` or `'hex'` (depending on how your frontend built the user identifier).
 
 ## Verifying a proof
 
-Call `.verify()` with the attestation ID, proof, public signals, and user context data. These will be passed to your endpoint from Self's relayers.  The verifier will check validity against on‑chain contracts and your config store.
+Call `.verify()` with the attestation ID, proof, public signals, and user context data. These will be passed to your endpoint from Self's relayers. The verifier will check validity against on‑chain contracts and your config store.
 
 ```typescript
 const result = await selfBackendVerifier.verify(
@@ -61,9 +65,9 @@ console.log(result)
     "isValidDetails": {
         "isValid": true,
         "isMinimumAgeValid": true,
-        "isOfacValid": true
+        "isOfacValid": false
     },
-    "forbiddenCountriesList": ["IRN","PRK","RUS","SYR"],
+    "forbiddenCountriesList": ["USA"],
     "discloseOutput": {
         "minimumAge": "18",
         "nationality": "IND",
@@ -96,16 +100,16 @@ const app = express()
 app.use(bodyParser.json())
 
 const selfBackendVerifier = new SelfBackendVerifier(
-  "docs",
-  "https://docs.self.xyz/api/verify",
-  false,
+  process.env.SELF_SCOPE_SEED,
+  process.env.SELF_ENDPOINT,
+  true,
   AllIds,
   new DefaultConfigStore({
     minimumAge: 18,
-    excludedCountries: ["IRN","PRK","RUS","SYR"],
-    ofac: true,
+    excludedCountries: ["USA"],
+    ofac: false,
   }),
-  "uuid"
+  "hex"
 )
 
 app.post("/api/verify", async (req, res) => {
@@ -126,11 +130,10 @@ app.post("/api/verify", async (req, res) => {
       userContextData
     );
 
-    const { isValid, isMinimumAgeValid, isOfacValid } = result.isValidDetails;
-    if (!isValid || !isMinimumAgeValid || isOfacValid) {
+    const { isValid, isMinimumAgeValid } = result.isValidDetails;
+    if (!isValid || !isMinimumAgeValid) {
       let reason = "Verification failed"
       if (!isMinimumAgeValid) reason = "Minimum age verification failed"
-      if (isOfacValid) reason = "OFAC verification failed"
       return res.status(200).json({
         status: "error",
         result: false,
@@ -154,18 +157,17 @@ app.post("/api/verify", async (req, res) => {
 app.listen(3000, () => {
   console.log("Server listening on http://localhost:3000");
 })
-
 ```
 
 {% hint style="info" %}
-Notice however that the `status` of the http request is 200 regardless of whether the inputs were correct / wrong and if the proof was verified or not. In general, you will need to follow the format below when creating an API.&#x20;
+Notice however that the `status` of the http request is 200 regardless of whether the inputs were correct / wrong and if the proof was verified or not. In general, you will need to follow the format below when creating an API.
 {% endhint %}
 
 ## Endpoint API Reference
 
 <mark style="color:green;">`POST`</mark> `/api/verify`
 
-Verifies a Self Identity proof.&#x20;
+Verifies a Self Identity proof.
 
 **Headers**
 
@@ -181,7 +183,7 @@ Verifies a Self Identity proof.&#x20;
         [string, string]],
     c: [string, string]
 }
-</code></pre></td><td>The self identity proof. </td></tr><tr><td><code>publicSignals</code></td><td><code>string[]</code> </td><td>The public signals for the proof</td></tr><tr><td><code>userContextData</code></td><td>string</td><td>Contains information about the user id and app defined user data.</td></tr></tbody></table>
+</code></pre></td><td>The self identity proof.</td></tr><tr><td><code>publicSignals</code></td><td><code>string[]</code></td><td>The public signals for the proof</td></tr><tr><td><code>userContextData</code></td><td>string</td><td>Contains information about the user id and app defined user data.</td></tr></tbody></table>
 
 **Response**
 
@@ -208,7 +210,7 @@ Verifies a Self Identity proof.&#x20;
 
 ## Accepting only certain type of documents
 
-If you want to only accept certain types of documents (for example if you don't want to use Aadhaar) then you can create a map that has all attestation ids other than Aadhaar.&#x20;
+If you want to only accept certain types of documents (for example if you don't want to use Aadhaar) then you can create a map that has all attestation ids other than Aadhaar.
 
 ```typescript
 import { ATTESTATION_ID, AttestationId } from "@selfxyz/core"
@@ -218,4 +220,3 @@ const allowedIds = new Map<AttestationId, boolean>([
     [ATTESTATION_ID.BIOMETRIC_ID_CARD, true],
 ]);
 ```
-

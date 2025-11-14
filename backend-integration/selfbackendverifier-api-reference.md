@@ -24,7 +24,7 @@ new SelfBackendVerifier(
 | mockPassport       | `boolean`                     | `false` for real documents (mainnet), `true` for testing with mock documents (testnet). Default: `false`                       |
 | allowedIds         | `Map<AttestationId, boolean>` | Map of allowed document types. Key: attestation ID, Value: allowed status                                                      |
 | configStorage      | `IConfigStorage`              | Configuration storage implementation that determines verification requirements.                                                |
-| userIdentifierType | `UserIdType`                  | <p>Type of user identifier: <code>'uuid'</code> or <code>'hex'</code> (for blockchain addresses)</p><h3 id="methods"><br></h3> |
+| userIdentifierType | `UserIdType`                  | <p>Type of user identifier: <code>'uuid'</code> or <code>'hex'</code> (for blockchain addresses)</p><h4 id="methods"><br></h4> |
 
 ## Methods
 
