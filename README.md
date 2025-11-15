@@ -5,6 +5,8 @@ coverY: 0
 ---
 
 # Self Protocol
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fselfxyz%2Fself-docs.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fselfxyz%2Fself-docs?ref=badge_shield)
+
 
 Verify real users while preserving privacy.
 
@@ -35,3 +37,7 @@ Self Protocol simplifies **digital identity verification** with **zero-knowledge
 * **Quadratic funding:** Prevent farmers from skewing rewards
 * **Wallet recovery:** Safeguard assets using IDs as recovery sources
 * **Sanction list checking:** Check users are not on sanctioned entity lists
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fselfxyz%2Fself-docs.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fselfxyz%2Fself-docs?ref=badge_large)
