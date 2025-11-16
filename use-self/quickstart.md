@@ -12,10 +12,18 @@ icon: bullseye-arrow
 
 ## Overview
 
-To use Self in your web app, you will display QR codes to request proofs from your front-end, then verify them in your back-end or onchain. This means you will integrate two SDKs:
+To use Self in your web app, you will display QR codes to request proofs from your front-end, then you have a choice to verify them in your own back-end or onchain. All apps must integrate:
 
-* The front-end SDK generates and displays QR codes containing information from your app and what you want users to disclose.
-* The back-end SDK verifies proofs on a node server (as in this quickstart) or [directly onchain](broken-reference).
+Frontend:
+
+* [The front-end SDK](../frontend-integration/qrcode-sdk.md) generates and displays QR codes containing information from your app and what you want users to disclose.
+
+Verification:
+
+* [Verify through the onchain smart contracts](../contract-integration/basic-integration.md). The verification happens on chain in a completely trustless manner. A demo working example can be found here: [https://github.com/selfxyz/workshop](https://github.com/selfxyz/workshop)
+* [Verify through your projects backend](../backend-integration/basic-integration.md). The back-end SDK verifies proofs on a node server (as in this quickstart). The verification is done on the projects own backend, meaning their is a trust assumption the users must make about the verification being done correctly. A demo working example can be found here: [https://github.com/selfxyz/workshop/tree/backend-verification](https://github.com/selfxyz/workshop/tree/backend-verification)
+
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 ## Installation
 
@@ -132,10 +140,14 @@ The QR code component displays the current verification status with an LED indic
 
 1. **QR Code Display**: Component shows QR code for users to scan
 2. **User Scans**: User scans with Self app and provides proof
-3. **Backend Verification**: Your API endpoint receives and verifies the proof
+3. **Verification**:
+   1. Onchain Verification: Your smart contract receives the proof and verifies it on the Self VerificationHub contract.
+   2. Backend Verification: Your API endpoint receives and verifies the proof
 4. **Success Callback**: `onSuccess` callback is triggered when verification completes
 
 ## Add `SelfBackendVerifier` to your backend
+
+If you want to verify your proofs with the backend verifier, then you would implement the following.
 
 ### Requirements
 
