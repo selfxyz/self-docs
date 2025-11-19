@@ -4,7 +4,13 @@ icon: hand-holding-medical
 
 # Troubleshooting
 
-Some of the most common errors you will encounter when integrating Self can be found below with possible solutions. If you find you are still having issues, further support can be found in our [Telegram group for builders](http://t.me/selfprotocolbuilder).&#x20;
+Some of the most common errors you will encounter when integrating Self can be found below with possible solutions. If you find you are still having issues, further support can be found in our [Telegram group for builders](http://t.me/selfprotocolbuilder).
+
+If you are using AI models to build your app and are encoutering issues, verify that you are using the most up to date versions of our packages. Check your `package.json` file in your frontend and backend. Many AI programs still utilize previous versions when building which will cause errors to occur. You can also make sure you are using a valid working version by using the ones specified in the workshop repo. Check for `@selfxyz/common`, `@selfxyz/qrcode`, `@selfxyz/contracts`, `@selfxyz/core`.  &#x20;
+
+* Workshop frontend `package.json`: [https://github.com/selfxyz/workshop/blob/main/app/package.json](https://github.com/selfxyz/workshop/blob/main/app/package.json)
+* Workshop smart contracts `package.json`: [https://github.com/selfxyz/workshop/blob/main/contracts/package.json](https://github.com/selfxyz/workshop/blob/main/contracts/package.json)
+* Workshop backend `package.json`: [https://github.com/selfxyz/workshop/blob/main/app/package.json](https://github.com/selfxyz/workshop/blob/main/app/package.json)
 
 ## Common errors while verifying proofs
 
@@ -16,7 +22,7 @@ You should also ensure that the `endpoint` used for `SelfAppBuilder` is in lower
 
 ### Invalid 'to' address
 
-There is a mismatch between `endpoint` and `endpoint-type` in the `SelfAppBuilder` object.&#x20;
+There is a mismatch between `endpoint` and `endpoint-type` in the `SelfAppBuilder` object.
 
 * If `endpointType` is `celo` , then `endpoint` value must be the contract address for a contract deployed on Celo Mainnet.
 * If `endpointType` is `celo-staging` , then `endpoint` value must be the contract address for a contract deployed on Celo Sepolia Testnet.
@@ -40,7 +46,7 @@ A common cause of this error is trying to use a Mock Passport to verify a proof 
 
 ### Config Mismatch
 
-Can be caused by various different issues to do with a mismatch being found between the Verification Config specified in the smart contract and the frontend - see the [section in Basic Integration](https://docs.self.xyz/contract-integration/basic-integration#setting-verification-configs).&#x20;
+Can be caused by various different issues to do with a mismatch being found between the Verification Config specified in the smart contract and the frontend - see the [section in Basic Integration](https://docs.self.xyz/contract-integration/basic-integration#setting-verification-configs).
 
 ### error decoding response body: expected value at line 1 coloumn 1
 
@@ -61,4 +67,3 @@ Caused when you are developing locally and defining your public endpoint (`NEXT_
 ### Due to technical issues
 
 This error can be caused from adding >40 countries to the exclusion list.
-
