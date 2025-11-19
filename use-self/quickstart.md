@@ -8,7 +8,7 @@ icon: bullseye-arrow
 
 ## Before You Start
 
-**New to Self Protocol?** We highly recommend watching our [ETHGlobal New Delhi Workshop](https://www.youtube.com/watch?v=2g0F5dWrUKk) first. This essential workshop walks through the core concepts and provides a hands-on introduction to building with Self.
+**New to Self Protocol?** We highly recommend watching our [ETHGlobal Buenos Aires Workshop](https://www.loom.com/share/8a6d116a5f66415998a496f06fefdc23) first. This essential workshop walks through the core concepts and provides a hands-on introduction to building with Self.
 
 ## Overview
 
