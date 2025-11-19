@@ -10,6 +10,16 @@ icon: bullseye-arrow
 
 **New to Self Protocol?** We highly recommend watching our [ETHGlobal Buenos Aires Workshop](https://www.loom.com/share/8a6d116a5f66415998a496f06fefdc23) first. This essential workshop walks through the core concepts and provides a hands-on introduction to building with Self.
 
+### Examples
+
+Working examples of Self Protocol integration are available to use as a foundation to build upon.
+
+* [Airdrop](../contract-integration/airdrop-example.md)
+* [Happy Birthday](../contract-integration/happy-birthday-example.md)
+* [Soul Bound Token](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/SelfPassportERC721.sol)
+* [Cross Chain (LayerZero)](https://github.com/selfxyz/self-layerzero-example)
+* [Cross Chain (Hyperlane)](https://github.com/selfxyz/workshop/tree/hyperlane-example)
+
 ## Overview
 
 To use Self in your web app, you will display QR codes to request proofs from your front-end, then you have a choice to verify them in your own back-end or onchain. All apps must integrate:
