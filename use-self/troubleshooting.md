@@ -48,6 +48,13 @@ A common cause of this error is trying to use a Mock Passport to verify a proof 
 
 Can be caused by various different issues to do with a mismatch being found between the Verification Config specified in the smart contract and the frontend - see the [section in Basic Integration](https://docs.self.xyz/contract-integration/basic-integration#setting-verification-configs).
 
+### InvalidIdentityCommitmentRoot
+
+This is caused by trying to verify a mock passport on a contract deployed on Celo Mainnet, or verifying a real passport on a contract deployed on Celo Sepolia Testnet.&#x20;
+
+* Real passports are only valid for Celo Mainnet
+* Mock passports are only valid for Celo Sepolia Testnet
+
 ### error decoding response body: expected value at line 1 coloumn 1
 
 Not following the API spec properly. Check the [Endpoint API reference](https://docs.self.xyz/backend-integration/basic-integration#endpoint-api-reference) and verify you are following it.
