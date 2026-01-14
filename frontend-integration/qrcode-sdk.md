@@ -9,7 +9,7 @@ description: >-
 
 > **Scope**: How to install, configure, and embed the component. [qrcode-sdk-api-reference.md](qrcode-sdk-api-reference.md "mention") (all props, types) lives on a separate page.
 
-## Installation&#x20;
+## Installation
 
 {% tabs %}
 {% tab title="npm" %}
@@ -27,12 +27,12 @@ pnpm i @selfxyz/qrcode
 
 ## Usage (Desktop)
 
-The `SelfQRCode` component is responsible for storing information about your app. This information includes data about the mock / real passports, the userId you want to store etc. along with information about the config that should be checked for a given proof.&#x20;
+The `SelfQRCode` component is responsible for storing information about your app. This information includes data about the mock / real passports, the userId you want to store etc. along with information about the config that should be checked for a given proof.
 
-This involves 2 steps:&#x20;
+This involves 2 steps:
 
 1. Create a `SelfApp` from the `SelfAppBuilder` that takes in `Partial<SelfApp>`.
-2. Pass the `SelfApp` to the QRCode component along with `onSuccess` and `onError` functions.&#x20;
+2. Pass the `SelfApp` to the QRCode component along with `onSuccess` and `onError` functions.
 
 {% code fullWidth="false" %}
 ```tsx
@@ -50,7 +50,7 @@ export default function Verify() {
       version: 2,
       appName: process.env.NEXT_PUBLIC_SELF_APP_NAME || 'Self Docs',
       scope: process.env.NEXT_PUBLIC_SELF_SCOPE || 'self-docs',
-      endpoint: `${process.env.NEXT_PUBLIC_SELF_ENDPOINT}`,
+      endpoint: `${process.env.NEXT_PUBLIC_SELF_ENDPOINT}`, // Must be in lowercase (non checksum)
       logoBase64: 'https://i.postimg.cc/mrmVf9hm/self.png',
       userId,
       endpointType: 'staging_celo',
@@ -101,12 +101,12 @@ The claims you want to verify MUST exactly match the ones you set in your backen
 {% endhint %}
 
 {% hint style="danger" %}
-If you're using a contract to verify your proofs then please sure the contract address is in lowercase.&#x20;
+If you're using a contract to verify your proofs then please sure the contract address is in lowercase.
 {% endhint %}
 
 ## Usage (Mobile)
 
-If you're developing an app then it's not easy to scan a QR Code. Instead, what you would do is to create a deeplink to the Self app and pass in a `deeplinkCallback` url that the Self app can navigate to once the proof is verified. Here's what you'll need to add:&#x20;
+If you're developing an app then it's not easy to scan a QR Code. Instead, what you would do is to create a deeplink to the Self app and pass in a `deeplinkCallback` url that the Self app can navigate to once the proof is verified. Here's what you'll need to add:
 
 ```tsx
 import { useEffect, useState } from 'react'
@@ -153,5 +153,3 @@ export default function Verify() {
   )
 }
 ```
-
-&#x20;
