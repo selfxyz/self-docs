@@ -14,15 +14,17 @@ description: API Reference for @selfxyz/qrcode
 
 ## SelfQRCodeWrapper / SelfQRCode
 
-| Input        | Type                                                      | Default         | Description                                          |
-| ------------ | --------------------------------------------------------- | --------------- | ---------------------------------------------------- |
-| selfApp      | [#selfapp](qrcode-sdk-api-reference.md#selfapp "mention") | -               | The configured Self app instance.                    |
-| onSuccess    | () ⇒ void;                                                | -               | Callback triggered when verification succeeds.       |
-| onError      | data: { error\_code?: string; reason?: string }) => void  | -               | Callback triggered when verification fails.          |
-| type         | 'websocket' \| 'deeplink'                                 | websocket       | Determines whether to use WebSocket or deep link QR. |
-| websocketUrl | string                                                    | WS\_DB\_RELAYER | Custom WebSocket relayer URL.                        |
-| size         | number                                                    | 300             | Width and height of the QR Code in pixels.           |
-| darkMode     | boolean                                                   | false           | Toggles light/dark mode for QR code styling.         |
+| Input          | Type                                                      | Default         | Description                                          |
+| -------------- | --------------------------------------------------------- | --------------- | ---------------------------------------------------- |
+| selfApp        | [#selfapp](qrcode-sdk-api-reference.md#selfapp "mention") | -               | The configured Self app instance.                    |
+| onSuccess      | () ⇒ void;                                                | -               | Callback triggered when verification succeeds.       |
+| onError        | data: { error\_code?: string; reason?: string }) => void  | -               | Callback triggered when verification fails.          |
+| type           | 'websocket' \| 'deeplink'                                 | websocket       | Determines whether to use WebSocket or deep link QR. |
+| websocketUrl   | string                                                    | WS\_DB\_RELAYER | Custom WebSocket relayer URL.                        |
+| size           | number                                                    | 300             | Width and height of the QR Code in pixels.           |
+| darkMode       | boolean                                                   | false           | Toggles light/dark mode for QR code styling.         |
+| showBorder     | boolean                                                   | true            | Show a colored border around the QR code that reflects the current status. |
+| showStatusText | boolean                                                   | true            | Show the status banner below the QR code.            |
 
 ## SelfApp
 
@@ -54,4 +56,3 @@ description: API Reference for @selfxyz/qrcode
 | ofac\*\*              | boolean               | false   | Check against OFAC sanction lists.                        |
 | excludedCountries\*\* | Country3LetterCode\[] | \[]     | Exclude users from specific ISO 3166-1 alpha-3 countries. |
 | minimumAge\*\*        | number                | 0       | Require a minimum age (e.g., `18` (upto `99`)).\|         |
-
