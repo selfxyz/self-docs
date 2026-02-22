@@ -92,7 +92,7 @@ function VerificationPage() {
         version: 2,
         appName: process.env.NEXT_PUBLIC_SELF_APP_NAME || "Self Workshop",
         scope: process.env.NEXT_PUBLIC_SELF_SCOPE || "self-workshop",
-        endpoint: `${process.env.NEXT_PUBLIC_SELF_ENDPOINT}`, // Must be in lowercase (non checksum)
+        endpoint: `${process.env.NEXT_PUBLIC_SELF_ENDPOINT}`,
         logoBase64: "https://i.postimg.cc/mrmVf9hm/self.png",
         userId: userId,
         endpointType: "staging_https",
