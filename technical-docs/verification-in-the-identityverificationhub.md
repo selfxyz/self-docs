@@ -24,7 +24,7 @@ function verifySelfProof(bytes calldata proofPayload, bytes calldata userContext
 
 #### TEE Proof Generation (Gas-Free for Users)
 
-* **User Input**: User scans passport/ID with mobile app
+* **User Input**: User completes a supported document flow in the mobile app (passport, ID, Aadhaar, or KYC)
 * **TEE Processing**: Trusted Execution Environment securely processes identity data
 * **ZK Proof Creation**: TEE generates zero-knowledge proof without revealing raw identity data
 
@@ -76,6 +76,10 @@ if (attestationId == AttestationId.E_PASSPORT) {
     // Route to passport verification logic
 } else if (attestationId == AttestationId.EU_ID_CARD) {
     // Route to EU ID card verification logic
+} else if (attestationId == AttestationId.AADHAAR) {
+    // Route to Aadhaar verification logic
+} else if (attestationId == AttestationId.SELFRICA_ID_CARD) {
+    // Route to KYC (Sumsub) verification logic
 }
 ```
 
@@ -138,7 +142,7 @@ GenericDiscloseOutputV2 memory output = CustomVerifier.customVerify(
 
 **What happens:**
 
-* **Document Type Routing**: Routes to passport vs ID card specific verification
+* **Document Type Routing**: Routes to passport, ID card, Aadhaar, or KYC-specific verification
 * **Business Rule Application**: Applies age, geographic, and sanctions requirements
 * **Identity Data Extraction**: Converts raw data to structured, human-readable format
 * **Final Validation**: Ensures all configuration requirements are met
@@ -252,7 +256,7 @@ struct VerificationConfigV2 {
 
 ```solidity
 struct GenericDiscloseOutputV2 {
-    bytes32 attestationId;                    // E_PASSPORT, EU_ID_CARD, AARDHAAR or SELFRICA_ID_CARD
+    bytes32 attestationId;                    // E_PASSPORT, EU_ID_CARD, AADHAAR, or SELFRICA_ID_CARD (KYC)
     uint256 userIdentifier;                   // User's unique identifier
     uint256 nullifier;                        // Anti-replay nullifier
     uint256[4] forbiddenCountriesListPacked;  // Forbidden countries used
@@ -276,7 +280,7 @@ struct GenericDiscloseOutputV2 {
 
 ### Multi-Document Support
 
-* Automatic routing for attestation types: E\_PASSPORT, EU\_ID\_CARD, AARDHAAR and SELFRICA\_ID\_CARD
+* Automatic routing for attestation types: E\_PASSPORT, EU\_ID\_CARD, AADHAAR and SELFRICA\_ID\_CARD (KYC)
 * Document-specific verification pipelines
 * Unified interface for different document types
 

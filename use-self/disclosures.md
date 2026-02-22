@@ -53,16 +53,16 @@ These settings specify what information users will reveal. Configure only in fro
 
 ### Personal Information
 
-* **`name`**: User's full name from passport
+* **`name`**: User's full name from the verified document
 * **`nationality`**: User's nationality
 * **`gender`**: User's gender (M/F)
 * **`date_of_birth`**: Full date of birth
 
 ### Document Information
 
-* **`passport_number`**: Passport number (use carefully for privacy)
-* **`expiry_date`**: Passport expiry date
-* **`issuing_state`**: Country that issued the passport
+* **`passport_number`**: Document number (use carefully for privacy)
+* **`expiry_date`**: Document expiry date
+* **`issuing_state`**: Country that issued the document
 
 ## Example Configuration
 

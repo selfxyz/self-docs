@@ -50,8 +50,7 @@ description: API Reference for @selfxyz/qrcode
 | nationality           | boolean               | false   | Request the user’s nationality.                           |
 | date\_of\_birth       | boolean               | false   | Request the date of birth.                                |
 | gender                | boolean               | false   | Request the gender field.                                 |
-| expiry\_date          | boolean               | false   | Request the passport expiry date.                         |
+| expiry\_date          | boolean               | false   | Request the document expiry date.                         |
 | ofac\*\*              | boolean               | false   | Check against OFAC sanction lists.                        |
 | excludedCountries\*\* | Country3LetterCode\[] | \[]     | Exclude users from specific ISO 3166-1 alpha-3 countries. |
 | minimumAge\*\*        | number                | 0       | Require a minimum age (e.g., `18` (upto `99`)).\|         |
-

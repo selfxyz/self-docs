@@ -15,7 +15,7 @@ The `SelfAttestation` interface represents the structure of an attestation used 
 | `issuer`            | `string`   | The issuer of the attestation.                   |
 | `issuanceDate`      | `string`   | The date the attestation was issued.             |
 | `credentialSubject` | `object`   | Contains details about the user and application. |
-| `proof`             | `object`   | Contains passport proof.                         |
+| `proof`             | `object`   | Contains attestation proof data for the verified document type. |
 | `dscProof`          | `object`   | Contains DSC proof details for verification.     |
 | `dsc`               | `object`   | Contains DSC details.                            |
 

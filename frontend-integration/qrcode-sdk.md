@@ -27,7 +27,7 @@ pnpm i @selfxyz/qrcode
 
 ## Usage (Desktop)
 
-The `SelfQRCode` component is responsible for storing information about your app. This information includes data about the mock / real passports, the userId you want to store etc. along with information about the config that should be checked for a given proof.
+The `SelfQRCode` component is responsible for storing information about your app. This includes data about mock/real document verification mode, the userId you want to store, and the config that should be checked for a given proof.
 
 This involves 2 steps:
 

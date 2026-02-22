@@ -10,7 +10,7 @@ This guide helps you migrate from Self Protocol V1 to V2. V2 introduces multi-do
 
 ### What's New in V2
 
-* **Multi-document support**: E-Passports and EU ID Cards
+* **Multi-document support**: E-Passports, EU ID Cards, Aadhaar, and KYC (Sumsub)
 * **Dynamic configuration**: Switch configurations without redeployment
 * **Enhanced data formats**: Pre-extracted, human-readable outputs
 * **User context data**: Pass custom data through verification flow
@@ -56,6 +56,8 @@ const allowedIds = AllIds;
 // const allowedIds = new Map();
 // allowedIds.set(AttestationId.E_PASSPORT, true);  // Accept passports
 // allowedIds.set(AttestationId.EU_ID_CARD, true);  // Accept EU ID cards
+// allowedIds.set(AttestationId.AADHAAR, true);  // Accept Aadhaar
+// allowedIds.set(AttestationId.SELFRICA_ID_CARD, true);  // Accept KYC/Sumsub
 
 // Implement configuration storage
 class ConfigStorage implements IConfigStorage {
@@ -138,7 +140,7 @@ app.post('/api/verify', async (req, res) => {
   
   try {
     const result = await verifier.verify(
-      attestationId,      // NEW: 1 for passport, 2 for EU ID
+      attestationId,      // NEW: 1 passport, 2 EU ID, 3 Aadhaar, 4 KYC/Sumsub
       proof,
       pubSignals,
       userContextData     // NEW: hex-encoded context data
@@ -149,7 +151,11 @@ app.post('/api/verify', async (req, res) => {
         status: 'success',
         result: true,
         credentialSubject: result.discloseOutput,
-        documentType: attestationId === 1 ? 'passport' : 'eu_id_card'
+        documentType:
+          attestationId === 1 ? 'passport' :
+          attestationId === 2 ? 'eu_id_card' :
+          attestationId === 3 ? 'aadhaar' :
+          'kyc'
       });
     } else {
       res.status(400).json({
@@ -414,7 +420,7 @@ return {
 
 ```javascript
 const requestBody = {
-  attestationId: 1,  // 1 for passport, 2 for EU ID
+  attestationId: 1,  // 1 passport, 2 EU ID, 3 Aadhaar, 4 KYC/Sumsub
   proof: proof,
   pubSignals: pubSignals,
   userContextData: userContextData
@@ -446,6 +452,8 @@ const allowedIds = AllIds;
 // const allowedIds = new Map();
 // allowedIds.set(AttestationId.E_PASSPORT, true);  // Add passport
 // allowedIds.set(AttestationId.EU_ID_CARD, true);  // Add EU ID card
+// allowedIds.set(AttestationId.AADHAAR, true);  // Add Aadhaar
+// allowedIds.set(AttestationId.SELFRICA_ID_CARD, true);  // Add KYC/Sumsub
 ```
 
 ## Testing Your Migration
@@ -474,7 +482,7 @@ class ConfigStorage {
 }
 ```
 
-### 2. Test Both Document Types
+### 2. Test Multiple Document Types
 
 ```javascript
 // Test passport verification
@@ -490,6 +498,14 @@ const idCardResult = await verifier.verify(
   AttestationId.EU_ID_CARD,  // 2
   idCardProof,
   idCardSignals,
+  userContextData
+);
+
+// Test KYC (Sumsub) verification
+const kycResult = await verifier.verify(
+  AttestationId.SELFRICA_ID_CARD,  // 4
+  kycProof,
+  kycSignals,
   userContextData
 );
 ```

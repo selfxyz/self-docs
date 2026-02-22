@@ -12,7 +12,7 @@ Verify real users while preserving privacy.
 
 Self is a **privacy-first, open-source identity protocol** that uses **zero-knowledge proofs** for secure identity verification.
 
-It enables **Sybil resistance** and **selective disclosure** using real-world attestations like passports. With a few lines of code, developers can easily check if their users are humans, while preserving their privacy.
+It enables **Sybil resistance** and **selective disclosure** using real-world attestations like passports, national IDs, Aadhaar, and KYC attestations. With a few lines of code, developers can easily check if their users are humans, while preserving their privacy.
 
 ### All you need for building on Self
 
@@ -24,8 +24,8 @@ It enables **Sybil resistance** and **selective disclosure** using real-world at
 
 Self Protocol simplifies **digital identity verification** with **zero-knowledge proofs** in three steps:
 
-1. **Scan Your Passport:** Scan your passport using the NFC reader of your phone.
-2. **Generate a Proof:** Generate a zk proof over your passport, selecting only what you want to disclose.
+1. **Scan or Verify Your Document:** Use your supported document flow in the Self app (passport, ID card, Aadhaar, or KYC).
+2. **Generate a Proof:** Generate a zk proof over your attestation, selecting only what you want to disclose.
 3. **Share Your Proof:** Share your zk proof with the selected application.
 
 ### Common use cases for Self:

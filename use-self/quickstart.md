@@ -223,7 +223,7 @@ export async function POST(req: Request) {
 
     // Verify the proof
     const result = await selfBackendVerifier.verify(
-      attestationId,    // Document type (1 = passport, 2 = EU ID card, 3 = Aadhaar)
+      attestationId,    // Document type (1 = passport, 2 = EU ID card, 3 = Aadhaar, 4 = KYC/Sumsub)
       proof,            // The zero-knowledge proof
       publicSignals,    // Public signals array
       userContextData   // User context data (hex string)

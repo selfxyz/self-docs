@@ -1,6 +1,6 @@
 # Airdrop Example
 
-This example demonstrates V2 contract integration using the [Airdrop contract](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/Airdrop.sol), which supports both E-Passport and EU ID Card verification with registration/claim phases and Merkle tree token distribution.
+This example demonstrates V2 contract integration using the [Airdrop contract](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/Airdrop.sol), with registration/claim phases and Merkle tree token distribution.
 
 ### Airdrop-Specific Features
 
@@ -8,8 +8,12 @@ This contract demonstrates:
 
 * **Two-phase distribution:** Registration → Claim separation
 * **Merkle tree allocation:** Fair token distribution
-* **Multi-document registration:** Both E-Passport and EU ID cards supported
+* **Multi-document registration (example scope):** E-Passport and EU ID cards in this example contract
 * **Anti-duplicate measures:** Nullifier and user identifier tracking
+
+{% hint style="info" %}
+Self V2 also supports Aadhaar and KYC attestations. This example keeps document handling focused on E-Passport and EU ID card for simplicity.
+{% endhint %}
 
 ### Registration Logic
 
