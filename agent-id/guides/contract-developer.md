@@ -13,8 +13,8 @@ This guide shows how to use the SelfAgentRegistry from Solidity to gate smart co
 pragma solidity ^0.8.20;
 
 interface ISelfAgentRegistry {
-    function isVerifiedAgent(bytes32 agentPubKey) external view returns (bool);
-    function getAgentId(bytes32 agentPubKey) external view returns (uint256);
+    function isVerifiedAgent(bytes32 agentKey) external view returns (bool);
+    function getAgentId(bytes32 agentKey) external view returns (uint256);
     function getAgentCredentials(uint256 agentId) external view returns (AgentCredentials memory);
     function sameHuman(uint256 agentIdA, uint256 agentIdB) external view returns (bool);
     function getAgentCountForHuman(uint256 nullifier) external view returns (uint256);
