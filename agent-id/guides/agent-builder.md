@@ -197,6 +197,6 @@ Cards are stored on-chain and readable by any agent or service.
 
 - [Verify agent requests in your API](service-operator.md)
 - [Gate smart contracts by agent ID](contract-developer.md)
-- [SDK README (TypeScript)](https://github.com/selfxyz/self-agent-id/tree/main/sdk)
+- [SDK README (TypeScript)](https://github.com/selfxyz/self-agent-id/tree/main/typescript-sdk)
 - [SDK README (Python)](https://github.com/selfxyz/self-agent-id/tree/main/python-sdk)
 - [SDK README (Rust)](https://github.com/selfxyz/self-agent-id/tree/main/rust-sdk)
