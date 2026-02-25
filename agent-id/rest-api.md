@@ -30,7 +30,7 @@ Returns agent registration details, verification status, and credentials.
   "chainId": 11142220,
   "agentAddress": "0x83fa4380903fecb801F4e123835664973001ff00",
   "isVerified": true,
-  "proofProvider": "0x69Da18CF4Ac27121FD99cEB06e38c3DC78F363f4",
+  "proofProvider": "0x5E61c3051Bf4115F90AacEAE6212bc419f8aBB6c",
   "verificationStrength": 2,
   "strengthLabel": "Standard",
   "credentials": {
@@ -75,7 +75,7 @@ Checks whether an agent has valid proof-of-human verification, the proof provide
 {
   "agentId": 5,
   "isVerified": true,
-  "proofProvider": "0x69Da18CF4Ac27121FD99cEB06e38c3DC78F363f4",
+  "proofProvider": "0x5E61c3051Bf4115F90AacEAE6212bc419f8aBB6c",
   "strengthLabel": "Standard",
   "humanAgentCount": 1,
   "maxAgentsPerHuman": 1
@@ -124,7 +124,7 @@ Returns real-time proof status and freshness.
   "verified": true,
   "proofType": "Standard",
   "registeredAtBlock": "12345678",
-  "providerAddress": "0x69Da18CF4Ac27121FD99cEB06e38c3DC78F363f4"
+  "providerAddress": "0x5E61c3051Bf4115F90AacEAE6212bc419f8aBB6c"
 }
 ```
 

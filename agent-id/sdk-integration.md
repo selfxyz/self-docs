@@ -27,7 +27,7 @@ import { SelfAgent } from "@selfxyz/agent-sdk";
 
 const agent = new SelfAgent({
   privateKey: process.env.AGENT_PRIVATE_KEY!,
-  registryAddress: "0x62e37d0f6c5f67784b8828b3df68bcdbb2e55095",
+  registryAddress: "0xaC3DF9ABf80d0F5c020C06B04Cced27763355944",
   rpcUrl: "https://forno.celo.org",
 });
 
@@ -45,7 +45,7 @@ from self_agent_sdk import SelfAgent
 
 agent = SelfAgent(
     private_key=os.environ["AGENT_PRIVATE_KEY"],
-    registry_address="0x62e37d0f6c5f67784b8828b3df68bcdbb2e55095",
+    registry_address="0xaC3DF9ABf80d0F5c020C06B04Cced27763355944",
     rpc_url="https://forno.celo.org",
 )
 
@@ -61,7 +61,7 @@ use self_agent_sdk::SelfAgent;
 
 let agent = SelfAgent::new(
     &std::env::var("AGENT_PRIVATE_KEY")?,
-    "0x62e37d0f6c5f67784b8828b3df68bcdbb2e55095",
+    "0xaC3DF9ABf80d0F5c020C06B04Cced27763355944",
     "https://forno.celo.org",
 )?;
 
@@ -173,8 +173,24 @@ const registered = await agent.isRegistered();
 
 // Get full agent info
 const info = await agent.getInfo();
-// { agentId, address, agentKey, isVerified, proofProvider }
+// { agentId, address, agentKey, isVerified, proofProvider, proofExpiresAt }
 ```
+
+## Proof Expiry
+
+Agent proofs have a validity window. The SDK exposes expiry information and handles stale proofs:
+
+```typescript
+const info = await agent.getInfo();
+const expiresAt = info.proofExpiresAt; // Unix timestamp (seconds)
+
+// SDK verifiers automatically reject expired proofs
+// 30-day warning threshold for upcoming expiry
+```
+
+{% hint style="warning" %}
+When a proof expires, the agent's `isProofFresh()` returns `false` on-chain. The agent must re-authenticate by scanning their passport again. The soulbound NFT is NOT burned — it remains as a historical record.
+{% endhint %}
 
 ## A2A Agent Cards
 

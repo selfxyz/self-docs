@@ -32,6 +32,16 @@ If your contract receives garbled `userDefinedData`, this is almost certainly th
 2. **Wrong registry address** — Each network has its own registry. See [Smart Contracts](smart-contracts.md) for addresses.
 3. **Agent not yet registered** — Registration requires the Self app callback to complete. Poll with `self_check_registration` or the REST API status endpoint.
 4. **Agent was deregistered** — The soulbound NFT was burned. Re-registration is needed.
+5. **Proof expired** — The agent's human proof has passed its validity window. Check `isProofFresh(agentId)` — if it returns `false`, the agent must re-authenticate by scanning their passport again.
+
+## Agent proof expired
+
+If `isProofFresh()` returns `false` but `hasHumanProof()` returns `true`:
+
+- The proof validity window has elapsed (default: 1 year or document expiry, whichever is sooner)
+- The soulbound NFT is NOT burned — it remains as a historical record
+- The agent must re-authenticate via the Self app to restore fresh status
+- SDK verifiers automatically reject expired proofs with a descriptive error
 
 ## Registration callback never arrives
 

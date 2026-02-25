@@ -13,13 +13,26 @@ This guide shows how to use the SelfAgentRegistry from Solidity to gate smart co
 pragma solidity ^0.8.20;
 
 interface ISelfAgentRegistry {
+    // Agent verification
     function isVerifiedAgent(bytes32 agentKey) external view returns (bool);
     function getAgentId(bytes32 agentKey) external view returns (uint256);
     function getAgentCredentials(uint256 agentId) external view returns (AgentCredentials memory);
+
+    // Proof-of-human (IERC8004ProofOfHuman)
+    function hasHumanProof(uint256 agentId) external view returns (bool);
+    function isProofFresh(uint256 agentId) external view returns (bool);
+    function proofExpiresAt(uint256 agentId) external view returns (uint256);
+    function getProofProvider(uint256 agentId) external view returns (address);
+
+    // Sybil detection
     function sameHuman(uint256 agentIdA, uint256 agentIdB) external view returns (bool);
     function getAgentCountForHuman(uint256 nullifier) external view returns (uint256);
     function getHumanNullifier(uint256 agentId) external view returns (uint256);
-    function getProofProvider(uint256 agentId) external view returns (address);
+
+    // ERC-8004 metadata
+    function setAgentURI(uint256 agentId, string calldata newURI) external;
+    function getMetadata(uint256 agentId, string memory key) external view returns (bytes memory);
+    function setMetadata(uint256 agentId, string calldata key, bytes calldata value) external;
 
     struct AgentCredentials {
         string issuingState;
@@ -80,7 +93,23 @@ function gatedByAge(uint256 minAge) external onlyVerifiedAgent {
 }
 ```
 
-## 4. Sybil Checks
+## 4. Check Proof Freshness
+
+Proofs expire. Always check freshness for security-critical operations:
+
+```solidity
+function requireFreshProof(bytes32 agentKey) internal view {
+    require(registry.isVerifiedAgent(agentKey), "Agent not verified");
+    uint256 agentId = registry.getAgentId(agentKey);
+    require(registry.isProofFresh(agentId), "Human proof expired — re-authentication required");
+}
+```
+
+{% hint style="warning" %}
+`isVerifiedAgent()` checks that the agent has a registered proof, but it does NOT check expiry. For time-sensitive operations, always call `isProofFresh()` as well.
+{% endhint %}
+
+## 5. Sybil Checks
 
 Detect or prevent multiple agents from the same human:
 
@@ -94,7 +123,7 @@ uint256 count = registry.getAgentCountForHuman(nullifier);
 require(count <= maxAllowed, "Too many agents for this human");
 ```
 
-## 5. EIP-712 Meta-Transaction Pattern
+## 6. EIP-712 Meta-Transaction Pattern
 
 For gasless agent verification, use a relayer that submits EIP-712 typed data on behalf of the agent:
 
@@ -129,7 +158,7 @@ function metaVerifyAgent(
 
 See `AgentDemoVerifier.sol` in the repo for a complete implementation.
 
-## 6. Reference Contracts
+## 7. Reference Contracts
 
 The repo includes two demo contracts you can use as templates:
 
@@ -147,29 +176,29 @@ Access gate requiring age-verified agents. Demonstrates direct `msg.sender` veri
 - Source: [`contracts/src/AgentGate.sol`](https://github.com/selfxyz/self-agent-id/blob/main/contracts/src/AgentGate.sol)
 - Key functions: `checkAccess(agentKey)`, `gatedAction(agentKey)`
 
-## 7. Contract Addresses
+## 8. Contract Addresses
 
 ### Celo Mainnet (Chain ID: 42220)
 
 | Contract | Address |
 |----------|---------|
-| SelfAgentRegistry | `0x62e37d0f6c5f67784b8828b3df68bcdbb2e55095` |
-| SelfHumanProofProvider | `0x0B43f87aE9F2AE2a50b3698573B614fc6643A084` |
-| AgentDemoVerifier | `0x0aA08262b0Bd2d07ab15ffc8FFfF3D256291e0b2` |
-| AgentGate | `0x2d710190e018fCf006E38eEB869b25C5F7d82424` |
+| SelfAgentRegistry (proxy) | `0xaC3DF9ABf80d0F5c020C06B04Cced27763355944` |
+| SelfHumanProofProvider | `0x4b036aFD959B457A208F676cf44Ea3ef73Ea3E3d` |
+| AgentDemoVerifier | `0xD8ec054FD869A762bC977AC328385142303c7def` |
+| AgentGate | `0x26e05bF632fb5bACB665ab014240EAC1413dAE35` |
 | Hub V2 | `0xe57F4773bd9c9d8b6Cd70431117d353298B9f5BF` |
 
 ### Celo Sepolia Testnet (Chain ID: 11142220)
 
 | Contract | Address |
 |----------|---------|
-| SelfAgentRegistry | `0x42cea1b318557ade212bed74fc3c7f06ec52bd5b` |
-| SelfHumanProofProvider | `0x69Da18CF4Ac27121FD99cEB06e38c3DC78F363f4` |
-| AgentDemoVerifier | `0x26e05bF632fb5bACB665ab014240EAC1413dAE35` |
-| AgentGate | `0x71a025e0e338EAbcB45154F8b8CA50b41e7A0577` |
+| SelfAgentRegistry (proxy) | `0x043DaCac8b0771DD5b444bCC88f2f8BBDBEdd379` |
+| SelfHumanProofProvider | `0x5E61c3051Bf4115F90AacEAE6212bc419f8aBB6c` |
+| AgentDemoVerifier | `0xc31BAe8f2d7FCd19f737876892f05d9bDB294241` |
+| AgentGate | `0x86Af07e30Aa42367cbcA7f2B1764Be346598bbc2` |
 | Hub V2 | `0x16ECBA51e18a4a7e61fdC417f0d47AFEeDfbed74` |
 
-## 8. Foundry Setup
+## 9. Foundry Setup
 
 {% hint style="warning" %}
 Hub V2 uses the `PUSH0` opcode. You must use `--evm-version cancun` for all Foundry commands.
