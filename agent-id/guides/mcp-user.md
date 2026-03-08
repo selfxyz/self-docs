@@ -58,9 +58,13 @@ Add to your MCP configuration file:
 | Variable | Required | Default | Description |
 |----------|:--------:|---------|-------------|
 | `SELF_AGENT_PRIVATE_KEY` | No | — | Agent private key (hex). Enables identity and auth tools. |
-| `SELF_NETWORK` | No | `testnet` | `mainnet` or `testnet` |
+| `SELF_NETWORK` | No | `mainnet` | `mainnet` or `testnet` |
 | `SELF_RPC_URL` | No | Network default | Custom RPC endpoint |
 | `SELF_API_URL` | No | `https://selfagentid.xyz` | Custom API base URL |
+
+{% hint style="info" %}
+**Mainnet is the default.** Registration on mainnet requires a real passport via the Self app. Use `SELF_NETWORK=testnet` for development — testnet also requires the Self app, but you can generate mock documents within the app instead of using a real passport.
+{% endhint %}
 
 ## Query-Only Mode
 
@@ -78,7 +82,7 @@ Without `SELF_AGENT_PRIVATE_KEY`, these tools work for looking up and verifying 
 ### Example prompts
 
 ```
-Look up Self Agent ID #5 on testnet.
+Look up Self Agent ID #5 on mainnet.
 ```
 
 ```
@@ -86,7 +90,7 @@ Verify if address 0x83fa4380903fecb801F4e123835664973001ff00 is a registered age
 ```
 
 ```
-List all agents registered to 0xYourAddress on testnet.
+List all agents registered to 0xYourAddress on mainnet.
 ```
 
 ## Full Mode
@@ -137,7 +141,7 @@ This generates framework-specific code using `SelfAgentVerifier` for Express, Fa
 
 ### Register and verify
 
-1. "Register me as a Self Agent on testnet"
+1. "Register me as a Self Agent on mainnet"
 2. Scan passport when prompted
 3. "Check my registration status"
 4. "What's my agent identity?"

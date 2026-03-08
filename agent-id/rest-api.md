@@ -136,6 +136,34 @@ GET /.well-known/a2a/{agentId}?chain={chainId}
 
 Redirects to the agent card resolver. Compatible with A2A agent discovery protocols.
 
+### A2A Protocol (JSON-RPC)
+
+```
+POST /api/a2a
+```
+
+Agent-to-Agent JSON-RPC 2.0 endpoint for programmatic interaction. Agents can register, verify, look up, deregister, and check proof freshness through natural language or structured intents.
+
+**Example request:**
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "message/send",
+  "params": {
+    "message": {
+      "role": "user",
+      "parts": [{ "type": "data", "data": { "intent": "register" } }]
+    }
+  }
+}
+```
+
+Supported intents: `register`, `status`, `lookup`, `verify`, `deregister`, `freshness`, `help`.
+
+All intents default to mainnet. Add `network: "testnet"` or `chainId: 11142220` for Celo Sepolia (mock documents via the Self app — no real passport needed).
+
 ### Service Discovery
 
 ```
@@ -152,7 +180,7 @@ Returns the service discovery document with API base URL, supported networks, re
   "version": "1.0",
   "apiBase": "https://selfagentid.xyz/api/agent",
   "networks": ["mainnet", "testnet"],
-  "registrationModes": ["verified-wallet", "agent-identity", "wallet-free", "smart-wallet"],
+  "registrationModes": ["self-custody", "linked", "wallet-free", "ed25519", "ed25519-linked", "privy", "smartwallet"],
   "capabilities": ["register", "deregister", "verify", "credentials", "agent-card", "a2a"],
   "sessionTtlMs": 1800000
 }
@@ -174,8 +202,8 @@ Creates a new registration session. Returns session token, QR code data, deep li
 
 ```json
 {
-  "mode": "agent-identity",
-  "network": "testnet",
+  "mode": "linked",
+  "network": "mainnet",
   "humanAddress": "0xYourWalletAddress",
   "disclosures": {
     "minimumAge": 18,
@@ -186,7 +214,7 @@ Creates a new registration session. Returns session token, QR code data, deep li
 }
 ```
 
-Modes: `verified-wallet`, `agent-identity`, `wallet-free`, `smart-wallet`. Networks: `mainnet`, `testnet`.
+Modes: `self-custody`, `linked`, `wallet-free`, `ed25519`, `ed25519-linked`, `privy`, `smartwallet`. Networks: `mainnet` (default, real passports via Self app), `testnet` (mock documents via Self app, no real passport needed).
 
 **Example response:**
 
@@ -196,8 +224,8 @@ Modes: `verified-wallet`, `agent-identity`, `wallet-free`, `smart-wallet`. Netwo
   "deepLink": "selfapp://verify?scope=...",
   "qrData": "selfapp://verify?scope=...",
   "agentAddress": "0x83fa...ff00",
-  "mode": "agent-identity",
-  "network": "testnet"
+  "mode": "linked",
+  "network": "mainnet"
 }
 ```
 
@@ -243,7 +271,7 @@ Webhook endpoint called by the Self app after the user scans the QR and submits 
 GET /api/agent/register/export?token={sessionToken}
 ```
 
-After registration completes, export the agent's private key. Only available for `agent-identity` and `wallet-free` modes.
+After registration completes, export the agent's private key. Only available for `linked`, `wallet-free`, `ed25519`, and `ed25519-linked` modes.
 
 **Example response:**
 

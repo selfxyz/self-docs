@@ -189,7 +189,7 @@ const expiresAt = info.proofExpiresAt; // Unix timestamp (seconds)
 ```
 
 {% hint style="warning" %}
-When a proof expires, the agent's `isProofFresh()` returns `false` on-chain. The agent must re-authenticate by scanning their passport again. The soulbound NFT is NOT burned — it remains as a historical record.
+When a proof expires, the agent's `isProofFresh()` returns `false` on-chain. There is no on-chain refresh mechanism — the agent must deregister and re-register with a fresh proof (scanning their passport again). The soulbound NFT is NOT burned — it remains as a historical record.
 {% endhint %}
 
 ## A2A Agent Cards
@@ -210,3 +210,4 @@ const card = await buildAgentCard(agent, {
 Cards follow the A2A format and are queryable via:
 - `GET /api/cards/{chainId}/{agentId}`
 - `GET /.well-known/a2a/{agentId}?chain={chainId}`
+- `POST /api/a2a` — A2A JSON-RPC endpoint for agent-to-agent communication

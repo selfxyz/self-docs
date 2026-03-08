@@ -38,10 +38,14 @@ No personal data ever leaves the user's device. Only a ZK proof and nullifier ar
 
 ## Networks
 
-| Network | Chain ID | Registry Address |
-|---------|----------|-----------------|
-| Celo Mainnet | `42220` | `0xaC3DF9ABf80d0F5c020C06B04Cced27763355944` |
-| Celo Sepolia | `11142220` | `0x043DaCac8b0771DD5b444bCC88f2f8BBDBEdd379` |
+| Network | Chain ID | Registry Address | Passport Required |
+|---------|----------|-----------------|-------------------|
+| Celo Mainnet (default) | `42220` | `0xaC3DF9ABf80d0F5c020C06B04Cced27763355944` | Real passport via Self app |
+| Celo Sepolia (testnet) | `11142220` | `0x043DaCac8b0771DD5b444bCC88f2f8BBDBEdd379` | Mock documents via Self app |
+
+{% hint style="warning" %}
+**Mainnet is the default.** Registration requires a real passport scanned with the Self app. Testnet also requires the Self app, but you can generate mock documents within the app instead of using a real passport. Testnet is for development and testing only.
+{% endhint %}
 
 {% hint style="warning" %}
 Celo Sepolia chain ID is **11142220**, not 44787 (deprecated Alfajores).
@@ -51,6 +55,12 @@ Celo Sepolia chain ID is **11142220**, not 44787 (deprecated Alfajores).
 
 - Web app: [https://selfagentid.xyz](https://selfagentid.xyz)
 - GitHub: [https://github.com/selfxyz/self-agent-id](https://github.com/selfxyz/self-agent-id)
+
+## A2A Protocol
+
+Agents can interact programmatically via the A2A JSON-RPC endpoint at `/api/a2a`. This supports registration, verification, lookup, deregistration, and proof freshness checks — all through structured intents or natural language.
+
+Send `{ "intent": "help" }` to get a full list of capabilities and a decision guide for choosing the right registration mode.
 
 ## Architecture
 
@@ -67,3 +77,4 @@ Plus SDKs in TypeScript, Python, and Rust with identical feature parity for sign
 - [Registration Modes](registration-modes.md) — Choose how to register your agent
 - [SDK Integration](sdk-integration.md) — Sign and verify agent requests
 - [Smart Contracts](smart-contracts.md) — On-chain gating, queries, and the full ERC-8004 interface
+- [A2A Protocol & REST API](rest-api.md) — Programmatic agent interaction via JSON-RPC

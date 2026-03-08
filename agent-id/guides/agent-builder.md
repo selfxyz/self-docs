@@ -18,14 +18,17 @@ All three SDKs have identical functionality with language-idiomatic naming.
 
 ## 2. Register Your Agent
 
-Four registration modes — choose based on your use case:
+Seven registration modes — choose based on your use case:
 
 | Mode | Best for | Wallet needed? |
 |------|----------|:-:|
-| `verified-wallet` | Human-operated agents, DeFi gating | Yes |
-| `agent-identity` | Autonomous AI agents (recommended) | Yes (human's) |
 | `wallet-free` | Embedded agents, IoT, CLI-only | No |
-| `smart-wallet` | Consumer-facing, passkey UX | No |
+| `ed25519` | OpenClaw, Eliza, IronClaw agents | No |
+| `linked` | Autonomous AI agents (recommended) | Yes (human's) |
+| `ed25519-linked` | Ed25519 agents with human wallet | Yes (human's) |
+| `self-custody` | Human-operated agents, DeFi gating | Yes |
+| `privy` | Social login (Google, Twitter) | No |
+| `smartwallet` | Consumer-facing, passkey UX | No |
 
 ### Via the dApp (simplest)
 
@@ -42,9 +45,9 @@ npm install -g @selfxyz/agent-sdk
 
 # Initialize registration
 self-agent register init \
-  --mode agent-identity \
+  --mode linked \
   --human-address 0xYourWallet \
-  --network testnet \
+  --network mainnet \
   --minimum-age 18 \
   --ofac
 
@@ -58,14 +61,36 @@ self-agent register wait --session .self/session-*.json
 self-agent register export --session .self/session-*.json --unsafe --print-private-key
 ```
 
+### Via A2A Protocol (for agents)
+
+Agents can self-register by sending a JSON-RPC request to the A2A endpoint:
+
+```bash
+curl -X POST https://selfagentid.xyz/api/a2a \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "message/send",
+    "params": {
+      "message": {
+        "role": "user",
+        "parts": [{ "type": "data", "data": { "intent": "register" } }]
+      }
+    }
+  }'
+```
+
+The endpoint returns a QR code and deep link. A human scans the QR with the Self app to complete verification. Send `{ "intent": "help" }` to see all available modes and a decision guide.
+
 ### Via REST API
 
 ```bash
 curl -X POST https://selfagentid.xyz/api/agent/register \
   -H "Content-Type: application/json" \
   -d '{
-    "mode": "agent-identity",
-    "network": "testnet",
+    "mode": "linked",
+    "network": "mainnet",
     "humanAddress": "0xYourWallet",
     "disclosures": { "minimumAge": 18, "ofac": true }
   }'
@@ -185,8 +210,8 @@ Cards are stored on-chain and readable by any agent or service.
 **`userDefinedData` is UTF-8, not raw bytes.** The Self SDK passes `userDefinedData` as a UTF-8 string. Each byte position uses the ASCII character (`'0'` not `0x00`). This is the #1 integration mistake.
 {% endhint %}
 
-{% hint style="info" %}
-**Testnet vs Mainnet.** Celo Sepolia chain ID is `11142220` (not `44787`). Smart wallet mode is counterfactual-only on testnet; gasless on mainnet.
+{% hint style="warning" %}
+**Mainnet uses real passports. Testnet uses mock documents.** Registration defaults to Celo Mainnet (chain ID 42220) which requires a real passport scan via the Self app. Use `network: "testnet"` (chain ID 11142220) for testing — testnet also requires the Self app, but you can generate mock documents within the app instead of using a real passport.
 {% endhint %}
 
 {% hint style="info" %}

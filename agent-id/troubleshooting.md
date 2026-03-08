@@ -130,6 +130,20 @@ forge verify-contract <address> <Contract> \
   --verifier sourcify
 ```
 
+## "InvalidIdentityCommitmentRoot" error
+
+You're using the wrong network. Real passports only work on **mainnet** (Celo, chain ID 42220). Mock documents only work on **testnet** (Celo Sepolia, chain ID 11142220). Make sure your registration network matches your document type.
+
+## A2A endpoint unreachable
+
+If other agents cannot reach your A2A endpoint:
+
+1. **Endpoint not registered** — The `agentURI` metadata must include the A2A endpoint URL. Check that `setAgentURI()` was called after registration.
+2. **Firewall / NAT** — Your A2A server must be publicly reachable. If running locally, use a tunnel (e.g., `ngrok`) and register the tunnel URL as your endpoint.
+3. **TLS required** — A2A endpoints must be served over HTTPS. Plain HTTP connections are rejected by most agent runtimes.
+4. **CORS misconfigured** — If the calling agent is browser-based, your A2A server must return appropriate `Access-Control-Allow-Origin` headers.
+5. **Wrong path** — The default A2A path is `/.well-known/agent.json` for the agent card. Ensure your server serves the agent card at that path and the `url` field inside it points to the correct task endpoint.
+
 ## MCP "no identity" error
 
 If MCP tools that require identity (sign, fetch, get identity) fail:

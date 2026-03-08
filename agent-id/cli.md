@@ -42,13 +42,17 @@ The CLI uses a **browser handoff** pattern: the terminal creates a session, gene
 
 ```bash
 self-agent register init \
-  --mode agent-identity \
+  --mode linked \
   --human-address 0xYourWalletAddress \
-  --network testnet \
+  --network mainnet \
   --out .self/session.json
 ```
 
-**Modes:** `verified-wallet`, `agent-identity`, `wallet-free`, `smart-wallet`
+**Modes:** `self-custody`, `linked`, `wallet-free`, `ed25519`, `ed25519-linked`, `smartwallet`
+
+{% hint style="info" %}
+The default network is **mainnet**, which requires a real passport scanned via the Self app. Use `--network testnet` for development — testnet also requires the Self app, but you can generate mock documents within the app instead of using a real passport.
+{% endhint %}
 
 ### Step 2: Open Browser Handoff
 
@@ -87,9 +91,9 @@ Outputs the agent address, agent key (bytes32), agent ID, and private key for us
 ```bash
 # Create deregistration session
 self-agent deregister init \
-  --mode verified-wallet \
+  --mode self-custody \
   --human-address 0xYourWalletAddress \
-  --network testnet \
+  --network mainnet \
   --out .self/session-deregister.json
 
 # Open browser for Self proof
@@ -98,6 +102,43 @@ self-agent deregister open --session .self/session-deregister.json
 # Wait for completion
 self-agent deregister wait --session .self/session-deregister.json
 ```
+
+## Ed25519 Registration
+
+For agents that use Ed25519 keys instead of Ethereum wallets. Two modes are available:
+
+### Standalone Ed25519
+
+Register an agent identified solely by its Ed25519 public key:
+
+```bash
+self-agent register init \
+  --mode ed25519 \
+  --ed25519-pubkey <hex> \
+  --ed25519-signature <hex> \
+  --network mainnet \
+  --out .self/session.json
+```
+
+### Ed25519 Linked to Human
+
+Register an Ed25519 agent linked to a human's Ethereum address:
+
+```bash
+self-agent register init \
+  --mode ed25519-linked \
+  --ed25519-pubkey <hex> \
+  --ed25519-signature <hex> \
+  --human-address 0xYourWalletAddress \
+  --network mainnet \
+  --out .self/session.json
+```
+
+{% hint style="info" %}
+The `--ed25519-signature` is a hex-encoded signature over the session challenge, proving ownership of the Ed25519 private key. The `--ed25519-pubkey` is the hex-encoded 32-byte public key.
+{% endhint %}
+
+After `init`, the remaining steps (`open`, `wait`, `status`, `export`) are identical to the standard registration flow.
 
 ## Agent-Guided Flow (Recommended)
 
@@ -119,8 +160,8 @@ The session file (`.self/session.json`) contains:
 ```json
 {
   "version": 1,
-  "mode": "agent-identity",
-  "network": "testnet",
+  "mode": "linked",
+  "network": "mainnet",
   "humanAddress": "0x...",
   "agentAddress": "0x...",
   "agentPrivateKey": "0x...",
@@ -133,7 +174,7 @@ The session file (`.self/session.json`) contains:
 
 ## Network Flag
 
-| Value | Chain |
-|-------|-------|
-| `mainnet` | Celo Mainnet (42220) |
-| `testnet` | Celo Sepolia (11142220) |
+| Value | Chain | Notes |
+|-------|-------|-------|
+| `mainnet` (default) | Celo Mainnet (42220) | Real passports required |
+| `testnet` | Celo Sepolia (11142220) | Mock documents only |
