@@ -18,7 +18,7 @@ All three SDKs have identical functionality with language-idiomatic naming.
 
 ## 2. Register Your Agent
 
-Seven registration modes — choose based on your use case:
+Six registration modes — choose based on your use case:
 
 | Mode | Best for | Wallet needed? |
 |------|----------|:-:|
@@ -26,7 +26,6 @@ Seven registration modes — choose based on your use case:
 | `ed25519` | OpenClaw, Eliza, IronClaw agents | No |
 | `linked` | Autonomous AI agents (recommended) | Yes (human's) |
 | `ed25519-linked` | Ed25519 agents with human wallet | Yes (human's) |
-| `self-custody` | Human-operated agents, DeFi gating | Yes |
 | `privy` | Social login (Google, Twitter) | No |
 | `smartwallet` | Consumer-facing, passkey UX | No |
 

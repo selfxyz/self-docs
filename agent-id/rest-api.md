@@ -180,7 +180,7 @@ Returns the service discovery document with API base URL, supported networks, re
   "version": "1.0",
   "apiBase": "https://selfagentid.xyz/api/agent",
   "networks": ["mainnet", "testnet"],
-  "registrationModes": ["self-custody", "linked", "wallet-free", "ed25519", "ed25519-linked", "privy", "smartwallet"],
+  "registrationModes": ["linked", "wallet-free", "ed25519", "ed25519-linked", "privy", "smartwallet"],
   "capabilities": ["register", "deregister", "verify", "credentials", "agent-card", "a2a"],
   "sessionTtlMs": 1800000
 }
@@ -214,7 +214,7 @@ Creates a new registration session. Returns session token, QR code data, deep li
 }
 ```
 
-Modes: `self-custody`, `linked`, `wallet-free`, `ed25519`, `ed25519-linked`, `privy`, `smartwallet`. Networks: `mainnet` (default, real passports via Self app), `testnet` (mock documents via Self app, no real passport needed).
+Modes: `linked`, `wallet-free`, `ed25519`, `ed25519-linked`, `privy`, `smartwallet`. Networks: `mainnet` (default, real passports via Self app), `testnet` (mock documents via Self app, no real passport needed).
 
 **Example response:**
 

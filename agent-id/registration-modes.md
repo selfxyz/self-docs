@@ -1,10 +1,10 @@
 ---
-description: Seven registration modes for AI agents with proof-of-human verification
+description: Six registration modes for AI agents with proof-of-human verification
 ---
 
 # Registration Modes
 
-Self Agent ID supports seven registration modes. All produce the same on-chain result — a soulbound NFT with ZK proof-of-human — but they differ in key type, wallet requirements, and user experience. Two modes (privy and smartwallet) are UI wrappers that use the same underlying contract flows.
+Self Agent ID supports six registration modes. All produce the same on-chain result — a soulbound NFT with ZK proof-of-human — but they differ in key type, wallet requirements, and user experience. Two modes (privy and smartwallet) are UI wrappers that use the same underlying contract flows.
 
 ## Networks
 
@@ -37,11 +37,8 @@ Mainnet is the default network. Real passport verification requires the Self mob
         No        Yes         Wallet  Social  Passkey
          │         │          required login
          ▼         ▼             │      │      │
-    ed25519   ed25519-      ┌───┴──┐   ▼      ▼
-              linked        │      │ privy  smartwallet
-                            ▼      ▼
-                      self-    linked
-                      custody  (Recommended)
+    ed25519   ed25519-        linked   ▼      ▼
+              linked      (Recommended) privy  smartwallet
                                    │
                               No wallet at all?
                                    │
@@ -53,25 +50,12 @@ Mainnet is the default network. Real passport verification requires the Self mob
 
 | Mode | Wallet Required? | NFT Owner | Agent Key Type | Best For |
 |------|-----------------|-----------|----------------|----------|
-| **self-custody** | Yes (MetaMask, etc.) | Human's wallet | Wallet address (ECDSA) | Humans registering their own wallet as agent |
 | **linked** (Recommended) | Yes (registration only) | Human's wallet | Independent ECDSA keypair | Autonomous agents with human oversight |
 | **wallet-free** | No | Agent's address | Independent ECDSA keypair | Non-crypto users, embedded agents |
 | **ed25519** | No | Derived from pubkey | Ed25519 keypair | OpenClaw/Eliza/IronClaw agents |
 | **ed25519-linked** | Yes (registration only) | Human's wallet | Ed25519 keypair | Ed25519 agents with human wallet binding |
 | **privy** | No (social login) | Human's wallet | Independent ECDSA keypair | OAuth users (Google, Twitter, etc.) |
 | **smartwallet** | No (passkey) | Agent's address | Independent ECDSA keypair | Passkey UX, gasless management |
-
-## Self-Custody
-
-The human's wallet address becomes the agent key. No extra keypair to manage.
-
-**Flow:**
-
-1. Connect browser wallet (MetaMask, etc.)
-2. Scan passport with Self app — ZK proof binds wallet address to human nullifier
-3. Agent key is derived as `bytes32(uint256(uint160(walletAddress)))` inside the contract callback
-
-**Use when:** Your wallet IS the agent — DAOs, token gating, DeFi access, or any scenario where the human directly controls the agent identity.
 
 ## Linked (Recommended)
 

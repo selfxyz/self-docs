@@ -48,7 +48,7 @@ self-agent register init \
   --out .self/session.json
 ```
 
-**Modes:** `self-custody`, `linked`, `wallet-free`, `ed25519`, `ed25519-linked`, `smartwallet`
+**Modes:** `linked`, `wallet-free`, `ed25519`, `ed25519-linked`, `smartwallet`
 
 {% hint style="info" %}
 The default network is **mainnet**, which requires a real passport scanned via the Self app. Use `--network testnet` for development — testnet also requires the Self app, but you can generate mock documents within the app instead of using a real passport.
@@ -91,7 +91,7 @@ Outputs the agent address, agent key (bytes32), agent ID, and private key for us
 ```bash
 # Create deregistration session
 self-agent deregister init \
-  --mode self-custody \
+  --mode linked \
   --human-address 0xYourWalletAddress \
   --network mainnet \
   --out .self/session-deregister.json
