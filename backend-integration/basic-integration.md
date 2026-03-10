@@ -48,7 +48,7 @@ Call `.verify()` with the attestation ID, proof, public signals, and user contex
 
 ```typescript
 const result = await selfBackendVerifier.verify(
-    attestationId, // e.g. AttestationId.Passport
+    attestationId, // e.g. AttestationId.PASSPORT / BIOMETRIC_ID_CARD / AADHAAR / SELFRICA_ID_CARD (KYC)
     proof, // zkSNARK proof object
     pubSignals, // array of public signals from prover
     userContextData //user context data
@@ -210,7 +210,7 @@ Verifies a Self Identity proof.
 
 ## Accepting only certain type of documents
 
-If you want to only accept certain types of documents (for example if you don't want to use Aadhaar) then you can create a map that has all attestation ids other than Aadhaar.
+If you want to only accept certain types of documents (for example if you don't want to use Aadhaar or KYC) then you can create a map with only the attestation IDs you allow.
 
 ```typescript
 import { ATTESTATION_ID, AttestationId } from "@selfxyz/core"
@@ -218,5 +218,7 @@ import { ATTESTATION_ID, AttestationId } from "@selfxyz/core"
 const allowedIds = new Map<AttestationId, boolean>([
     [ATTESTATION_ID.PASSPORT, true],
     [ATTESTATION_ID.BIOMETRIC_ID_CARD, true],
+    // [ATTESTATION_ID.AADHAAR, true],
+    // [ATTESTATION_ID.SELFRICA_ID_CARD, true], // KYC (Sumsub)
 ]);
 ```

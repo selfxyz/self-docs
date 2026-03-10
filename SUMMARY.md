@@ -35,6 +35,7 @@
 ## Document Specification
 
 * [Aadhaar](document-specification/aadhaar.md)
+* [KYC (Sumsub)](document-specification/kyc-sumsub.md)
 
 ## Mobile SDK
 
@@ -51,6 +52,22 @@
 * [Introduction & Overview](self-connect/introduction-and-overview.md)
 * [Architecture & How It Works](self-connect/architecture-and-how-it-works.md)
 * [Developer Guide](self-connect/developer-guide.md)
+
+## Agent ID
+
+* [Overview](agent-id/overview.md)
+* [Registration Modes](agent-id/registration-modes.md)
+* [SDK Integration](agent-id/sdk-integration.md)
+* [Verification Patterns](agent-id/verification-patterns.md)
+* [Smart Contracts](agent-id/smart-contracts.md)
+* [REST API](agent-id/rest-api.md)
+* [CLI](agent-id/cli.md)
+* [Guides](agent-id/guides/agent-builder.md)
+  * [Building an Agent](agent-id/guides/agent-builder.md)
+  * [Verifying Agents (Service)](agent-id/guides/service-operator.md)
+  * [Gating Smart Contracts](agent-id/guides/contract-developer.md)
+  * [Using MCP Server](agent-id/guides/mcp-user.md)
+* [Troubleshooting](agent-id/troubleshooting.md)
 
 ***
 

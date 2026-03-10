@@ -1,13 +1,17 @@
 # Happy Birthday Example
 
-This example demonstrates the V2 [Happy Birthday contract](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/HappyBirthday.sol) that distributes USDC to users on their birthday, with document type bonuses and support for both E-Passport and EU ID Card verification.
+This example demonstrates the V2 [Happy Birthday contract](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/HappyBirthday.sol) that distributes USDC to users on their birthday, with document type bonuses.
 
 ## Birthday-Specific Features
 
 * **Birthday Window Validation:** Configurable time window around user's birthday
-* **Document Type Bonuses:** Different reward multipliers for E-Passport vs EU ID cards
+* **Document Type Bonuses (example scope):** Different reward multipliers for E-Passport vs EU ID cards
 * **Date Processing:** Simplified handling of pre-extracted V2 date attributes
 * **One-time Claims:** Nullifier prevents multiple birthday claims
+
+{% hint style="info" %}
+Self V2 supports additional attestation types (Aadhaar and KYC). This example contract demonstrates bonus logic only for E-Passport and EU ID card.
+{% endhint %}
 
 For standard V2 integration patterns, see [Basic Integration Guide](basic-integration.md).
 

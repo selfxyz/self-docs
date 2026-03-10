@@ -27,7 +27,7 @@ pnpm i @selfxyz/qrcode
 
 ## Usage (Desktop)
 
-The `SelfQRCode` component is responsible for storing information about your app. This information includes data about the mock / real passports, the userId you want to store etc. along with information about the config that should be checked for a given proof.
+The `SelfQRCode` component is responsible for storing information about your app. This includes data about mock/real document verification mode, the userId you want to store, and the config that should be checked for a given proof.
 
 This involves 2 steps:
 
@@ -50,7 +50,7 @@ export default function Verify() {
       version: 2,
       appName: process.env.NEXT_PUBLIC_SELF_APP_NAME || 'Self Docs',
       scope: process.env.NEXT_PUBLIC_SELF_SCOPE || 'self-docs',
-      endpoint: `${process.env.NEXT_PUBLIC_SELF_ENDPOINT}`, // Must be in lowercase (non checksum)
+      endpoint: `${process.env.NEXT_PUBLIC_SELF_ENDPOINT}`,
       logoBase64: 'https://i.postimg.cc/mrmVf9hm/self.png',
       userId,
       endpointType: 'staging_celo',
@@ -101,7 +101,7 @@ The claims you want to verify MUST exactly match the ones you set in your backen
 {% endhint %}
 
 {% hint style="danger" %}
-If you're using a contract to verify your proofs then please sure the contract address is in lowercase.
+If you're using a contract to verify proofs, ensure `endpoint` points to the correct deployed contract address for the selected `endpointType` network.
 {% endhint %}
 
 ## Usage (Mobile)

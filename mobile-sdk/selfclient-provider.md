@@ -168,6 +168,9 @@ addListener(SdkEvents.DOCUMENT_TYPE_SELECTED, ({ documentType, countryCode }) =>
     case 'a': // Aadhaar
       navigation.navigate('AadhaarUpload', { countryCode });
       break;
+    case 'kyc': // KYC (Sumsub)
+      navigation.navigate('KycIntro', { countryCode });
+      break;
     default:
       navigation.navigate('ComingSoon', { countryCode });
   }

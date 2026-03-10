@@ -18,8 +18,6 @@ If you are using AI models to build your app and are encoutering issues, verify 
 
 There is a mismatch of the scope value between the smart contract and the front end. Check the `scopeSeed` value that was used to deploy the smart contract (in your .env/deployment script/smart contract). Then, check the scope value you are passing into the `SelfAppBuilder` object you are building on your frontend (e.g. in your page.tsx). Ensure the `scope` string in `SelfAppBuilder` is the same as the `scopeSeed` used in your contract.
 
-You should also ensure that the `endpoint` used for `SelfAppBuilder` is in lowercase (unchecksum/not in checksum format), if you are using an onchain contract address.
-
 ### Invalid 'to' address
 
 There is a mismatch between `endpoint` and `endpoint-type` in the `SelfAppBuilder` object.

@@ -53,7 +53,7 @@ import IDSelectionScreen from '@selfxyz/mobile-sdk-alpha/onboarding/id-selection
 
 <IDSelectionScreen 
   countryCode="USA"
-  documentTypes={['p', 'i']} // p = passport, i = ID card, a = aadhaar
+  documentTypes={['p', 'i', 'kyc']} // p = passport, i = ID card, a = aadhaar, kyc = Sumsub flow
 />
 ```
 
@@ -62,7 +62,7 @@ import IDSelectionScreen from '@selfxyz/mobile-sdk-alpha/onboarding/id-selection
 - `documentTypes: string[]` - Available document types for the country
 
 **Behavior:**
-- Shows document type cards with icons (passport, ID card, Aadhaar, etc.)
+- Shows document type cards with icons (passport, ID card, Aadhaar, KYC, etc.)
 - Handles document type selection
 - Emits `DOCUMENT_TYPE_SELECTED` event with selected type and country
 - Provides visual feedback for selections

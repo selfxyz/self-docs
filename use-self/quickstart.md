@@ -92,7 +92,7 @@ function VerificationPage() {
         version: 2,
         appName: process.env.NEXT_PUBLIC_SELF_APP_NAME || "Self Workshop",
         scope: process.env.NEXT_PUBLIC_SELF_SCOPE || "self-workshop",
-        endpoint: `${process.env.NEXT_PUBLIC_SELF_ENDPOINT}`, // Must be in lowercase (non checksum)
+        endpoint: `${process.env.NEXT_PUBLIC_SELF_ENDPOINT}`,
         logoBase64: "https://i.postimg.cc/mrmVf9hm/self.png",
         userId: userId,
         endpointType: "staging_https",
@@ -223,7 +223,7 @@ export async function POST(req: Request) {
 
     // Verify the proof
     const result = await selfBackendVerifier.verify(
-      attestationId,    // Document type (1 = passport, 2 = EU ID card, 3 = Aadhaar)
+      attestationId,    // Document type (1 = passport, 2 = EU ID card, 3 = Aadhaar, 4 = KYC/Sumsub)
       proof,            // The zero-knowledge proof
       publicSignals,    // Public signals array
       userContextData   // User context data (hex string)

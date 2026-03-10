@@ -6,13 +6,17 @@ description: An in-depth overview of the Self protocol.
 
 ### Introduction
 
-The Self protocol is an identity protocol designed to let people use their real-world attestation in a permissionless way, for Sybil resistance and selective disclosure. Our core thesis is that web-of-trust systems are hard to scale securely, and biometric verification à la Worldcoin has a long way to go, so bootstrapping from existing sources of trust like institutions is the most pragmatic way to verify identities securely today and in a privacy preserving way. We’re starting with passports, and national IDs.
+The Self protocol is an identity protocol designed to let people use their real-world attestation in a permissionless way, for Sybil resistance and selective disclosure. Our core thesis is that web-of-trust systems are hard to scale securely, and biometric verification à la Worldcoin has a long way to go, so bootstrapping from existing sources of trust like institutions is the most pragmatic way to verify identities securely today and in a privacy preserving way. We support passports, national IDs, Aadhaar, and KYC attestations.
 
 Self has **three** main components:
 
-* A mobile app that lets users easily scan the NFC chip in their passport. The mobile app operates both on iOS and Android, and performs the authentication mechanisms required by the passport to read the content of its chip (BAC/PACE).
-* Zero-knowledge circuits that can be used to verify the validity of certificates and passports, generate identity commitments and selectively disclose attributes.
+* A mobile app that supports multiple identity flows (passport NFC, ID document flows, Aadhaar, and KYC/Sumsub). The app operates on both iOS and Android.
+* Zero-knowledge circuits that can be used to verify the validity of supported attestations, generate identity commitments and selectively disclose attributes.
 * Smart contracts that verify proofs, manage a merkle tree of identity commitments and allow for onchain disclosure of data while guaranteeing the permissionless aspect of the protocol.
+
+{% hint style="info" %}
+KYC attestations (attestation ID `4`) are generated through the Sumsub integration flow and are verified through the same V2 verification stack.
+{% endhint %}
 
 ### Background on Biometric Passports
 
