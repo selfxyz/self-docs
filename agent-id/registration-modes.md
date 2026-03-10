@@ -35,30 +35,28 @@ Mainnet is the default network. Real passport verification requires the Self mob
      └───┬─────────┬───┘      └──┬──────┬──────┬─────┘
          │         │             │      │      │
         No        Yes         Wallet  Social  Passkey
-         │         │          required login
+         │         │             │    login
          ▼         ▼             │      │      │
-    ed25519   ed25519-        linked   ▼      ▼
-              linked      (Recommended) privy  smartwallet
-                                   │
-                              No wallet at all?
-                                   │
-                                   ▼
-                              wallet-free
+    ed25519   ed25519-      ┌───┴───┐  ▼      ▼
+              linked        │       │ privy  smartwallet
+                           Yes     No
+                            │      │
+                            ▼      ▼
+                         linked  wallet-free
 ```
 
 ## Mode Comparison
 
 | Mode | Wallet Required? | NFT Owner | Agent Key Type | Best For |
 |------|-----------------|-----------|----------------|----------|
-| **linked** (Recommended) | Yes (registration only) | Human's wallet | Independent ECDSA keypair | Autonomous agents with human oversight |
+| **linked** | Yes (registration only) | Human's wallet | Independent ECDSA keypair | Autonomous agents with human oversight |
 | **wallet-free** | No | Agent's address | Independent ECDSA keypair | Non-crypto users, embedded agents |
 | **ed25519** | No | Derived from pubkey | Ed25519 keypair | OpenClaw/Eliza/IronClaw agents |
 | **ed25519-linked** | Yes (registration only) | Human's wallet | Ed25519 keypair | Ed25519 agents with human wallet binding |
 | **privy** | No (social login) | Human's wallet | Independent ECDSA keypair | OAuth users (Google, Twitter, etc.) |
 | **smartwallet** | No (passkey) | Agent's address | Independent ECDSA keypair | Passkey UX, gasless management |
 
-## Linked (Recommended)
-
+## Linked
 The agent generates its own dedicated ECDSA keypair. The human's wallet is used only during registration to establish ownership.
 
 **Flow:**
