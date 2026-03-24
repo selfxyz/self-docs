@@ -78,8 +78,8 @@ if (attestationId == AttestationId.E_PASSPORT) {
     // Route to EU ID card verification logic
 } else if (attestationId == AttestationId.AADHAAR) {
     // Route to Aadhaar verification logic
-} else if (attestationId == AttestationId.SELFRICA_ID_CARD) {
-    // Route to KYC (Sumsub) verification logic
+} else if (attestationId == AttestationId.KYC) {
+    // Route to KYC verification logic
 }
 ```
 
@@ -256,7 +256,7 @@ struct VerificationConfigV2 {
 
 ```solidity
 struct GenericDiscloseOutputV2 {
-    bytes32 attestationId;                    // E_PASSPORT, EU_ID_CARD, AADHAAR, or SELFRICA_ID_CARD (KYC)
+    bytes32 attestationId;                    // E_PASSPORT, EU_ID_CARD, AADHAAR, or KYC
     uint256 userIdentifier;                   // User's unique identifier
     uint256 nullifier;                        // Anti-replay nullifier
     uint256[4] forbiddenCountriesListPacked;  // Forbidden countries used
@@ -280,7 +280,7 @@ struct GenericDiscloseOutputV2 {
 
 ### Multi-Document Support
 
-* Automatic routing for attestation types: E\_PASSPORT, EU\_ID\_CARD, AADHAAR and SELFRICA\_ID\_CARD (KYC)
+* Automatic routing for attestation types: E\_PASSPORT, EU\_ID\_CARD, AADHAAR and KYC
 * Document-specific verification pipelines
 * Unified interface for different document types
 

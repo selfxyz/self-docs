@@ -43,7 +43,7 @@ async verify(
 
 | Parameter       | Type                 | Description                                                                     |
 | --------------- | -------------------- | ------------------------------------------------------------------------------- |
-| attestationId   | `AttestationId`      | Document type identifier (1 = electronic passport, 2 = EU ID card, 3 = Aadhaar, 4 = KYC/Sumsub) |
+| attestationId   | `AttestationId`      | Document type identifier (1 = electronic passport, 2 = EU ID card, 3 = Aadhaar, 4 = KYC) |
 | proof           | `VcAndDiscloseProof` | Zero-knowledge proof object containing cryptographic proof arrays.              |
 | pubSignals      | `BigNumberish[]`     | Public signals from the zero-knowledge proof                                    |
 | userContextData | `string`             | Hex-encoded string containing user context and configuration data               |
@@ -136,4 +136,4 @@ Document type identifiers:
 * `1` - Electronic passport
 * `2` - Biometric ID card
 * `3` - Aadhaar
-* `4` - KYC (Sumsub, exported in `@selfxyz/core` as `SELFRICA_ID_CARD`)
+* `4` - KYC (exported in `@selfxyz/core` as `KYC_ATTESTATION_ID`)

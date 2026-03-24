@@ -214,7 +214,7 @@ reputationRegistry.appendResponse(agentId, clientAddress, feedbackIndex, uri, ha
 | E-Passport (NFC) | 100 | `passport-nfc` |
 | EU ID Card (NFC) | 100 | `id-card-nfc` |
 | Aadhaar | 80 | `aadhaar` |
-| KYC (Sumsub) | 50 | `kyc-sumsub` |
+| KYC | 50 | `kyc` |
 
 ## Validation Registry
 

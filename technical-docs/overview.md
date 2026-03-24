@@ -10,12 +10,12 @@ The Self protocol is an identity protocol designed to let people use their real-
 
 Self has **three** main components:
 
-* A mobile app that supports multiple identity flows (passport NFC, ID document flows, Aadhaar, and KYC/Sumsub). The app operates on both iOS and Android.
+* A mobile app that supports multiple identity flows (passport NFC, ID document flows, Aadhaar, and KYC). The app operates on both iOS and Android.
 * Zero-knowledge circuits that can be used to verify the validity of supported attestations, generate identity commitments and selectively disclose attributes.
 * Smart contracts that verify proofs, manage a merkle tree of identity commitments and allow for onchain disclosure of data while guaranteeing the permissionless aspect of the protocol.
 
 {% hint style="info" %}
-KYC attestations (attestation ID `4`) are generated through the Sumsub integration flow and are verified through the same V2 verification stack.
+KYC attestations (attestation ID `4`) are generated through the KYC verification flow and are verified through the same V2 verification stack.
 {% endhint %}
 
 ### Background on Biometric Passports
