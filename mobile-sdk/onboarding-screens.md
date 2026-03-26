@@ -53,7 +53,7 @@ import IDSelectionScreen from '@selfxyz/mobile-sdk-alpha/onboarding/id-selection
 
 <IDSelectionScreen 
   countryCode="USA"
-  documentTypes={['p', 'i', 'kyc']} // p = passport, i = ID card, a = aadhaar, kyc = Sumsub flow
+  documentTypes={['p', 'i', 'kyc']} // p = passport, i = ID card, a = aadhaar, kyc = KYC flow
 />
 ```
 

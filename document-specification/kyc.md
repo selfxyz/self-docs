@@ -1,21 +1,21 @@
-# KYC (Sumsub)
+# KYC
 
-Self supports a KYC document type backed by the Sumsub verification flow.
+Self supports a KYC document type for identity verification.
 
 ## Overview
 
 KYC is represented in verification payloads as attestation ID `4`.
 
-In `@selfxyz/core`, this ID is currently exported as `SELFRICA_ID_CARD`:
+In `@selfxyz/core`, this ID is exported as `KYC_ATTESTATION_ID`:
 
 ```typescript
-ATTESTATION_ID.SELFRICA_ID_CARD // 4
+KYC_ATTESTATION_ID // 4
 ```
 
 ## User Flow
 
 1. User selects `kyc` as document type in the Self app.
-2. App starts the Sumsub flow using an access token from the TEE service.
+2. App starts the KYC verification flow using an access token from the TEE service.
 3. After completion, verification is finalized asynchronously (websocket/push).
 4. The app stores the resulting KYC attestation and can generate disclose proofs.
 
@@ -25,7 +25,7 @@ Backend verification uses the same `SelfBackendVerifier.verify(...)` API:
 
 ```typescript
 const result = await verifier.verify(
-  4,              // KYC / Sumsub
+  4,              // KYC
   proof,
   publicSignals,
   userContextData

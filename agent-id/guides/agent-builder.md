@@ -24,7 +24,7 @@ Six registration modes — choose based on your use case:
 |------|----------|:-:|
 | `wallet-free` | Embedded agents, IoT, CLI-only | No |
 | `ed25519` | OpenClaw, Eliza, IronClaw agents | No |
-| `linked` | Autonomous AI agents (recommended) | Yes (human's) |
+| `linked` | Autonomous AI agents | Yes (human's) |
 | `ed25519-linked` | Ed25519 agents with human wallet | Yes (human's) |
 | `privy` | Social login (Google, Twitter) | No |
 | `smartwallet` | Consumer-facing, passkey UX | No |
@@ -35,6 +35,21 @@ Six registration modes — choose based on your use case:
 2. Select your registration mode and network
 3. Scan your passport with the Self app
 4. Copy the agent private key from the export page
+
+#### What your user will see
+
+The dApp walks users through a guided wizard:
+
+1. **Role selection** — "I'm building an agent" or "I'm a human registering for my agent"
+2. **Key type** — ECDSA or Ed25519, with framework-specific hints (e.g. OpenClaw and Eliza use Ed25519)
+3. **Mode selection** — The wizard narrows the six modes to the ones that match the chosen key type, with a comparison table showing wallet requirements, NFT ownership, and revocation methods
+4. **Network** — Mainnet (real passport) or Testnet (mock documents)
+5. **Verification config** — Optional age threshold and OFAC screening
+6. **Key generation / import** — For ECDSA modes, a fresh keypair is generated in the browser. For Ed25519 modes, the user pastes the agent's existing public key
+7. **Passport scan** — A QR code or deep link opens the Self app for ZK proof-of-human verification
+8. **Confirmation** — On-chain registration completes and the agent key is available for export
+
+The entire flow takes under two minutes. No crypto knowledge is required for wallet-free, privy, or smartwallet modes.
 
 ### Via CLI
 

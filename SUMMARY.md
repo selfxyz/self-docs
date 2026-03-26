@@ -35,7 +35,7 @@
 ## Document Specification
 
 * [Aadhaar](document-specification/aadhaar.md)
-* [KYC (Sumsub)](document-specification/kyc-sumsub.md)
+* [KYC](document-specification/kyc.md)
 
 ## Mobile SDK
 

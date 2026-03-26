@@ -48,7 +48,7 @@ Call `.verify()` with the attestation ID, proof, public signals, and user contex
 
 ```typescript
 const result = await selfBackendVerifier.verify(
-    attestationId, // e.g. AttestationId.PASSPORT / BIOMETRIC_ID_CARD / AADHAAR / SELFRICA_ID_CARD (KYC)
+    attestationId, // e.g. AttestationId.PASSPORT / BIOMETRIC_ID_CARD / AADHAAR / KYC
     proof, // zkSNARK proof object
     pubSignals, // array of public signals from prover
     userContextData //user context data
@@ -219,6 +219,6 @@ const allowedIds = new Map<AttestationId, boolean>([
     [ATTESTATION_ID.PASSPORT, true],
     [ATTESTATION_ID.BIOMETRIC_ID_CARD, true],
     // [ATTESTATION_ID.AADHAAR, true],
-    // [ATTESTATION_ID.SELFRICA_ID_CARD, true], // KYC (Sumsub)
+    // [ATTESTATION_ID.KYC, true], // KYC
 ]);
 ```

@@ -10,7 +10,7 @@ This guide helps you migrate from Self Protocol V1 to V2. V2 introduces multi-do
 
 ### What's New in V2
 
-* **Multi-document support**: E-Passports, EU ID Cards, Aadhaar, and KYC (Sumsub)
+* **Multi-document support**: E-Passports, EU ID Cards, Aadhaar, and KYC
 * **Dynamic configuration**: Switch configurations without redeployment
 * **Enhanced data formats**: Pre-extracted, human-readable outputs
 * **User context data**: Pass custom data through verification flow
@@ -57,7 +57,7 @@ const allowedIds = AllIds;
 // allowedIds.set(AttestationId.E_PASSPORT, true);  // Accept passports
 // allowedIds.set(AttestationId.EU_ID_CARD, true);  // Accept EU ID cards
 // allowedIds.set(AttestationId.AADHAAR, true);  // Accept Aadhaar
-// allowedIds.set(AttestationId.SELFRICA_ID_CARD, true);  // Accept KYC/Sumsub
+// allowedIds.set(AttestationId.KYC, true);  // Accept KYC
 
 // Implement configuration storage
 class ConfigStorage implements IConfigStorage {
@@ -140,7 +140,7 @@ app.post('/api/verify', async (req, res) => {
   
   try {
     const result = await verifier.verify(
-      attestationId,      // NEW: 1 passport, 2 EU ID, 3 Aadhaar, 4 KYC/Sumsub
+      attestationId,      // NEW: 1 passport, 2 EU ID, 3 Aadhaar, 4 KYC
       proof,
       pubSignals,
       userContextData     // NEW: hex-encoded context data
@@ -420,7 +420,7 @@ return {
 
 ```javascript
 const requestBody = {
-  attestationId: 1,  // 1 passport, 2 EU ID, 3 Aadhaar, 4 KYC/Sumsub
+  attestationId: 1,  // 1 passport, 2 EU ID, 3 Aadhaar, 4 KYC
   proof: proof,
   pubSignals: pubSignals,
   userContextData: userContextData
@@ -453,7 +453,7 @@ const allowedIds = AllIds;
 // allowedIds.set(AttestationId.E_PASSPORT, true);  // Add passport
 // allowedIds.set(AttestationId.EU_ID_CARD, true);  // Add EU ID card
 // allowedIds.set(AttestationId.AADHAAR, true);  // Add Aadhaar
-// allowedIds.set(AttestationId.SELFRICA_ID_CARD, true);  // Add KYC/Sumsub
+// allowedIds.set(AttestationId.KYC, true);  // Add KYC
 ```
 
 ## Testing Your Migration
@@ -501,9 +501,9 @@ const idCardResult = await verifier.verify(
   userContextData
 );
 
-// Test KYC (Sumsub) verification
+// Test KYC verification
 const kycResult = await verifier.verify(
-  AttestationId.SELFRICA_ID_CARD,  // 4
+  AttestationId.KYC,  // 4
   kycProof,
   kycSignals,
   userContextData
