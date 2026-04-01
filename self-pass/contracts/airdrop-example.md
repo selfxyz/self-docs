@@ -149,4 +149,4 @@ function closeClaim() external onlyOwner;
 5. **Open Claims:** Registered users claim via Merkle proofs
 6. **Distribution Complete:** Tokens distributed to verified users
 
-For verification configuration setup, see [Hub Verification Process](../technical-docs/verification-in-the-identityverificationhub.md#v2-enhanced-verifications).
+For verification configuration setup, see [Hub Verification Process](../architecture/verification-hub.md#v2-enhanced-verifications).

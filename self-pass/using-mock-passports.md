@@ -6,7 +6,7 @@ icon: passport
 
 When using offchain verification, pass `mockPassport` to the Self verifier as explained [here](https://docs.self.xyz/backend-integration/basic-integration#parameters).
 
-When using onchain verification, use the Sepolia contracts [deployed-contracts.md](../contract-integration/deployed-contracts.md "mention").
+When using onchain verification, use the Sepolia contracts [deployed-contracts.md](contracts/deployed-contracts.md "mention").
 
 ## Generating Mock Passport
 

@@ -14,8 +14,8 @@ icon: bullseye-arrow
 
 Working examples of Self Protocol integration are available to use as a foundation to build upon.
 
-* [Airdrop](../contract-integration/airdrop-example.md)
-* [Happy Birthday](../contract-integration/happy-birthday-example.md)
+* [Airdrop](contracts/airdrop-example.md)
+* [Happy Birthday](contracts/happy-birthday-example.md)
 * [Soul Bound Token](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/SelfPassportERC721.sol)
 * [Cross Chain (LayerZero)](https://github.com/selfxyz/self-layerzero-example)
 * [Cross Chain (Hyperlane)](https://github.com/selfxyz/workshop/tree/hyperlane-example)
@@ -26,12 +26,12 @@ To use Self in your web app, you will display QR codes to request proofs from yo
 
 Frontend:
 
-* [The front-end SDK](../frontend-integration/qrcode-sdk.md) generates and displays QR codes containing information from your app and what you want users to disclose.
+* [The front-end SDK](frontend/qrcode-sdk.md) generates and displays QR codes containing information from your app and what you want users to disclose.
 
 Verification:
 
-* [Verify through the onchain smart contracts](../contract-integration/basic-integration.md). The verification happens on chain in a completely trustless manner. A demo working example can be found here: [https://github.com/selfxyz/workshop](https://github.com/selfxyz/workshop)
-* [Verify through your projects backend](../backend-integration/basic-integration.md). The back-end SDK verifies proofs on a node server (as in this quickstart). The verification is done on the projects own backend, meaning their is a trust assumption the users must make about the verification being done correctly. A demo working example can be found here: [https://github.com/selfxyz/workshop/tree/backend-verification](https://github.com/selfxyz/workshop/tree/backend-verification)
+* [Verify through the onchain smart contracts](contracts/basic-integration.md). The verification happens on chain in a completely trustless manner. A demo working example can be found here: [https://github.com/selfxyz/workshop](https://github.com/selfxyz/workshop)
+* [Verify through your projects backend](backend/basic-integration.md). The back-end SDK verifies proofs on a node server (as in this quickstart). The verification is done on the projects own backend, meaning their is a trust assumption the users must make about the verification being done correctly. A demo working example can be found here: [https://github.com/selfxyz/workshop/tree/backend-verification](https://github.com/selfxyz/workshop/tree/backend-verification)
 
 <figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
@@ -141,7 +141,7 @@ export default VerificationPage;
 ```
 
 {% hint style="info" %}
-If you instead want to use the Self App on a mobile then we check out the [use-deeplinking.md](use-deeplinking.md "mention") and [#usage-mobile](../frontend-integration/qrcode-sdk.md#usage-mobile "mention") sections!
+If you instead want to use the Self App on a mobile then we check out the [use-deeplinking.md](use-deeplinking.md "mention") and [#usage-mobile](frontend/qrcode-sdk.md#usage-mobile "mention") sections!
 {% endhint %}
 
 ### Verification Flow

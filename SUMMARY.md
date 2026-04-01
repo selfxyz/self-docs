@@ -2,50 +2,44 @@
 
 * [Self Protocol](README.md)
 
-## Use Self
+## Self Pass
 
-* [Quickstart](use-self/quickstart.md)
-* [Disclosures](use-self/disclosures.md)
-* [Use deeplinking](use-self/use-deeplinking.md)
-* [Using mock passports](use-self/using-mock-passports.md)
-* [Self Map countries list](use-self/self-map-countries-list.md)
-* [V1 to V2 Migration Guide](use-self/migration-v1-v2.md)
-* [Troubleshooting](use-self/troubleshooting.md)
-
-## Frontend integration
-
-* [QRCode SDK](frontend-integration/qrcode-sdk.md)
-* [QRCode SDK - API Reference](frontend-integration/qrcode-sdk-api-reference.md)
-* [Disclosure Configs](frontend-integration/disclosure-configs.md)
-
-## Contract Integration
-
-* [Basic Integration](contract-integration/basic-integration.md)
-* [Deployed Contracts](contract-integration/deployed-contracts.md)
-* [Airdrop Example](contract-integration/airdrop-example.md)
-* [Happy Birthday Example](contract-integration/happy-birthday-example.md)
-* [Working with userDefinedData](contract-integration/working-with-userdefineddata.md)
-
-## Backend Integration
-
-* [Basic Integration](backend-integration/basic-integration.md)
-* [ConfigStore](backend-integration/configstore.md)
-* [SelfBackendVerifier - API Reference](backend-integration/selfbackendverifier-api-reference.md)
-
-## Document Specification
-
-* [Aadhaar](document-specification/aadhaar.md)
-* [KYC](document-specification/kyc.md)
-
-## Mobile SDK
-
-* [Getting Started](mobile-sdk/getting-started.md)
-* [SelfClient Provider Setup](mobile-sdk/selfclient-provider.md)
-* [Onboarding Screen Components](mobile-sdk/onboarding-screens.md)
-* [Examples](mobile-sdk/examples/README.md)
-  * [Minimal Setup](mobile-sdk/examples/minimal-setup.md)
-  * [Navigation Setup](mobile-sdk/examples/navigation-setup.md)
-  * [Demo Walkthrough](mobile-sdk/examples/demo-walkthrough.md)
+* [Overview](self-pass/README.md)
+* [Quickstart](self-pass/quickstart.md)
+* [Disclosures](self-pass/disclosures.md)
+* [Use Deeplinking](self-pass/use-deeplinking.md)
+* [Using Mock Passports](self-pass/using-mock-passports.md)
+* [Frontend SDK](self-pass/frontend/qrcode-sdk.md)
+  * [API Reference](self-pass/frontend/qrcode-sdk-api-reference.md)
+  * [Disclosure Configs](self-pass/frontend/disclosure-configs.md)
+* [Backend SDK](self-pass/backend/basic-integration.md)
+  * [ConfigStore](self-pass/backend/configstore.md)
+  * [API Reference](self-pass/backend/selfbackendverifier-api-reference.md)
+* [Smart Contracts](self-pass/contracts/basic-integration.md)
+  * [Deployed Contracts](self-pass/contracts/deployed-contracts.md)
+  * [Airdrop Example](self-pass/contracts/airdrop-example.md)
+  * [Happy Birthday Example](self-pass/contracts/happy-birthday-example.md)
+  * [Working with userDefinedData](self-pass/contracts/working-with-userdefineddata.md)
+* [Mobile SDK](self-pass/mobile-sdk/getting-started.md)
+  * [SelfClient Provider Setup](self-pass/mobile-sdk/selfclient-provider.md)
+  * [Native Modules Setup](self-pass/mobile-sdk/native-modules-setup.md)
+  * [Onboarding Screen Components](self-pass/mobile-sdk/onboarding-screens.md)
+  * [Examples](self-pass/mobile-sdk/examples/README.md)
+    * [Minimal Setup](self-pass/mobile-sdk/examples/minimal-setup.md)
+    * [Navigation Setup](self-pass/mobile-sdk/examples/navigation-setup.md)
+    * [Demo Walkthrough](self-pass/mobile-sdk/examples/demo-walkthrough.md)
+* [Document Specifications](self-pass/document-specification/aadhaar.md)
+  * [Aadhaar](self-pass/document-specification/aadhaar.md)
+  * [KYC](self-pass/document-specification/kyc.md)
+* [V1 to V2 Migration Guide](self-pass/migration-v1-v2.md)
+* [Troubleshooting](self-pass/troubleshooting.md)
+* [Architecture](self-pass/architecture/overview.md)
+  * [ZK Proof Architecture](self-pass/architecture/zk-proof-architecture.md)
+  * [Verification in the IdentityVerificationHub](self-pass/architecture/verification-hub.md)
+  * [OFAC & CSCA Auto-Updaters](self-pass/architecture/ofac-csca-auto-updaters.md)
+  * [Self Attestation Format](self-pass/architecture/self-attestation.md)
+  * [Supported Countries](self-pass/architecture/countries-list.md)
+  * [Deployments](self-pass/architecture/deployments.md)
 
 ## Self Connect
 
@@ -53,7 +47,7 @@
 * [Architecture & How It Works](self-connect/architecture-and-how-it-works.md)
 * [Developer Guide](self-connect/developer-guide.md)
 
-## Agent ID
+## Self Agent ID
 
 * [Overview](agent-id/overview.md)
 * [Registration Modes](agent-id/registration-modes.md)
@@ -68,14 +62,3 @@
   * [Gating Smart Contracts](agent-id/guides/contract-developer.md)
   * [Using MCP Server](agent-id/guides/mcp-user.md)
 * [Troubleshooting](agent-id/troubleshooting.md)
-
-***
-
-* [Self Attestation](self-attestation.md)
-
-## Technical Docs
-
-* [Overview](technical-docs/overview.md)
-* [Architecture](technical-docs/architecture.md)
-* [Verification in the IdentityVerificationHub](technical-docs/verification-in-the-identityverificationhub.md)
-* [Copy of Deployments](technical-docs/copy-of-deployments.md)

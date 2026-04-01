@@ -31,7 +31,7 @@ There is a mismatch between `endpoint` and `endpoint-type` in the `SelfAppBuilde
 
 This is a generic error message thrown when something is wrong with your smart contract logic. This can be caused by a wide variety of factors. Try:
 
-* Checking that you deployed your contract with the [correct Hub address.](../contract-integration/deployed-contracts.md)
+* Checking that you deployed your contract with the [correct Hub address.](contracts/deployed-contracts.md)
 * Ensure that your `customVerificationHook` logic is sound and contains no errors.
 
 If the error is from a failing require check, the require statements error message will be displayed instead of the -32000 error message.
