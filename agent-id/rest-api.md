@@ -186,6 +186,93 @@ Returns the service discovery document with API base URL, supported networks, re
 }
 ```
 
+### List Agents by Nullifier
+
+```
+GET /api/agent/agents-by-nullifier/{chainId}/{nullifier}
+```
+
+Returns all agent IDs associated with a given human nullifier. Useful for Sybil detection — check how many agents a single human has registered.
+
+**Example response:**
+
+```json
+{
+  "nullifier": "123456789...",
+  "agents": [5, 12],
+  "chainId": 42220
+}
+```
+
+### Health Check
+
+```
+GET /api/health
+```
+
+Returns service health status. No authentication required.
+
+## Identify Endpoints
+
+Used to discover existing agents for a human without registering a new one. The human scans their passport and the system returns their nullifier, which can be used to look up all associated agents.
+
+### Create Identify Session
+
+```
+POST /api/agent/identify
+```
+
+Creates a passport scan session for agent discovery. Returns a QR code and deep link for the Self app.
+
+**Request body:**
+
+```json
+{
+  "network": "mainnet"
+}
+```
+
+### Poll Identify Status
+
+```
+GET /api/agent/identify/status?token={sessionToken}
+```
+
+Polls for identification completion. Returns the human's nullifier and agent count once the passport scan is complete.
+
+## Proof Refresh Endpoints
+
+Used to refresh an existing agent's proof without re-registering. The human re-scans their passport to update the proof on-chain.
+
+### Create Refresh Session
+
+```
+POST /api/agent/refresh
+```
+
+Creates a proof refresh session for an existing agent.
+
+**Request body:**
+
+```json
+{
+  "agentId": 42,
+  "network": "mainnet",
+  "disclosures": {
+    "minimumAge": 18,
+    "ofac": true
+  }
+}
+```
+
+### Poll Refresh Status
+
+```
+GET /api/agent/refresh/status?token={sessionToken}
+```
+
+Polls for refresh completion. Returns updated verification details once the proof is refreshed on-chain.
+
 ## Registration Endpoints
 
 Used by the dApp and CLI during registration flows. Sessions use encrypted tokens with a 30-minute TTL.
@@ -361,6 +448,14 @@ Relayer endpoint that submits EIP-712 meta-transactions to the `AgentDemoVerifie
   "networkId": "celo-sepolia"
 }
 ```
+
+### Chain Verify Ed25519 (Meta-Transaction)
+
+```
+POST /api/demo/chain-verify-ed25519
+```
+
+Same as chain-verify but for agents registered with Ed25519 keys. Relays EIP-712 meta-transactions signed with Ed25519.
 
 ### Census (Aggregated Stats)
 
