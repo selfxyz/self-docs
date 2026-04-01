@@ -98,6 +98,22 @@ if (result.isValidDetails.isValid) {
 }
 ```
 
+## Frontend & Backend Alignment
+
+{% hint style="warning" %}
+**Critical**: The verification rules in your frontend `disclosures` object **must exactly match** the configuration in your backend `SelfBackendVerifier` or smart contract. A mismatch — even a stricter value — will cause verification to fail.
+{% endhint %}
+
+For example, if the backend requires `minimumAge: 18` but the frontend specifies `minimumAge: 21`, verification will fail. The values must be identical, not just compatible.
+
+{% hint style="success" %}
+**Best practice**: Centralize your disclosure config in a shared constants file and import it into both frontend and backend to avoid drift.
+{% endhint %}
+
+{% hint style="info" %}
+Data disclosures (`nationality`, `gender`, `name`, etc.) are **not** enforced by your backend or contracts — they only control what data the user reveals. Only verification rules (`minimumAge`, `excludedCountries`, `ofac`) need to match.
+{% endhint %}
+
 ## Privacy Best Practices
 
 * **Request only what you need**: Each disclosure reveals personal information
