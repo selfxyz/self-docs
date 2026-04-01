@@ -8,9 +8,9 @@ Some of the most common errors you will encounter when integrating Self can be f
 
 If you are using AI models to build your app and are encoutering issues, verify that you are using the most up to date versions of our packages. Check your `package.json` file in your frontend and backend. Many AI programs still utilize previous versions when building which will cause errors to occur. You can also make sure you are using a valid working version by using the ones specified in the workshop repo. Check for `@selfxyz/common`, `@selfxyz/qrcode`, `@selfxyz/contracts`, `@selfxyz/core`.  &#x20;
 
-* Workshop frontend `package.json`: [https://github.com/selfxyz/workshop/blob/main/app/package.json](https://github.com/selfxyz/workshop/blob/main/app/package.json)
-* Workshop smart contracts `package.json`: [https://github.com/selfxyz/workshop/blob/main/contracts/package.json](https://github.com/selfxyz/workshop/blob/main/contracts/package.json)
-* Workshop backend `package.json`: [https://github.com/selfxyz/workshop/blob/main/app/package.json](https://github.com/selfxyz/workshop/blob/main/app/package.json)
+* Workshop frontend `package.json`: [https://github.com/selfxyz/self-integration-boilerplate/blob/main/app/package.json](https://github.com/selfxyz/self-integration-boilerplate/blob/main/app/package.json)
+* Workshop smart contracts `package.json`: [https://github.com/selfxyz/self-integration-boilerplate/blob/main/contracts/package.json](https://github.com/selfxyz/self-integration-boilerplate/blob/main/contracts/package.json)
+* Workshop backend `package.json`: [https://github.com/selfxyz/self-integration-boilerplate/blob/main/app/package.json](https://github.com/selfxyz/self-integration-boilerplate/blob/main/app/package.json)
 
 ## Common errors while verifying proofs
 

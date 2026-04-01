@@ -4,7 +4,7 @@ icon: bullseye-arrow
 
 # Quickstart
 
-> ⚠️ Forking the [workshop repo](https://github.com/selfxyz/workshop) is a great starting point for your project to integrate Self. It contains a basic working example that demonstrates how to integrate Self. From this, you can add your own logic/requirements as needed.
+> ⚠️ Forking the [boilerplate repo](https://github.com/selfxyz/self-integration-boilerplate) is a great starting point for your project to integrate Self. It contains a basic working example that demonstrates how to integrate Self. From this, you can add your own logic/requirements as needed.
 
 ## Before You Start
 
@@ -18,7 +18,7 @@ Working examples of Self Protocol integration are available to use as a foundati
 * [Happy Birthday](contracts/happy-birthday-example.md)
 * [Soul Bound Token](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/SelfPassportERC721.sol)
 * [Cross Chain (LayerZero)](https://github.com/selfxyz/self-layerzero-example)
-* [Cross Chain (Hyperlane)](https://github.com/selfxyz/workshop/tree/hyperlane-example)
+* [Cross Chain (Hyperlane)](https://github.com/selfxyz/self-integration-boilerplate/tree/hyperlane-example)
 
 ## Overview
 
@@ -30,8 +30,8 @@ Frontend:
 
 Verification:
 
-* [Verify through the onchain smart contracts](contracts/basic-integration.md). The verification happens on chain in a completely trustless manner. A demo working example can be found here: [https://github.com/selfxyz/workshop](https://github.com/selfxyz/workshop)
-* [Verify through your projects backend](backend/basic-integration.md). The back-end SDK verifies proofs on a node server (as in this quickstart). The verification is done on the projects own backend, meaning their is a trust assumption the users must make about the verification being done correctly. A demo working example can be found here: [https://github.com/selfxyz/workshop/tree/backend-verification](https://github.com/selfxyz/workshop/tree/backend-verification)
+* [Verify through the onchain smart contracts](contracts/basic-integration.md). The verification happens on chain in a completely trustless manner. A demo working example can be found here: [https://github.com/selfxyz/self-integration-boilerplate](https://github.com/selfxyz/self-integration-boilerplate)
+* [Verify through your projects backend](backend/basic-integration.md). The back-end SDK verifies proofs on a node server (as in this quickstart). The verification is done on the projects own backend, meaning their is a trust assumption the users must make about the verification being done correctly. A demo working example can be found here: [https://github.com/selfxyz/self-integration-boilerplate/tree/backend-verification](https://github.com/selfxyz/self-integration-boilerplate/tree/backend-verification)
 
 <figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 

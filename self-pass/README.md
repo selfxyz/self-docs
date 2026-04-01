@@ -19,7 +19,7 @@ Self Pass enables developers to verify real-world identity attributes without ex
 
 ## Getting Started
 
-Start with the [Quickstart](quickstart.md) guide, or fork the [workshop repo](https://github.com/selfxyz/workshop) for a working example.
+Start with the [Quickstart](quickstart.md) guide, or fork the [boilerplate repo](https://github.com/selfxyz/self-integration-boilerplate) for a working example.
 
 ## Integration Options
 
@@ -36,7 +36,7 @@ Start with the [Quickstart](quickstart.md) guide, or fork the [workshop repo](ht
 * [Happy Birthday](contracts/happy-birthday-example.md) — Age-gated smart contract example
 * [Soul Bound Token](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/SelfPassportERC721.sol) — Mint SBTs for verified users
 * [Cross Chain (LayerZero)](https://github.com/selfxyz/self-layerzero-example) — Cross-chain verification
-* [Cross Chain (Hyperlane)](https://github.com/selfxyz/workshop/tree/hyperlane-example) — Cross-chain verification
+* [Cross Chain (Hyperlane)](https://github.com/selfxyz/self-integration-boilerplate/tree/hyperlane-example) — Cross-chain verification
 
 ## Resources
 
