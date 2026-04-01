@@ -56,6 +56,7 @@
 * [Smart Contracts](agent-id/smart-contracts.md)
 * [REST API](agent-id/rest-api.md)
 * [CLI](agent-id/cli.md)
+* [Celo Agent Visa](agent-id/celo-agent-visa.md)
 * [Guides](agent-id/guides/agent-builder.md)
   * [Building an Agent](agent-id/guides/agent-builder.md)
   * [Verifying Agents (Service)](agent-id/guides/service-operator.md)
