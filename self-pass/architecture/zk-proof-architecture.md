@@ -1,5 +1,9 @@
 # Architecture
 
+{% hint style="info" %}
+**Who is this for?** This page covers the cryptographic design of Self Pass — registration flows, nullifier construction, certificate trees, and proof circuits. It's intended for protocol contributors, security auditors, and developers who want to understand what happens under the hood. You don't need this to integrate Self Pass — see the [Quickstart](../quickstart.md) instead.
+{% endhint %}
+
 ## High level Architecture
 
 Usage of the Self protocol involves two main steps: registration and disclosure. This design is somewhat similar to identity mixers such as Semaphore.
