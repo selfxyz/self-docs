@@ -244,7 +244,7 @@ export async function POST(req: Request) {
           status: "error",
           result: false,
           reason: "Verification failed",
-          error_code: "VERIFICATION_FAILED"
+          error_code: "VERIFICATION_FAILED",
           details: result.isValidDetails,
         },
         { status: 200 }

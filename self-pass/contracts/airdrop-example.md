@@ -52,7 +52,7 @@ bool public isClaimOpen;
 bytes32 public verificationConfigId;
 ```
 
-For standard V2 integration patterns (constructor, getConfigId), see [Basic Integration Guide](broken-reference/).
+For standard V2 integration patterns (constructor, getConfigId), see [Basic Integration Guide](basic-integration.md).
 
 **Registration Verification Hook:**
 

@@ -17,7 +17,7 @@ npm i @selfxyz/qrcode
 {% endtab %}
 
 {% tab title="yarn " %}
-yarn add @selfxyz/core
+yarn add @selfxyz/qrcode
 {% endtab %}
 
 {% tab title="pnpm " %}
@@ -112,6 +112,7 @@ If you're developing an app then it's not easy to scan a QR Code. Instead, what 
 import { useEffect, useState } from 'react'
 import { countries, SelfQRcodeWrapper } from '@selfxyz/qrcode'
 import { SelfAppBuilder } from '@selfxyz/qrcode'
+import { getUniversalLink } from '@selfxyz/core'
 
 export default function Verify() {
   const [selfApp, setSelfApp] = useState<any | null>(null);
@@ -126,7 +127,7 @@ export default function Verify() {
     }).build()
 
     setSelfApp(app); 
-    setUniversalLink(getUniversalLink(app);
+    setUniversalLink(getUniversalLink(app));
   }, []);
 
   const openSelfApp = () => {

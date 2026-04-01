@@ -574,7 +574,7 @@ try {
 ## Resources
 
 * [Quickstart Guide](quickstart.md) - Basic V2 setup
-* [Basic Integration](broken-reference) - Contract examples
+* [Basic Integration](contracts/basic-integration.md) - Contract examples
 * [Workshop Example](https://github.com/selfxyz/workshop) - Simple implementation
 
 ## Need Help?
