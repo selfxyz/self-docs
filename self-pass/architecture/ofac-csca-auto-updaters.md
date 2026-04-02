@@ -1,3 +1,7 @@
+---
+hidden: true
+---
+
 # OFAC & CSCA Auto-Updaters
 
 Self Pass relies on two automated systems to keep verification data current: the **OFAC sanctions list updater** and the **CSCA certificate tree updater**. These run automatically and require no action from developers integrating Self Pass.
