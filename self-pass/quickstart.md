@@ -50,7 +50,7 @@ Mock passports only work with staging endpoints on Celo Sepolia. Real passports 
 
 ### Key Concepts
 
-* **`scope`** — A unique identifier for your application (e.g. `"my-airdrop-app"`). This is used to generate nullifiers that are unique to your app, preventing proof replay across different applications. Your frontend and verification config must use the same scope.
+* **`scope` / `scopeSeed`** — A short string (max 31 ASCII characters) that uniquely identifies your application, e.g. `"my-airdrop-app"`. In the frontend `SelfAppBuilder`, this is the `scope` field. In smart contracts, this is the `scopeSeed` constructor parameter. Under the hood, the system hashes `scopeSeed` together with the endpoint address (using Poseidon) to produce the final `scope` value used in proofs. This ensures nullifiers are unique to your app and endpoint, preventing proof replay. Your frontend `scope` and contract `scopeSeed` must be the same string.
 * **`endpointType`** — Determines where the proof is sent and which network is used (see table above).
 * **`endpoint`** — The destination address. For contract verification, this is your deployed contract address. For backend verification, this is your API URL.
 
