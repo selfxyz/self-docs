@@ -1,3 +1,7 @@
+---
+hidden: true
+---
+
 # Deployments
 
 Deployment addresses for the Self protocol, on Celo mainnet.
