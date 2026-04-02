@@ -31,15 +31,15 @@
 * [Document Specifications](self-pass/document-specification/aadhaar.md)
   * [Aadhaar](self-pass/document-specification/aadhaar.md)
   * [KYC](self-pass/document-specification/kyc.md)
-* [V1 to V2 Migration Guide](self-pass/migration-v1-v2.md)
+* [Supported Countries](self-pass/architecture/countries-list.md)
 * [Troubleshooting](self-pass/troubleshooting.md)
 * [AI Developer Tools](self-pass/ai-developer-tools.md)
+* [V1 to V2 Migration Guide](self-pass/migration-v1-v2.md)
 * [Architecture](self-pass/architecture/overview.md)
   * [ZK Proof Architecture](self-pass/architecture/zk-proof-architecture.md)
   * [Verification in the IdentityVerificationHub](self-pass/architecture/verification-hub.md)
   * [OFAC & CSCA Auto-Updaters](self-pass/architecture/ofac-csca-auto-updaters.md)
   * [Self Attestation Format](self-pass/architecture/self-attestation.md)
-  * [Supported Countries](self-pass/architecture/countries-list.md)
   * [Deployments](self-pass/architecture/deployments.md)
 
 ## Self Connect

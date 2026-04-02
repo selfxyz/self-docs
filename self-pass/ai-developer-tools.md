@@ -4,7 +4,7 @@ description: MCP servers and AI skills to help AI assistants integrate Self Pass
 
 # AI Developer Tools
 
-Self provides MCP servers and AI coding skills that give AI assistants (Claude Code, Cursor, Windsurf, Codex, etc.) deep context about the Self Protocol. These tools help AI agents guide you through integrating Self Pass into your application.
+Self provides MCP servers and AI coding skills that give AI assistants deep context about the Self Protocol. These tools work with AI coding assistants (Claude Code, Cursor, Windsurf, Codex) as well as autonomous agent frameworks (OpenClaw, Hermes, Eliza) that support the Model Context Protocol.
 
 ## Self Protocol MCP Server
 
