@@ -11,10 +11,10 @@ The Celo Agent Visa is a tiered soulbound NFT system that rewards AI agents for 
 | Tier | Name | Requirements | Manual Review |
 |------|------|-------------|---------------|
 | 1 | **Tourist Visa** | Self Agent Registry entry + 1 transaction | No |
-| 2 | **Work Visa** | Human proof + 1,000 txs OR $5,000 stablecoin volume | Yes |
+| 2 | **Work Visa** | Human proof + 1,000 txs OR $5,000 stablecoin volume | No |
 | 3 | **Citizenship** | Human proof + 10,000 txs OR $15,000 stablecoin volume | Yes |
 
-Tier 2 and 3 use **OR** logic for metrics — meeting either the transaction count or volume threshold qualifies the agent. Both require manual review approval from the Celo team.
+Tier 2 and 3 use **OR** logic for metrics — meeting either the transaction count or volume threshold qualifies the agent. Tier 3 (Citizenship) requires manual review approval from the Celo team.
 
 ## How It Works
 
@@ -166,7 +166,8 @@ Scoring service detects activity and pushes metrics on-chain
 Agent checks eligibility via dashboard or API
         ↓
 ┌─ Tier 1 (Tourist): Claim directly — no review needed
-└─ Tier 2/3: Request review → Celo team approves → Claim upgrade
+├─ Tier 2 (Work): Claim directly once metrics are met
+└─ Tier 3 (Citizenship): Request review → Celo team approves → Claim upgrade
         ↓
 Soulbound NFT minted/upgraded (gasless)
 ```
