@@ -33,6 +33,7 @@
   * [KYC](self-pass/document-specification/kyc.md)
 * [V1 to V2 Migration Guide](self-pass/migration-v1-v2.md)
 * [Troubleshooting](self-pass/troubleshooting.md)
+* [AI Developer Tools](self-pass/ai-developer-tools.md)
 * [Architecture](self-pass/architecture/overview.md)
   * [ZK Proof Architecture](self-pass/architecture/zk-proof-architecture.md)
   * [Verification in the IdentityVerificationHub](self-pass/architecture/verification-hub.md)
