@@ -104,6 +104,35 @@ The skill activates automatically when you mention Self Protocol, `SelfAppBuilde
 * Deployed contract addresses for Celo Mainnet and Sepolia
 * Reference files for frontend SDK, backend SDK, and smart contract patterns
 
+## Self Skills Plugin Marketplace (Claude Code)
+
+The [`self-skills`](https://github.com/selfxyz/self-skills) repo is a Claude Code plugin marketplace with installable skills for Self Protocol workflows.
+
+### Install
+
+```bash
+# Add the marketplace
+/plugin marketplace add selfxyz/self-skills
+
+# Install a plugin
+/plugin install self-onchain
+```
+
+### Available Plugins
+
+| Plugin | Description |
+|--------|-------------|
+| **`self-onchain`** | Query Self Protocol smart contracts on-chain using `cast call` — registries, OFAC/CSCA/DSC roots, PCR0 values, merkle roots, roles, and more |
+| **`self-linear`** | Idea-to-Linear workflow — brainstorm, spec, plan, and push initiatives/projects/issues to Linear |
+
+The `self-onchain` plugin is particularly useful for developers debugging on-chain state — it knows all contract addresses, ABIs, and query patterns for the hub, registries, and verifiers on both Celo Mainnet and Sepolia.
+
+To update installed plugins after the marketplace is updated:
+
+```bash
+/plugin marketplace update self-skills
+```
+
 ## Self Agent ID MCP Server
 
 For AI agent identity (registration, verification, signing), see the separate [Self Agent ID MCP server](../agent-id/guides/mcp-user.md) documentation.
