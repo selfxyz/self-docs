@@ -1,5 +1,9 @@
 # Verification in the IdentityVerificationHub
 
+{% hint style="info" %}
+**Who is this for?** This page explains the internal verification flow of the on-chain IdentityVerificationHub contract — how proofs are decoded, routed, and verified. It's useful if you're building custom verification hooks or need to understand the on-chain data structures. For basic smart contract integration, see [Smart Contract Integration](../contracts/basic-integration.md).
+{% endhint %}
+
 The IdentityVerificationHub V2 is the core verification engine that processes zero-knowledge proofs and executes identity verification workflows.
 
 ## How the Hub Works

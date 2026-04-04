@@ -137,15 +137,16 @@ Here's how you would create a raw config:
 ```solidity
 import { SelfUtils } from "@selfxyz/contracts/contracts/libraries/SelfUtils.sol";
 
-//inside your contract
+// Inside your contract constructor or setup function:
 string[] memory forbiddenCountries = new string[](1);
-  forbiddenCountries[0] = CountryCodes.UNITED_STATES;
-  SelfUtils.UnformattedVerificationConfigV2 memory verificationConfig = SelfUtils.UnformattedVerificationConfigV2({
-    olderThan: 18,
-    forbiddenCountries: forbiddenCountries,
-    ofacEnabled: false
-});
+forbiddenCountries[0] = CountryCodes.UNITED_STATES; // ISO 3-letter codes, max 40 countries
 
+SelfUtils.UnformattedVerificationConfigV2 memory verificationConfig = SelfUtils
+    .UnformattedVerificationConfigV2({
+        olderThan: 18,              // Minimum age (0 = no age check)
+        forbiddenCountries: forbiddenCountries, // Countries to block (empty array = no restriction)
+        ofacEnabled: false          // Enable OFAC sanctions screening
+    });
 ```
 
 {% hint style="warning" %}
@@ -169,13 +170,53 @@ Common pitfalls:
 
 ### Extracting data from a users proof
 
-[Various data fields](../technical-docs/verification-in-the-identityverificationhub.md) can be extracted from the user's disclosure proof.&#x20;
+The `customVerificationHook` receives a `GenericDiscloseOutputV2` struct with all verified attributes. Here are all available fields:
 
-* `attestationId`, `userIdentifier`, `nullifier`, `forbiddenCountriesListPacked`, `olderThan`, `ofac` can be extracted normally.
-* `issuingState`, `name`, `idNumber`, `nationality`, `dateOfBirth`, `gender`, `expiryDate` can be extracted only if the [app requests the user to disclose this information](../use-self/disclosures.md).
-* User's address can be derived from userIdentifier with `address(uint160(output.userIdentifier))`&#x20;
+| Field | Type | Description | Requires Disclosure |
+|-------|------|-------------|:---:|
+| `attestationId` | `bytes32` | Document type: `1` = Passport, `2` = EU ID Card, `3` = Aadhaar, `4` = KYC | No |
+| `userIdentifier` | `uint256` | User's identifier. Derive address: `address(uint160(output.userIdentifier))` | No |
+| `nullifier` | `uint256` | Unique per-user per-scope value for Sybil resistance | No |
+| `forbiddenCountriesListPacked` | `uint256[4]` | Packed bitfield of excluded countries | No |
+| `olderThan` | `uint256` | Minimum age verified (e.g. `18`). `0` if not checked | No |
+| `ofac` | `bool[3]` | OFAC check results: `[0]` = passport number, `[1]` = name+DOB, `[2]` = name+YOB | No |
+| `issuingState` | `string` | ISO 3-letter code of issuing country (e.g. `"GBR"`) | Yes |
+| `name` | `string[]` | User's name fields from document | Yes |
+| `idNumber` | `string` | Document number (passport number, ID number, etc.) | Yes |
+| `nationality` | `string` | ISO 3-letter nationality code | Yes |
+| `dateOfBirth` | `string` | Date of birth in document format | Yes |
+| `gender` | `string` | Gender (`"M"` or `"F"`) | Yes |
+| `expiryDate` | `string` | Document expiry date | Yes |
 
-The [Happy Birthday Example](happy-birthday-example.md) contains a working example of how to extract data from the `output` object.
+**"Requires Disclosure"** means the field is only populated if your frontend [disclosure config](../disclosures.md) explicitly requests it. Fields not requested will be empty/zero.
+
+{% hint style="info" %}
+The format of disclosed fields can vary by document type. Passports use ICAO MRZ format, Aadhaar uses different date and name formats, and KYC fields depend on the provider. See the [Document Specifications](../document-specification/aadhaar.md) section for per-document-type details.
+{% endhint %}
+
+**Example — extracting nationality and age in your hook:**
+
+```solidity
+function customVerificationHook(
+    ISelfVerificationRoot.GenericDiscloseOutputV2 memory output,
+    bytes memory userData
+) internal override {
+    // Always available
+    require(output.olderThan >= 18, "Must be 18+");
+    
+    // Only available if disclosure was requested
+    string memory nationality = output.nationality; // e.g. "GBR"
+    
+    // Derive user's address
+    address user = address(uint160(output.userIdentifier));
+    
+    // Check OFAC results (if enabled in config)
+    // ofac[0] = passport number match, ofac[1] = name+DOB, ofac[2] = name+YOB
+    // All must be false (not sanctioned) for verification to pass
+}
+```
+
+The [Happy Birthday Example](happy-birthday-example.md) contains a full working example of extracting data from the `output` object.
 
 ## Minimal Example: Proof Of Human
 
@@ -210,9 +251,9 @@ contract ProofOfHuman is SelfVerificationRoot {
      * @param identityVerificationHubV2Address The address of the Identity Verification Hub V2
      */
     constructor(
-        address identityVerificationHubV2Address,
-        uint256 scopeSeed,
-        SelfUtils.UnformattedVerificationConfigV2 memory _verificationConfig
+        address identityVerificationHubV2Address, // Hub V2 address — see Deployed Contracts page
+        uint256 scopeSeed,                        // Unique app identifier (≤31 ASCII bytes), hashed into scope
+        SelfUtils.UnformattedVerificationConfigV2 memory _verificationConfig // What to verify (age, countries, OFAC)
     ) SelfVerificationRoot(identityVerificationHubV2Address, scopeSeed) {
         verificationConfig = 
             SelfUtils.formatVerificationConfigV2(_verificationConfig);

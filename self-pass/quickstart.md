@@ -4,7 +4,7 @@ icon: bullseye-arrow
 
 # Quickstart
 
-> ⚠️ Forking the [workshop repo](https://github.com/selfxyz/workshop) is a great starting point for your project to integrate Self. It contains a basic working example that demonstrates how to integrate Self. From this, you can add your own logic/requirements as needed.
+> ⚠️ Forking the [boilerplate repo](https://github.com/selfxyz/self-integration-boilerplate) is a great starting point for your project to integrate Self. It contains a basic working example that demonstrates how to integrate Self. From this, you can add your own logic/requirements as needed.
 
 ## Before You Start
 
@@ -14,24 +14,47 @@ icon: bullseye-arrow
 
 Working examples of Self Protocol integration are available to use as a foundation to build upon.
 
-* [Airdrop](../contract-integration/airdrop-example.md)
-* [Happy Birthday](../contract-integration/happy-birthday-example.md)
+* [Airdrop](contracts/airdrop-example.md)
+* [Happy Birthday](contracts/happy-birthday-example.md)
 * [Soul Bound Token](https://github.com/selfxyz/self/blob/main/contracts/contracts/example/SelfPassportERC721.sol)
 * [Cross Chain (LayerZero)](https://github.com/selfxyz/self-layerzero-example)
-* [Cross Chain (Hyperlane)](https://github.com/selfxyz/workshop/tree/hyperlane-example)
+* [Cross Chain (Hyperlane)](https://github.com/selfxyz/self-integration-boilerplate/tree/hyperlane-example)
+
+## Choose Your Verification Path
+
+Every Self Pass integration has two parts: a **frontend** that displays a QR code (or deeplink) for users to scan with the Self app, and a **verification method** that checks the proof. You must choose one verification method:
+
+| | Smart Contract Verification | Backend Verification |
+|---|---|---|
+| **How it works** | Proof is verified on-chain by the [IdentityVerificationHub](architecture/verification-hub.md) | Proof is verified on your Node.js server using `SelfBackendVerifier` |
+| **Trust model** | Trustless — anyone can verify the result on-chain | Trust assumption — users trust your backend verifies correctly |
+| **Best for** | DeFi, airdrops, token gates, on-chain access control | Web apps, APIs, off-chain services, rapid iteration |
+| **Trade-offs** | Gas costs per verification; config changes require redeployment | No gas costs; easier to update; requires a running server |
+| **Guide** | [Smart Contract Integration](contracts/basic-integration.md) | [Backend Integration](backend/basic-integration.md) |
+| **Example** | [Boilerplate repo](https://github.com/selfxyz/self-integration-boilerplate) | [Backend branch](https://github.com/selfxyz/self-integration-boilerplate/tree/backend-verification) |
+
+{% hint style="info" %}
+Both paths use the same frontend SDK (`@selfxyz/qrcode`) to display the QR code. The only difference is where verification happens.
+{% endhint %}
+
+## Choose Your Environment
+
+| Environment | Documents | Network | `endpointType` | When to use |
+|---|---|---|---|---|
+| **Staging** | Mock passports | Celo Sepolia | `staging_celo` (contract) or `staging_https` (backend) | Development and testing |
+| **Production** | Real passports | Celo Mainnet | `celo` (contract) or `https` (backend) | Live applications |
+
+{% hint style="warning" %}
+Mock passports only work with staging endpoints on Celo Sepolia. Real passports only work with production endpoints on Celo Mainnet. See [Using Mock Passports](using-mock-passports.md) for setup instructions.
+{% endhint %}
+
+### Key Concepts
+
+* **`scopeSeed`** — A short string (max 31 ASCII characters) that uniquely identifies your application, e.g. `"my-airdrop-app"`. You pass this into your smart contract constructor as `scopeSeed`, and it gets hashed together with the contract address (using Poseidon) to produce the final `scope` — a uint256 value used in proofs to ensure nullifiers are unique to your app and prevent proof replay. Note: the frontend `SelfAppBuilder` currently names this field `scope`, but you are passing in the `scopeSeed` value.
+* **`endpointType`** — Determines where the proof is sent and which network is used (see table above).
+* **`endpoint`** — The destination address. For contract verification, this is your deployed contract address. For backend verification, this is your API URL.
 
 ## Overview
-
-To use Self in your web app, you will display QR codes to request proofs from your front-end, then you have a choice to verify them in your own back-end or onchain. All apps must integrate:
-
-Frontend:
-
-* [The front-end SDK](../frontend-integration/qrcode-sdk.md) generates and displays QR codes containing information from your app and what you want users to disclose.
-
-Verification:
-
-* [Verify through the onchain smart contracts](../contract-integration/basic-integration.md). The verification happens on chain in a completely trustless manner. A demo working example can be found here: [https://github.com/selfxyz/workshop](https://github.com/selfxyz/workshop)
-* [Verify through your projects backend](../backend-integration/basic-integration.md). The back-end SDK verifies proofs on a node server (as in this quickstart). The verification is done on the projects own backend, meaning their is a trust assumption the users must make about the verification being done correctly. A demo working example can be found here: [https://github.com/selfxyz/workshop/tree/backend-verification](https://github.com/selfxyz/workshop/tree/backend-verification)
 
 <figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
@@ -90,8 +113,8 @@ function VerificationPage() {
     try {
       const app = new SelfAppBuilder({
         version: 2,
-        appName: process.env.NEXT_PUBLIC_SELF_APP_NAME || "Self Workshop",
-        scope: process.env.NEXT_PUBLIC_SELF_SCOPE || "self-workshop",
+        appName: process.env.NEXT_PUBLIC_SELF_APP_NAME || "My App",
+        scope: process.env.NEXT_PUBLIC_SELF_SCOPE || "my-app",
         endpoint: `${process.env.NEXT_PUBLIC_SELF_ENDPOINT}`,
         logoBase64: "https://i.postimg.cc/mrmVf9hm/self.png",
         userId: userId,
@@ -141,7 +164,7 @@ export default VerificationPage;
 ```
 
 {% hint style="info" %}
-If you instead want to use the Self App on a mobile then we check out the [use-deeplinking.md](use-deeplinking.md "mention") and [#usage-mobile](../frontend-integration/qrcode-sdk.md#usage-mobile "mention") sections!
+If you instead want to use the Self App on a mobile then we check out the [use-deeplinking.md](use-deeplinking.md "mention") and [#usage-mobile](frontend/qrcode-sdk.md#usage-mobile "mention") sections!
 {% endhint %}
 
 ### Verification Flow
@@ -194,9 +217,9 @@ import { SelfBackendVerifier, AllIds, DefaultConfigStore } from "@selfxyz/core";
 
 // Reuse a single verifier instance
 const selfBackendVerifier = new SelfBackendVerifier(
-  "self-playground",
-  "https://playground.self.xyz/api/verify",
-  false, // mockPassport: false = mainnet, true = staging/testnet
+  "my-app", // scope — must match the scope in your frontend SelfAppBuilder
+  "https://your-app.com/api/verify", // your backend endpoint
+  false, // mockPassport: false = production, true = staging/testnet
   AllIds,
   new DefaultConfigStore({
     minimumAge: 18,
@@ -244,7 +267,7 @@ export async function POST(req: Request) {
           status: "error",
           result: false,
           reason: "Verification failed",
-          error_code: "VERIFICATION_FAILED"
+          error_code: "VERIFICATION_FAILED",
           details: result.isValidDetails,
         },
         { status: 200 }
@@ -293,3 +316,10 @@ disclosures: {
   gender: true,
 }
 ```
+
+## Next Steps
+
+* [Disclosures](disclosures.md) — Full reference for all verification rules and disclosure fields
+* [Deployed Contracts](contracts/deployed-contracts.md) — Hub addresses for Celo Mainnet and Sepolia
+* [Using Mock Passports](using-mock-passports.md) — Test your integration without a real passport
+* [Troubleshooting](troubleshooting.md) — Common errors and solutions

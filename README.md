@@ -6,32 +6,42 @@ coverY: 0
 
 # Self Protocol
 
-Verify real users while preserving privacy.
+Self is a **privacy-first, open-source identity protocol** built on **zero-knowledge proofs**. It lets developers verify real-world identity attributes — age, nationality, sanctions status, proof-of-human — without exposing personal data.
 
-## Overview
+Self bridges the gap between real-world identity and on-chain activity. Users verify once with the Self app, then selectively disclose attributes across any application that integrates the protocol.
 
-Self is a **privacy-first, open-source identity protocol** that uses **zero-knowledge proofs** for secure identity verification.
+## Products
 
-It enables **Sybil resistance** and **selective disclosure** using real-world attestations like passports, national IDs, Aadhaar, and KYC attestations. With a few lines of code, developers can easily check if their users are humans, while preserving their privacy.
+### Self Pass
 
-### All you need for building on Self
+Identity verification for applications. Verify that your users are real humans, meet age requirements, or pass sanctions checks — all without seeing their personal data. Supports passports, national IDs, Aadhaar, and KYC attestations from 60+ countries.
 
-* [Workshop (ETHGlobal Buenos Aires)](https://www.loom.com/share/8a6d116a5f66415998a496f06fefdc23) - Essential workshop for getting started
-* [Self Builder Group](https://t.me/+d2TGsbkSDmgzODVi)
-* [Celo Testnet Faucet](https://faucet.celo.org/celo-sepolia)
+[Get started with Self Pass](self-pass/README.md)
 
-### How it Works
+### Self Connect
 
-Self Protocol simplifies **digital identity verification** with **zero-knowledge proofs** in three steps:
+An open-source protocol that maps off-chain identifiers (phone numbers, email addresses, Twitter handles, GitHub usernames) to on-chain blockchain addresses. Enables users to discover and transact with each other using familiar identifiers instead of hex addresses.
 
-1. **Scan or Verify Your Document:** Use your supported document flow in the Self app (passport, ID card, Aadhaar, or KYC).
-2. **Generate a Proof:** Generate a zk proof over your attestation, selecting only what you want to disclose.
-3. **Share Your Proof:** Share your zk proof with the selected application.
+[Get started with Self Connect](self-connect/introduction-and-overview.md)
 
-### Common use cases for Self:
+### Self Agent ID
 
-* **Airdrop protection:** Protect a token distribution from bots
-* **Social media:** Add humanity checks to user's profiles
-* **Quadratic funding:** Prevent farmers from skewing rewards
-* **Wallet recovery:** Safeguard assets using IDs as recovery sources
-* **Sanction list checking:** Check users are not on sanctioned entity lists
+On-chain proof-of-human identity for AI agents. Each agent receives a soulbound ERC-721 NFT backed by a ZK passport verification, enabling trustless proof-of-human for autonomous agents. Implements the ERC-8004 standard with SDKs in TypeScript, Python, and Rust.
+
+[Get started with Self Agent ID](agent-id/overview.md)
+
+## Use Cases
+
+* **Sybil resistance** — Prove users are unique humans without collecting personal data
+* **Age verification** — Gate content or services by age without revealing date of birth
+* **Compliance** — Check sanctions lists (OFAC) and nationality restrictions on-chain
+* **Airdrop protection** — Ensure token distributions go to real, unique humans
+* **Quadratic funding** — Prevent farmers from skewing rewards
+* **Agent identity** — Prove AI agents are backed by verified humans
+* **Social identity** — Map real-world identifiers to wallet addresses
+
+## Resources
+
+* [Workshop (ETHGlobal Buenos Aires)](https://www.loom.com/share/8a6d116a5f66415998a496f06fefdc23) — Hands-on introduction to building with Self
+* [Self Builder Group](https://t.me/+d2TGsbkSDmgzODVi) — Telegram community for developers
+* [Celo Sepolia Faucet](https://faucet.celo.org/celo-sepolia) — Testnet funds for development

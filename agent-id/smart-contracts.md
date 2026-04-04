@@ -252,6 +252,6 @@ The registry uses role-based governance with two multisig wallets:
 
 ## Integration with Self Protocol
 
-The `SelfHumanProofProvider` connects to Self Protocol's [Identity Verification Hub V2](../contract-integration/basic-integration.md). See the [Working with userDefinedData](../contract-integration/working-with-userdefineddata.md) guide for details on how the registration data is encoded.
+The `SelfHumanProofProvider` connects to Self Protocol's [Identity Verification Hub V2](../self-pass/contracts/basic-integration.md). See the [Working with userDefinedData](../self-pass/contracts/working-with-userdefineddata.md) guide for details on how the registration data is encoded.
 
 All core registries (SelfAgentRegistry, SelfReputationRegistry, SelfValidationRegistry) are deployed as UUPS proxies with ERC-7201 namespaced storage, enabling safe upgrades without storage collision.

@@ -1,7 +1,3 @@
----
-hidden: true
----
-
 # Self Attestation
 
 The `SelfAttestation` interface represents the structure of an attestation used in the Self system. It includes details about the credential subject, proof, and document signing certificate (DSC) proof. It has been designed according to W3C standards.

@@ -20,7 +20,7 @@ Self allows users to prove identity using Aadhaar in a **privacy-preserving** wa
    1. #### Download the official **mAadhaar app** from UIDAI ([Android](https://play.google.com/store/apps/details?id=in.gov.uidai.mAadhaarPlus)/[IOS](https://apps.apple.com/in/app/maadhaar/id1435469474)).&#x20;
    2.  #### Inside the app, generate a **QR code** that contains Aadhaar demographic details.
 
-       <figure><img src="../.gitbook/assets/WhatsApp Image 2025-09-26 at 00.13.52.jpeg" alt="" width="149"><figcaption><p>mAadhaar</p></figcaption></figure>
+       <figure><img src="../../.gitbook/assets/WhatsApp Image 2025-09-26 at 00.13.52.jpeg" alt="" width="149"><figcaption><p>mAadhaar</p></figcaption></figure>
    3. #### Upload this QR code in the Self app to register.
       1. #### Self processes this QR to derive a unique **nullifier** (an identifier) that allows users to prove uniqueness without sharing their Aadhaar number directly.
 2. #### By using the UIDAI website

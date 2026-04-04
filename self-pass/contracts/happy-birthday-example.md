@@ -164,7 +164,7 @@ function withdrawUSDC(address to, uint256 amount) external onlyOwner {
 
 **V2 Date Simplification:** Direct access to `output.dateOfBirth` eliminates complex parsing **Multi-Document Rewards:** Different bonus structures for passport vs EU ID card users **Flexible Windows:** Configurable birthday claim periods **Admin Controls:** Owner can adjust amounts, windows, and bonuses
 
-For verification configuration setup, see [Hub Verification Process](../technical-docs/verification-in-the-identityverificationhub.md#v2-enhanced-verifications).
+For verification configuration setup, see [Hub Verification Process](../architecture/verification-hub.md#v2-enhanced-verifications).
 
 ### Configuration Management
 
