@@ -1,7 +1,7 @@
 # KMP SDK
 
 {% hint style="warning" %}
-The Self KMP SDK is currently in **alpha**. To get access or try it out, please contact the Self team.
+The Self KMP SDK is currently in **alpha**. To get access or try it out, please [contact the Self team](https://self.xyz/#contact).
 {% endhint %}
 
 ## Overview
