@@ -51,7 +51,7 @@ Keys are scoped to an org. Issue, rotate, and revoke under **Settings → API ke
 
 ## Webhook subscription
 
-A signed delivery channel for events. You register a URL in **Settings → Webhooks** and pick which event types you want. We send Svix-signed payloads with retries.
+A signed delivery channel for events. You register a URL in **Settings → Webhooks** and pick which event types you want. We send signed JSON payloads with automatic retries.
 
 See the [event catalog](../webhooks/events.md) for what's available.
 

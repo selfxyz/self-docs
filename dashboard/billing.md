@@ -4,6 +4,8 @@
 
 For the billing model and how to estimate cost, see [Billing](../billing/plans.md).
 
+> 📸 _**Screenshot:** Billing page showing the plan card, credit balance, and usage chart._
+
 ## What's on this page
 
 ### Plan card
@@ -12,7 +14,7 @@ Your current plan (Free, Pro, or Enterprise; see [Plans](../billing/plans.md)) a
 
 ### Payment method
 
-A Stripe-managed card. **Update** opens a Stripe Checkout session where you can replace it. We don't store card data ourselves; Stripe holds the card and we hold a customer reference.
+A card on file with our payment processor. **Update** opens a secure checkout flow where you can replace it. We don't store card data ourselves; only a customer reference.
 
 For ACH or invoiced billing (Enterprise plans), contact billing@self.xyz.
 
@@ -43,7 +45,7 @@ Configure billing-related notifications:
 
 * **Low balance**: email when credits dip below a threshold.
 * **Invoice issued**: email when a new invoice posts.
-* **Payment failed**: email when Stripe can't charge the card on file.
+* **Payment failed**: email when we can't charge the card on file.
 
 ## Related
 

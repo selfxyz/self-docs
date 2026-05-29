@@ -116,7 +116,7 @@ The package is ESM-only and requires Node 18+.
 
 The body or headers were modified between Self and your handler.
 
-* You're using `express.json()` before the webhook route, the body is now a parsed object, not the raw bytes Svix signed. Use `express.raw({ type: 'application/json' })` for the webhook path only.
+* You're using `express.json()` before the webhook route, the body is now a parsed object, not the raw bytes we signed. Use `express.raw({ type: 'application/json' })` for the webhook path only.
 * A proxy is normalizing or rewriting the body. Configure it to pass through untouched.
 * Wrong signing secret. Each webhook endpoint has its own.
 

@@ -8,7 +8,7 @@ Self Enterprise is the managed offering on top of the [Self protocol](https://do
 | Issue credentials to users | Run your own backend + hosted page | Hand the user a `verificationUrl` from the API |
 | Verify a proof | Run Groth16 verifier yourself (or on-chain) | We verify on the hot path; you receive a signed webhook |
 | Store the result | Build your own store + audit log | Optional decentralized storage; full audit log in the dashboard |
-| Bill the work | n/a | Usage-based, metered via Metronome, paid via Stripe |
+| Bill the work | n/a | Usage-based, metered automatically, billed monthly |
 
 If your team wants a fast path from "we want ZK identity verification" to a working integration, Enterprise is the path. If your team prefers to own the full stack, the open-source SDK at [docs.self.xyz](https://docs.self.xyz) is still the right tool.
 
@@ -30,7 +30,7 @@ If your team wants a fast path from "we want ZK identity verification" to a work
        │                                          ▼
 ┌──────────────┐                          ┌──────────────┐
 │ Your backend │  ◀──────────────────────  │  Self app   │
-└──────────────┘    Svix-signed           │  (user)      │
+└──────────────┘   signed webhook         │  (user)      │
                                           └──────────────┘
 ```
 

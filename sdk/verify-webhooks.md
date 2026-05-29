@@ -1,6 +1,6 @@
 # Verify webhooks
 
-The SDK ships a `SelfWebhooks.verify(...)` helper that checks the Svix signature and returns a typed event payload.
+The SDK ships a `SelfWebhooks.verify(...)` helper that checks the signature and returns a typed event payload.
 
 ## Setup
 
@@ -46,7 +46,7 @@ app.post(
       if (err instanceof WebhookVerificationError) {
         res.status(400).end();
       } else {
-        // Schema mismatch (ZodError) or server bug, log and 5xx so Svix retries.
+        // Schema mismatch (ZodError) or server bug, log and 5xx so we retry.
         res.status(500).end();
       }
     }

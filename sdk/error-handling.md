@@ -80,7 +80,7 @@ try {
   const event = SelfWebhooks.verify(raw, headers, secret);
 } catch (err) {
   if (err instanceof WebhookVerificationError) {
-    // Respond 400. Svix won't retry a 4xx, which is what you want for a bad signature.
+    // Respond 400. We won't retry a 4xx, which is what you want for a bad signature.
   }
 }
 ```

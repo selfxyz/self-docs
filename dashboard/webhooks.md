@@ -4,6 +4,8 @@
 
 For the conceptual model and signature verification, see the [Webhooks section](../webhooks/overview.md).
 
+> 📸 _**Screenshot:** Webhooks page with a couple of registered endpoints, status badges, and recent-delivery info._
+
 ## Adding an endpoint
 
 Click **Add endpoint**:
@@ -24,6 +26,8 @@ For each endpoint:
 
 Click an endpoint to see its delivery history (response codes, latency, retry counts).
 
+> 📸 _**Screenshot:** Endpoint detail showing the delivery history table with timestamps, response codes, and retry counts._
+
 ## Replay & test
 
 From an endpoint's detail view:
@@ -35,7 +39,7 @@ Replays carry a header `svix-replay: true` so you can tell them apart from origi
 
 ## Retry policy
 
-Failed deliveries (non-2xx, timeout, connection error) are retried automatically by Svix on an exponential schedule. After the final attempt the event is parked in **Failed deliveries**; you can replay from there.
+Failed deliveries (non-2xx, timeout, connection error) are retried automatically on an exponential schedule. After the final attempt the event is parked in **Failed deliveries**; you can replay from there.
 
 > See [Best practices](../webhooks/best-practices.md) for handler design, idempotency, ordering, and replay.
 

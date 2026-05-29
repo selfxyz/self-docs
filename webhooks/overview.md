@@ -6,8 +6,8 @@ Webhooks are the canonical way to learn that a verification finished. Polling wo
 
 1. You register an HTTPS endpoint in the dashboard ([Settings → Webhooks](../dashboard/webhooks.md)).
 2. You subscribe to one or more event types.
-3. When the event fires, we POST a JSON payload to your endpoint, signed by [Svix](https://www.svix.com).
-4. Your handler verifies the signature (via the SDK or Svix directly) and processes the event.
+3. When the event fires, we POST a JSON payload to your endpoint, signed so you can verify it came from us.
+4. Your handler verifies the signature (via the SDK) and processes the event.
 5. You return `2xx` to acknowledge. Non-2xx triggers a retry.
 
 ```
@@ -33,7 +33,7 @@ See [Event catalog](events.md) for the full payloads.
 
 ## Headers
 
-Every delivery carries Svix headers:
+Every delivery carries these signature headers:
 
 ```
 svix-id: msg_2abc...               # unique message ID
@@ -56,7 +56,7 @@ svix-replay: true
 
 ## Idempotency
 
-The Svix `svix-id` header is unique per delivery. The event payload itself uses a stable ID:
+The `svix-id` header is unique per delivery. The event payload itself uses a stable ID:
 
 * Terminal events (`verification.completed`): `<verification_id>-<status>`.
 * Storage events: `<verification_id>-storage-<state>`.
@@ -65,7 +65,7 @@ Dedupe in your handler using the event ID. See [Best practices](best-practices.m
 
 ## Reliability
 
-* Svix retries failed deliveries on an exponential schedule for up to several days.
+* We retry failed deliveries on an exponential schedule for up to several days.
 * You can replay any past event from the dashboard.
 * Failed deliveries (after all retries) park in **Settings → Webhooks → Failed deliveries**.
 

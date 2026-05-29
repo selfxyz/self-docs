@@ -17,6 +17,8 @@ In the **Deploy** tab:
 2. Click **Publish version**.
 3. Confirm. The draft is frozen, a new version is created, and `latestPublishedVersionId` advances.
 
+> 📸 _**Screenshot:** Deploy tab showing the version diff and the **Publish version** button._
+
 The next `sessions.create(...)` call against this `flowId` will use the new version.
 
 ## Rollback

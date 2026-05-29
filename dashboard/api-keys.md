@@ -2,6 +2,8 @@
 
 **Settings → API keys**. One screen per environment.
 
+> 📸 _**Screenshot:** API keys list in the dashboard, with a few keys shown and the **Create key** button visible._
+
 ## Issuing a key
 
 Click **Create key**. You'll choose:
@@ -10,6 +12,8 @@ Click **Create key**. You'll choose:
 * **Name**: a human label (e.g. `prod-backend`, `staging`, `local-kartik`).
 
 The key is shown **once**. Copy it into your secret manager (e.g. GCP Secret Manager, AWS Secrets Manager, 1Password). We never display the full key again. From then on, only the masked form (`sk_test_•••8a3f`) is visible.
+
+> 📸 _**Screenshot:** The "key created" modal, showing the full key once with a Copy button._
 
 ## Key shape
 

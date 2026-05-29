@@ -24,11 +24,15 @@ A flow has three parts:
 
 Fill them in, then click **Publish version**. Your flow now has a published `flowId`, copy it.
 
+> 📸 _**Screenshot:** Published flow card showing the `flowId` and a "Copy" button._
+
 > **Test vs. live:** A flow published in your test environment only accepts mock passports and never bills credits. See [Test vs. live](../flows/test-vs-live.md).
 
 ## 3. Create an API key
 
 **Settings → API keys → Create key**. Choose `test` while you're integrating. The key (`sk_test_...`) is shown once, store it as `SELF_API_KEY` in your backend's secret manager.
+
+> 📸 _**Screenshot:** API key creation flow, showing the env selector (test/live) and the masked key after creation._
 
 ## 4. Install the SDK
 
@@ -94,6 +98,8 @@ app.post(
 ## 8. Test the loop
 
 Open the `verificationUrl` from step 5, run through with a mock passport, and watch your webhook handler fire. The dashboard's **Activity log** tab on the flow shows the verification end-to-end.
+
+> 📸 _**Screenshot:** Hosted verification page (with QR code) next to the Activity log showing a completed session._
 
 ## What's next
 

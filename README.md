@@ -11,7 +11,7 @@ Self Enterprise is the managed plane for builders integrating Self's zero-knowle
 
 * **A dashboard**: configure verification flows, manage API keys and webhooks, see what's happening in real time.
 * **An SDK**: `@selfxyz/enterprise-sdk` for Node/TS, with typed sessions and webhook verification.
-* **Webhooks**: Svix-signed delivery of `verification.completed` and storage events to your backend.
+* **Webhooks**: signed delivery of `verification.completed` and storage events to your backend.
 * **Usage-based billing**: pay only for the verifications you complete, metered automatically.
 
 ## Pick your path

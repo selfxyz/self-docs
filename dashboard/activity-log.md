@@ -2,6 +2,8 @@
 
 The **Activity log** tab in the product editor shows every session against a flow, plus aggregate signal at the top.
 
+> 📸 _**Screenshot:** Activity log with the sessions-over-time chart at top and the paginated session table below._
+
 ## What you see
 
 Top of the tab:
@@ -26,6 +28,9 @@ Below that, a paginated table:
 ## Drilling in
 
 Clicking a row opens the session detail:
+
+> 📸 _**Screenshot:** A session detail panel showing `proofAttributes`, the rules version, and webhook delivery state._
+
 
 * The disclosed `proofAttributes` (only the attributes the user proved).
 * The exact rules version evaluated.

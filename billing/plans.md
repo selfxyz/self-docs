@@ -33,7 +33,7 @@ For volume, regulated environments, and bespoke needs.
 * **Rate limits**: negotiated.
 * **Support**: dedicated channel (Slack / Teams), 24/7 incident response, named CSM.
 * **Features**: everything in Pro, plus:
-  * **SSO / SCIM**: enforced sign-in and directory provisioning via WorkOS.
+  * **SSO / SCIM**: enforced sign-in and directory provisioning via your identity provider (SAML, OIDC, Google Workspace, Okta).
   * **Custom data residency**: EU / US / region of your choice for verification storage.
   * **Custom contracts**: DPA, BAA, security questionnaires.
   * **Direct line to engineering**: feature requests routed through your CSM.

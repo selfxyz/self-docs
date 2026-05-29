@@ -25,7 +25,7 @@ if (inserted.rowCount === 0) {
 await applyVerification(event);
 ```
 
-Use the `verification_id` (stable across retries), not the Svix `svix-id` (unique per delivery, including replays).
+Use the `verification_id` (stable across retries), not the `svix-id` (unique per delivery, including replays).
 
 ## 2. Acknowledge quickly, work async
 
@@ -82,7 +82,7 @@ app.post('/webhooks/self', express.raw({ type: 'application/json' }), (req, res)
 
 ## 6. Return the right status codes
 
-| Your response | Svix behavior |
+| Your response | What we do |
 | --- | --- |
 | `2xx` | Delivery successful. No retry. |
 | `4xx` (except 408, 429) | Treated as a permanent rejection. No retry. |

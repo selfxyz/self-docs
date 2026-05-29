@@ -2,6 +2,8 @@
 
 The dashboard at [dashboard.self.xyz](https://dashboard.self.xyz) is where you configure products, manage keys, watch traffic, and pay for what you use. This page is a map.
 
+> 📸 _**Screenshot:** Dashboard home view, with the org switcher visible in the top-left and the main nav (Home / Products / Settings)._
+
 ## Layout
 
 ```

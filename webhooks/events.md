@@ -50,7 +50,7 @@ Fires when off-chain verification finishes, either successfully or with a defini
 * `error`: verification failed for a technical reason (unsupported document, malformed proof, signature mismatch). Not the user's fault necessarily.
 * `expired`: session expired before completion.
 
-### Svix message ID
+### Event ID (for deduplication)
 
 The deduplication key is `<verification_id>-<status>`.
 
@@ -80,7 +80,7 @@ Fires when the async decentralized-storage write for a verification succeeds.
 
 If you don't care about decentralized storage, ignore this event type.
 
-### Svix message ID
+### Event ID (for deduplication)
 
 `<verification_id>-storage-committed`.
 
@@ -108,7 +108,7 @@ The verification itself is still authoritative, `verification.completed` already
 
 If your integration depends on the storage record (e.g. minting a credential NFT), you'll want to handle this case: log it, alert ops, or fall back to the API for the verification result.
 
-### Svix message ID
+### Event ID (for deduplication)
 
 `<verification_id>-storage-failed`.
 

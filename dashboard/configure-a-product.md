@@ -2,6 +2,8 @@
 
 Every flow is configured in the **Configure** tab of the product editor. Three sub-tabs.
 
+> 📸 _**Screenshot:** Product editor with the Configure tab open, showing the three sub-tabs (Rules / Documents / Settings)._
+
 ## Rules
 
 Rules are the predicates the user's ZK proof must satisfy. They map to disclosures: the user proves they meet the predicate without revealing the underlying attribute.
@@ -16,6 +18,8 @@ Common rules:
 | Proof of humanity | `is_human` | Always-on for Self Pass, passport-backed unique-human claim. |
 
 Add a rule by clicking **Add rule** in the Rules sub-tab and selecting a predicate type. The dashboard validates the combination (e.g. you can't both allow-list and deny-list nationality on the same flow).
+
+> 📸 _**Screenshot:** Rules sub-tab with a few sample rules added (age, nationality, OFAC)._
 
 ## Documents
 

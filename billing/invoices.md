@@ -17,7 +17,7 @@ For each billing period:
 
 ## How charging works
 
-* **Cards** (Stripe), auto-charged on invoice date. Failed charges retry on a backoff schedule and you'll see a "Payment failed" banner in the dashboard until resolved.
+* **Cards**: auto-charged on invoice date. Failed charges retry on a backoff schedule and you'll see a "Payment failed" banner in the dashboard until resolved.
 * **ACH**: auto-debited where mandate allows; otherwise net-30 terms.
 * **Invoiced** (Enterprise), net-30 by default, configurable.
 

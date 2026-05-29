@@ -62,7 +62,7 @@ To avoid this in production:
 
 ## Reading usage programmatically
 
-Metered events sync to Metronome (our metering backend). Customers on Enterprise plans get programmatic access to a usage API; reach out to your CSM.
+Metered events are aggregated by our usage system. Customers on Enterprise plans get programmatic access to a usage API; reach out to your CSM.
 
 For Pro and Free, the dashboard's CSV export is the source of truth.
 
