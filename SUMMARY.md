@@ -49,6 +49,38 @@
 * [Architecture & How It Works](self-connect/architecture-and-how-it-works.md)
 * [Developer Guide](self-connect/developer-guide.md)
 
+## Self Enterprise
+
+* [Self Enterprise](enterprise/README.md)
+* [What is Self Enterprise](enterprise/get-started/what-is-self-enterprise.md)
+* [Quickstart](enterprise/get-started/quickstart.md)
+* [Concepts](enterprise/get-started/concepts.md)
+* [Dashboard overview](enterprise/dashboard/overview.md)
+  * [Configure a product](enterprise/dashboard/configure-a-product.md)
+  * [Publish a flow version](enterprise/dashboard/publish-a-flow-version.md)
+  * [Activity log](enterprise/dashboard/activity-log.md)
+  * [API keys](enterprise/dashboard/api-keys.md)
+  * [Webhooks](enterprise/dashboard/webhooks.md)
+  * [People (members & invites)](enterprise/dashboard/people.md)
+  * [Billing](enterprise/dashboard/billing.md)
+* [Enterprise SDK](enterprise/sdk/nodejs.md)
+  * [Verify webhooks](enterprise/sdk/verify-webhooks.md)
+  * [Error handling](enterprise/sdk/error-handling.md)
+* [Webhooks](enterprise/webhooks/overview.md)
+  * [Signature verification](enterprise/webhooks/signature-verification.md)
+  * [Event catalog](enterprise/webhooks/events.md)
+  * [Best practices](enterprise/webhooks/best-practices.md)
+* [Verification flows](enterprise/flows/anatomy.md)
+  * [Disclosures](enterprise/flows/disclosures.md)
+  * [Supported documents](enterprise/flows/supported-documents.md)
+  * [Test vs. live](enterprise/flows/test-vs-live.md)
+  * [Using mock passports](enterprise/guides/using-mock-passports.md)
+* [Billing](enterprise/billing/plans.md)
+  * [Credits and usage](enterprise/billing/credits-and-usage.md)
+  * [Invoices](enterprise/billing/invoices.md)
+* [Migration from open-source SDK](enterprise/migration/from-self-pass-sdk.md)
+* [Troubleshooting](enterprise/reference/troubleshooting.md)
+
 ## Self Agent ID
 
 * [Overview](agent-id/overview.md)
