@@ -1,16 +1,8 @@
 # What is Self Enterprise
 
-Self Enterprise is the managed offering on top of the [Self protocol](https://docs.self.xyz). It bundles the parts you'd otherwise have to build:
+Self Enterprise is the managed plane for zero-knowledge identity verification. You configure flows in a dashboard, call a single SDK, and receive signed webhook events when users verify. We handle credential issuance, proof verification, decentralized storage, and the audit trail.
 
-| Concern | Open-source Self | Self Enterprise |
-| --- | --- | --- |
-| Configure a verification flow | Encode disclosures in your contract / backend | Configure in the dashboard, publish a version |
-| Issue credentials to users | Run your own backend + hosted page | Hand the user a `verificationUrl` from the API |
-| Verify a proof | Run Groth16 verifier yourself (or on-chain) | We verify on the hot path; you receive a signed webhook |
-| Store the result | Build your own store + audit log | Optional decentralized storage; full audit log in the dashboard |
-| Bill the work | n/a | Usage-based, metered automatically, billed monthly |
-
-If your team wants a fast path from "we want ZK identity verification" to a working integration, Enterprise is the path. If your team prefers to own the full stack, the open-source SDK at [docs.self.xyz](https://docs.self.xyz) is still the right tool.
+The integration is small: one `sessions.create(...)` call, a hosted page the user opens, and a webhook on your backend.
 
 ## Who is it for?
 

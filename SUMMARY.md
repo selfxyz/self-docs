@@ -46,10 +46,6 @@
 * [Credits and usage](billing/credits-and-usage.md)
 * [Invoices](billing/invoices.md)
 
-## Migration
-
-* [From the open-source self-pass SDK](migration/from-self-pass-sdk.md)
-
 ## Reference
 
 * [Document specifications](reference/document-specifications/README.md)
