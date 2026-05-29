@@ -1,99 +1,59 @@
 # Table of contents
 
-* [Self Protocol](README.md)
+* [Self Enterprise](README.md)
 
-## Self Pass
+## Get started
 
-* [Overview](self-pass/README.md)
-* [Quickstart](self-pass/quickstart.md)
-* [Disclosures](self-pass/disclosures.md)
-* [Use Deeplinking](self-pass/use-deeplinking.md)
-* [Using Mock Passports](self-pass/using-mock-passports.md)
-* [Frontend SDK](self-pass/frontend/qrcode-sdk.md)
-  * [API Reference](self-pass/frontend/qrcode-sdk-api-reference.md)
-  * [Disclosure Configs](self-pass/frontend/disclosure-configs.md)
-* [Backend SDK](self-pass/backend/basic-integration.md)
-  * [ConfigStore](self-pass/backend/configstore.md)
-  * [API Reference](self-pass/backend/selfbackendverifier-api-reference.md)
-* [Smart Contracts](self-pass/contracts/basic-integration.md)
-  * [Deployed Contracts](self-pass/contracts/deployed-contracts.md)
-  * [Airdrop Example](self-pass/contracts/airdrop-example.md)
-  * [Happy Birthday Example](self-pass/contracts/happy-birthday-example.md)
-  * [Working with userDefinedData](self-pass/contracts/working-with-userdefineddata.md)
-* [Mobile SDK](self-pass/mobile-sdk/getting-started.md)
-  * [SelfClient Provider Setup](self-pass/mobile-sdk/selfclient-provider.md)
-  * [Native Modules Setup](self-pass/mobile-sdk/native-modules-setup.md)
-  * [Onboarding Screen Components](self-pass/mobile-sdk/onboarding-screens.md)
-  * [Examples](self-pass/mobile-sdk/examples/README.md)
-    * [Minimal Setup](self-pass/mobile-sdk/examples/minimal-setup.md)
-    * [Navigation Setup](self-pass/mobile-sdk/examples/navigation-setup.md)
-    * [Demo Walkthrough](self-pass/mobile-sdk/examples/demo-walkthrough.md)
-* [KMP SDK (Alpha)](self-pass/kmp-sdk.md)
-* [Document Specifications](self-pass/document-specification/aadhaar.md)
-  * [Aadhaar](self-pass/document-specification/aadhaar.md)
-  * [KYC](self-pass/document-specification/kyc.md)
-* [Supported Countries](self-pass/architecture/countries-list.md)
-* [Troubleshooting](self-pass/troubleshooting.md)
-* [AI Developer Tools](self-pass/ai-developer-tools.md)
-* [V1 to V2 Migration Guide](self-pass/migration-v1-v2.md)
-* [Architecture](self-pass/architecture/overview.md)
-  * [ZK Proof Architecture](self-pass/architecture/zk-proof-architecture.md)
-  * [Verification in the IdentityVerificationHub](self-pass/architecture/verification-hub.md)
-  * [OFAC & CSCA Auto-Updaters](self-pass/architecture/ofac-csca-auto-updaters.md)
-  * [Verification Result](self-pass/architecture/self-attestation.md)
-  * [Deployments](self-pass/architecture/deployments.md)
+* [What is Self Enterprise](get-started/what-is-self-enterprise.md)
+* [Quickstart](get-started/quickstart.md)
+* [Concepts](get-started/concepts.md)
 
-## Self Connect
+## Dashboard
 
-* [Introduction & Overview](self-connect/introduction-and-overview.md)
-* [Architecture & How It Works](self-connect/architecture-and-how-it-works.md)
-* [Developer Guide](self-connect/developer-guide.md)
+* [Overview](dashboard/overview.md)
+* [Configure a product](dashboard/configure-a-product.md)
+* [Publish a flow version](dashboard/publish-a-flow-version.md)
+* [Activity log](dashboard/activity-log.md)
+* [API keys](dashboard/api-keys.md)
+* [Webhooks](dashboard/webhooks.md)
+* [People (members & invites)](dashboard/people.md)
+* [Billing](dashboard/billing.md)
 
-## Self Enterprise
+## Enterprise SDK
 
-* [Self Enterprise](enterprise/README.md)
-* [What is Self Enterprise](enterprise/get-started/what-is-self-enterprise.md)
-* [Quickstart](enterprise/get-started/quickstart.md)
-* [Concepts](enterprise/get-started/concepts.md)
-* [Dashboard overview](enterprise/dashboard/overview.md)
-  * [Configure a product](enterprise/dashboard/configure-a-product.md)
-  * [Publish a flow version](enterprise/dashboard/publish-a-flow-version.md)
-  * [Activity log](enterprise/dashboard/activity-log.md)
-  * [API keys](enterprise/dashboard/api-keys.md)
-  * [Webhooks](enterprise/dashboard/webhooks.md)
-  * [People (members & invites)](enterprise/dashboard/people.md)
-  * [Billing](enterprise/dashboard/billing.md)
-* [Enterprise SDK](enterprise/sdk/nodejs.md)
-  * [Verify webhooks](enterprise/sdk/verify-webhooks.md)
-  * [Error handling](enterprise/sdk/error-handling.md)
-* [Webhooks](enterprise/webhooks/overview.md)
-  * [Signature verification](enterprise/webhooks/signature-verification.md)
-  * [Event catalog](enterprise/webhooks/events.md)
-  * [Best practices](enterprise/webhooks/best-practices.md)
-* [Verification flows](enterprise/flows/anatomy.md)
-  * [Disclosures](enterprise/flows/disclosures.md)
-  * [Supported documents](enterprise/flows/supported-documents.md)
-  * [Test vs. live](enterprise/flows/test-vs-live.md)
-  * [Using mock passports](enterprise/guides/using-mock-passports.md)
-* [Billing](enterprise/billing/plans.md)
-  * [Credits and usage](enterprise/billing/credits-and-usage.md)
-  * [Invoices](enterprise/billing/invoices.md)
-* [Migration from open-source SDK](enterprise/migration/from-self-pass-sdk.md)
-* [Troubleshooting](enterprise/reference/troubleshooting.md)
+* [Node.js / TypeScript](sdk/nodejs.md)
+* [Verify webhooks](sdk/verify-webhooks.md)
+* [Error handling](sdk/error-handling.md)
 
-## Self Agent ID
+## Webhooks
 
-* [Overview](agent-id/overview.md)
-* [Registration Modes](agent-id/registration-modes.md)
-* [SDK Integration](agent-id/sdk-integration.md)
-* [Verification Patterns](agent-id/verification-patterns.md)
-* [Smart Contracts](agent-id/smart-contracts.md)
-* [REST API](agent-id/rest-api.md)
-* [CLI](agent-id/cli.md)
-* [Celo Agent Visa](agent-id/celo-agent-visa.md)
-* [Guides](agent-id/guides/agent-builder.md)
-  * [Building an Agent](agent-id/guides/agent-builder.md)
-  * [Verifying Agents (Service)](agent-id/guides/service-operator.md)
-  * [Gating Smart Contracts](agent-id/guides/contract-developer.md)
-  * [Using MCP Server](agent-id/guides/mcp-user.md)
-* [Troubleshooting](agent-id/troubleshooting.md)
+* [Overview](webhooks/overview.md)
+* [Signature verification](webhooks/signature-verification.md)
+* [Event catalog](webhooks/events.md)
+* [Best practices](webhooks/best-practices.md)
+
+## Verification flows
+
+* [Anatomy of a flow](flows/anatomy.md)
+* [Disclosures](flows/disclosures.md)
+* [Supported documents](flows/supported-documents.md)
+* [Test vs. live](flows/test-vs-live.md)
+* [Using mock passports](guides/using-mock-passports.md)
+
+## Billing
+
+* [Plans](billing/plans.md)
+* [Credits and usage](billing/credits-and-usage.md)
+* [Invoices](billing/invoices.md)
+
+## Migration
+
+* [From the open-source self-pass SDK](migration/from-self-pass-sdk.md)
+
+## Reference
+
+* [Document specifications](reference/document-specifications/README.md)
+  * [Aadhaar](reference/document-specifications/aadhaar.md)
+  * [KYC](reference/document-specifications/kyc.md)
+* [Supported countries](reference/supported-countries.md)
+* [Troubleshooting](reference/troubleshooting.md)

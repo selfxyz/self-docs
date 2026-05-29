@@ -1,47 +1,32 @@
 ---
-icon: user
-cover: .gitbook/assets/110ft QuickZip Straight.png
-coverY: 0
+icon: building
+description: Verify real-world identity in your product without holding the data.
 ---
 
-# Self Protocol
+# Self Enterprise
 
-Self is a **privacy-first, open-source identity protocol** built on **zero-knowledge proofs**. It lets developers verify real-world identity attributes — age, nationality, sanctions status, proof-of-human — without exposing personal data.
+Self Enterprise is the managed plane for builders integrating Self's zero-knowledge identity verification. You configure flows in a dashboard, call a single SDK, and receive signed webhook events when users verify, without standing up smart contracts, hosting verifier infrastructure, or storing personal data yourself.
 
-Self bridges the gap between real-world identity and on-chain activity. Users verify once with the Self app, then selectively disclose attributes across any application that integrates the protocol.
+## What you get
 
-## Products
+* **A dashboard**: configure verification flows, manage API keys and webhooks, see what's happening in real time.
+* **An SDK**: `@selfxyz/enterprise-sdk` for Node/TS, with typed sessions and webhook verification.
+* **Webhooks**: Svix-signed delivery of `verification.completed` and storage events to your backend.
+* **Usage-based billing**: pay only for the verifications you complete, metered automatically.
 
-### Self Pass
+## Pick your path
 
-Identity verification for applications. Verify that your users are real humans, meet age requirements, or pass sanctions checks — all without seeing their personal data. Supports passports, national IDs, Aadhaar, and KYC attestations from 60+ countries.
+* **Just want to try it?** → [Quickstart](get-started/quickstart.md). Go from zero to a verified user in ten minutes.
+* **Migrating from the open-source SDK?** → [From self-pass SDK](migration/from-self-pass-sdk.md).
+* **Mapping out an integration?** → [Concepts](get-started/concepts.md) → [SDK](sdk/nodejs.md).
+* **Configuring a product in the dashboard?** → [Dashboard overview](dashboard/overview.md).
 
-[Get started with Self Pass](self-pass/README.md)
+## Beyond Enterprise
 
-### Self Connect
+Self also publishes open-source protocols that aren't covered here:
 
-An open-source protocol that maps off-chain identifiers (phone numbers, email addresses, Twitter handles, GitHub usernames) to on-chain blockchain addresses. Enables users to discover and transact with each other using familiar identifiers instead of hex addresses.
+* **Self Pass (open-source)**: the underlying identity protocol. Smart contracts, on-chain verification, ZK proofs.
+* **Self Connect**: off-chain identifier → blockchain address mapping.
+* **Self Agent ID**: proof-of-human identity for AI agents (ERC-8004).
 
-[Get started with Self Connect](self-connect/introduction-and-overview.md)
-
-### Self Agent ID
-
-On-chain proof-of-human identity for AI agents. Each agent receives a soulbound ERC-721 NFT backed by a ZK passport verification, enabling trustless proof-of-human for autonomous agents. Implements the ERC-8004 standard with SDKs in TypeScript, Python, and Rust.
-
-[Get started with Self Agent ID](agent-id/overview.md)
-
-## Use Cases
-
-* **Sybil resistance** — Prove users are unique humans without collecting personal data
-* **Age verification** — Gate content or services by age without revealing date of birth
-* **Compliance** — Check sanctions lists (OFAC) and nationality restrictions on-chain
-* **Airdrop protection** — Ensure token distributions go to real, unique humans
-* **Quadratic funding** — Prevent farmers from skewing rewards
-* **Agent identity** — Prove AI agents are backed by verified humans
-* **Social identity** — Map real-world identifiers to wallet addresses
-
-## Resources
-
-* [Workshop (ETHGlobal Buenos Aires)](https://www.loom.com/share/8a6d116a5f66415998a496f06fefdc23) — Hands-on introduction to building with Self
-* [Self Builder Group](https://t.me/+d2TGsbkSDmgzODVi) — Telegram community for developers
-* [Celo Sepolia Faucet](https://faucet.celo.org/celo-sepolia) — Testnet funds for development
+Reference documentation for those products lives at [docs.self.xyz](https://docs.self.xyz).
