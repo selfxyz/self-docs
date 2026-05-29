@@ -50,7 +50,7 @@ svix-replay: true
 
 ## Ordering and delivery guarantees
 
-* **At-least-once.** A successful proof can produce multiple deliveries — retry duplicates, network blips, manual replays. Make your handler idempotent.
+* **At-least-once.** A successful proof can produce multiple deliveries, retry duplicates, network blips, manual replays. Make your handler idempotent.
 * **No strict ordering.** `verification.completed` and `verification.storage_committed` are independent. Don't assume one arrives before the other.
 * **Bounded latency.** Typically sub-second from verification to delivery. Under retry backoff, latency can grow to minutes.
 
@@ -71,7 +71,7 @@ Dedupe in your handler using the event ID. See [Best practices](best-practices.m
 
 ## Related
 
-* [Signature verification](signature-verification.md) — how to validate a delivery.
-* [Event catalog](events.md) — every event we send, with payloads.
-* [Best practices](best-practices.md) — idempotency, ordering, replay.
-* [SDK: Verify webhooks](../sdk/verify-webhooks.md) — the easy path in Node.
+* [Signature verification](signature-verification.md): how to validate a delivery.
+* [Event catalog](events.md): every event we send, with payloads.
+* [Best practices](best-practices.md): idempotency, ordering, replay.
+* [SDK: Verify webhooks](../sdk/verify-webhooks.md): the easy path in Node.

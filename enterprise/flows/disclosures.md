@@ -1,6 +1,6 @@
 # Disclosures
 
-A disclosure is what the user's ZK proof attests to. There are two flavors: **predicates** (boolean — pass / fail) and **reveals** (the actual value, redacted to a category).
+A disclosure is what the user's ZK proof attests to. There are two flavors: **predicates** (boolean, pass / fail) and **reveals** (the actual value, redacted to a category).
 
 You configure these per flow under [Configure → Rules](../dashboard/configure-a-product.md#rules).
 
@@ -8,7 +8,7 @@ You configure these per flow under [Configure → Rules](../dashboard/configure-
 
 The user proves the predicate is true without revealing the underlying attribute.
 
-### `age_gte` / `age_lte` — Age bounds
+### `age_gte` / `age_lte`, Age bounds
 
 ```json
 { "age_gte": 18 }
@@ -24,7 +24,7 @@ User proves they're at least 18. You don't see their date of birth or their exac
 { "age_gte_18": true }
 ```
 
-### `nationality_in` / `nationality_not_in` — Nationality
+### `nationality_in` / `nationality_not_in`, Nationality
 
 ```json
 { "nationality_not_in": ["US", "CN", "IR", "KP"] }
@@ -40,7 +40,7 @@ You can use `nationality_in` OR `nationality_not_in` per flow, not both.
 { "nationality_not_in_US_CN_IR_KP": true }
 ```
 
-### `ofac_clear` — Sanctions
+### `ofac_clear`, Sanctions
 
 ```json
 { "ofac_clear": true }
@@ -56,19 +56,19 @@ User proves their name + DOB don't match the current OFAC SDN list. We auto-upda
 
 If the user matches, the verification status is `invalid` and `ofac_clear` is omitted.
 
-### `is_human` — Proof of humanity
+### `is_human`, Proof of humanity
 
 ```json
 { "is_human": true }
 ```
 
-Always-on for Self Pass — a verified passport implicitly proves a unique human. You don't need to add this rule explicitly; it's enforced.
+Always-on for Self Pass, a verified passport implicitly proves a unique human. You don't need to add this rule explicitly; it's enforced.
 
 The uniqueness check uses a nullifier derived from the passport, so each real-world identity can only verify a flow once per session.
 
 ## Reveals
 
-A reveal returns the actual value, not just a boolean. Use sparingly — every reveal is data your service then has to handle responsibly.
+A reveal returns the actual value, not just a boolean. Use sparingly, every reveal is data your service then has to handle responsibly.
 
 ### `reveal_nationality`
 
@@ -134,4 +134,4 @@ The ZK proof attests to what the rules ask. Nothing else leaks.
 ## Related
 
 * [Anatomy of a flow](anatomy.md).
-* [Supported documents](supported-documents.md) — which docs support which disclosures.
+* [Supported documents](supported-documents.md): which docs support which disclosures.

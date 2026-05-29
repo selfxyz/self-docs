@@ -7,7 +7,7 @@ Each credential type supports a different subset of disclosures and a different 
 **Highest assurance.** A passport-chip read produces a credential signed by the issuing state.
 
 * **Coverage:** 60+ countries. See [Supported countries](../reference/supported-countries.md).
-* **Supports:** every disclosure — `age_gte` / `age_lte`, `nationality_in` / `nationality_not_in`, `ofac_clear`, `is_human`, `reveal_nationality`, `reveal_age_bucket`, `reveal_document_type`.
+* **Supports:** every disclosure, `age_gte` / `age_lte`, `nationality_in` / `nationality_not_in`, `ofac_clear`, `is_human`, `reveal_nationality`, `reveal_age_bucket`, `reveal_document_type`.
 * **UX:** user holds passport to phone NFC reader. ~30 seconds end-to-end.
 * **Notes:** requires a passport-chip-enabled phone (most iPhones and Android 8+).
 
@@ -48,7 +48,7 @@ A credential issued by a Self-partner KYC provider after a remote KYC check.
 | `reveal_age_bucket` | ✅ | ✅ | ✅ |
 | `reveal_document_type` | ✅ | ✅ | ✅ |
 
-The dashboard's Configure tab flags incompatible combinations — if you allow only Aadhaar and add a `nationality_not_in` rule, you'll see a warning before publishing.
+The dashboard's Configure tab flags incompatible combinations, if you allow only Aadhaar and add a `nationality_not_in` rule, you'll see a warning before publishing.
 
 ## Related
 

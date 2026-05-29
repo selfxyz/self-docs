@@ -6,8 +6,8 @@ The SDK ships a `SelfWebhooks.verify(...)` helper that checks the Svix signature
 
 You need:
 
-* The **raw** request body (string or Buffer). Not the JSON-parsed object — signature verification operates on the byte string.
-* The request headers — at minimum `svix-id`, `svix-timestamp`, `svix-signature`.
+* The **raw** request body (string or Buffer). Not the JSON-parsed object, signature verification operates on the byte string.
+* The request headers, at minimum `svix-id`, `svix-timestamp`, `svix-signature`.
 * The signing secret (`whsec_...`) for the webhook endpoint, from the dashboard.
 
 ## Express
@@ -46,7 +46,7 @@ app.post(
       if (err instanceof WebhookVerificationError) {
         res.status(400).end();
       } else {
-        // Schema mismatch (ZodError) or server bug — log and 5xx so Svix retries.
+        // Schema mismatch (ZodError) or server bug, log and 5xx so Svix retries.
         res.status(500).end();
       }
     }
@@ -125,6 +125,6 @@ if (event.type === 'verification.completed') {
 
 ## Replays
 
-If the dashboard replays a past event, the body and signature are valid and verification succeeds normally. Replays carry a `svix-replay: true` header if you need to distinguish them — but most handlers should be idempotent enough that they don't need to.
+If the dashboard replays a past event, the body and signature are valid and verification succeeds normally. Replays carry a `svix-replay: true` header if you need to distinguish them, but most handlers should be idempotent enough that they don't need to.
 
 See [Best practices](../webhooks/best-practices.md) for idempotency patterns.

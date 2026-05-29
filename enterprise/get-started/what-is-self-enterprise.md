@@ -14,7 +14,7 @@ If your team wants a fast path from "we want ZK identity verification" to a work
 
 ## Who is it for?
 
-* **Consumer apps** running sybil resistance, age gates, or geographic compliance — anyone who needs verified identity but doesn't want to build verification infrastructure.
+* **Consumer apps** running sybil resistance, age gates, or geographic compliance. Anyone who needs verified identity but doesn't want to build verification infrastructure.
 * **Fintech / regulated platforms** that need KYC-grade verification with auditable trails.
 * **Marketplaces** that want to verify both sides of a trade without holding PII.
 * **Internal compliance teams** at protocols who'd otherwise hand-roll a verifier.
@@ -34,7 +34,7 @@ If your team wants a fast path from "we want ZK identity verification" to a work
                                           └──────────────┘
 ```
 
-1. **You configure a flow** in the dashboard (what to verify — age, nationality, sanctions, etc.).
+1. **You configure a flow** in the dashboard (what to verify: age, nationality, sanctions, etc.).
 2. **You call `sessions.create(...)`** via the Enterprise SDK when a user needs to verify. We return a `verificationUrl`.
 3. **Your user opens the URL** in their Self app and produces a ZK proof of the requested attributes.
 4. **We verify the proof** on the hot path and fire a webhook to your backend.

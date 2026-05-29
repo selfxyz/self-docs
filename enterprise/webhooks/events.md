@@ -4,7 +4,7 @@ Every event we send, with payload schemas.
 
 ## `verification.completed`
 
-Fires when off-chain verification finishes — either successfully or with a definitive failure. This is the event most integrations care about.
+Fires when off-chain verification finishes, either successfully or with a definitive failure. This is the event most integrations care about.
 
 ### Payload
 
@@ -40,15 +40,15 @@ Fires when off-chain verification finishes — either successfully or with a def
 | `proof_attributes` | object | The disclosed predicates (booleans for predicates, values for reveals). Empty object on non-`valid` statuses. |
 | `proof` | object \| null | Raw Groth16 proof JSON. Present when `status === 'valid'`. Most integrations ignore this; we already verified it. |
 | `verified_at` | ISO-8601 | When verification completed. |
-| `storage_state` | `'pending' \| 'committed' \| 'failed'` | Async storage state at time of fire. `pending` is common — wait for `verification.storage_committed` for the final state. |
+| `storage_state` | `'pending' \| 'committed' \| 'failed'` | Async storage state at time of fire. `pending` is common, wait for `verification.storage_committed` for the final state. |
 | `storage_uri` | string \| null | Set when storage has committed. |
 
 ### Statuses
 
-* `valid` — the proof verified and all flow predicates passed. This is the green-light case.
-* `invalid` — the proof verified but at least one predicate failed (e.g. user is 16, flow requires 18).
-* `error` — verification failed for a technical reason (unsupported document, malformed proof, signature mismatch). Not the user's fault necessarily.
-* `expired` — session expired before completion.
+* `valid`: the proof verified and all flow predicates passed. This is the green-light case.
+* `invalid`: the proof verified but at least one predicate failed (e.g. user is 16, flow requires 18).
+* `error`: verification failed for a technical reason (unsupported document, malformed proof, signature mismatch). Not the user's fault necessarily.
+* `expired`: session expired before completion.
 
 ### Svix message ID
 
@@ -104,9 +104,9 @@ Fires when the storage write permanently fails (after retries exhausted).
 
 ### What it means
 
-The verification itself is still authoritative — `verification.completed` already told you whether the user passed. Storage is a secondary durability layer; failure here doesn't invalidate the verification.
+The verification itself is still authoritative, `verification.completed` already told you whether the user passed. Storage is a secondary durability layer; failure here doesn't invalidate the verification.
 
-If your integration depends on the storage record (e.g. minting a credential NFT), you'll want to handle this case — log it, alert ops, or fall back to the API for the verification result.
+If your integration depends on the storage record (e.g. minting a credential NFT), you'll want to handle this case: log it, alert ops, or fall back to the API for the verification result.
 
 ### Svix message ID
 
@@ -134,4 +134,4 @@ function handle(event: WebhookEvent) {
 
 We may add fields to existing events without bumping major versions. The SDK's `webhookEvent` schema uses `.passthrough()` so unknown fields are preserved (and ignored by your existing code).
 
-We may also add new event types over time. Subscribe explicitly to the ones you care about — that way your handler isn't surprised by a new type it doesn't know about.
+We may also add new event types over time. Subscribe explicitly to the ones you care about. That way your handler isn't surprised by a new type it doesn't know about.

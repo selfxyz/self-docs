@@ -25,11 +25,11 @@ if (inserted.rowCount === 0) {
 await applyVerification(event);
 ```
 
-Use the `verification_id` (stable across retries) — not the Svix `svix-id` (unique per delivery, including replays).
+Use the `verification_id` (stable across retries), not the Svix `svix-id` (unique per delivery, including replays).
 
 ## 2. Acknowledge quickly, work async
 
-Return `2xx` within a few seconds. If your handler does expensive work — database fan-out, downstream API calls, emails — push to a queue and return immediately.
+Return `2xx` within a few seconds. If your handler does expensive work, database fan-out, downstream API calls, emails, push to a queue and return immediately.
 
 ```ts
 app.post('/webhooks/self', express.raw({ type: 'application/json' }), async (req, res) => {
@@ -91,9 +91,9 @@ app.post('/webhooks/self', express.raw({ type: 'application/json' }), (req, res)
 
 So:
 
-* Return `400` on signature failure — you want it dropped, not retried.
-* Return `500` (or just throw) on transient errors — you want it retried.
-* Don't return `400` because of a database hiccup — you'll silently drop events.
+* Return `400` on signature failure. You want it dropped, not retried.
+* Return `500` (or just throw) on transient errors. You want it retried.
+* Don't return `400` because of a database hiccup. You'll silently drop events.
 
 ## 7. Use one endpoint per environment
 
@@ -107,8 +107,8 @@ Set up an alert when **Settings → Webhooks → Failed deliveries** grows. A ha
 
 When you ship a fix and want to drain failed deliveries, you can:
 
-1. **Replay all** from the dashboard — fastest, but be sure your handler is ready.
-2. **Replay one, observe, then replay the rest** — safer if you've been broken for a while.
+1. **Replay all** from the dashboard. Fastest, but be sure your handler is ready.
+2. **Replay one, observe, then replay the rest**. Safer if you've been broken for a while.
 
 Replays carry `svix-replay: true` if you want to log them distinctly. Your handler should be idempotent enough that you don't need to handle replays specially.
 

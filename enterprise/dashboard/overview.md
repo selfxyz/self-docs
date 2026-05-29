@@ -26,30 +26,30 @@ The landing surface. Shows recent activity across your products, quick links to 
 
 Each product (today: Self Pass) gets its own area:
 
-* **Landing** — list of your flows for this product, plus a button to create a new one.
-* **Editor** — per-flow configuration, split into tabs:
-  * [Configure](configure-a-product.md) — rules, documents, settings.
-  * [Deploy](publish-a-flow-version.md) — preview the draft, publish a new version.
-  * [Activity log](activity-log.md) — verifications, sessions, errors over time.
+* **Landing**: list of your flows for this product, plus a button to create a new one.
+* **Editor**: per-flow configuration, split into tabs:
+  * [Configure](configure-a-product.md): rules, documents, settings.
+  * [Deploy](publish-a-flow-version.md): preview the draft, publish a new version.
+  * [Activity log](activity-log.md): verifications, sessions, errors over time.
 
 ### Settings
 
 Org-wide configuration:
 
-* [Account](#account) — org name, deactivation.
-* [People](people.md) — members and pending invites.
-* [API keys](api-keys.md) — issue, scope, rotate, revoke.
-* [Webhooks](webhooks.md) — endpoints, event subscriptions, signing secrets, delivery history.
-* [Billing](billing.md) — plan, payment method, credit balance, invoices.
+* [Account](#account): org name, deactivation.
+* [People](people.md): members and pending invites.
+* [API keys](api-keys.md): issue, scope, rotate, revoke.
+* [Webhooks](webhooks.md): endpoints, event subscriptions, signing secrets, delivery history.
+* [Billing](billing.md): plan, payment method, credit balance, invoices.
 
 ## Account
 
 **Settings → Account** controls org-level identity:
 
-* **Organization name** — what your teammates see in the switcher.
-* **Deactivate organization** — soft-deletes the org. Flows stop accepting sessions, API keys are revoked, and webhook deliveries stop. Audit records and invoices are preserved.
+* **Organization name**: what your teammates see in the switcher.
+* **Deactivate organization**: soft-deletes the org. Flows stop accepting sessions, API keys are revoked, and webhook deliveries stop. Audit records and invoices are preserved.
 
-> Deactivation is reversible by Self support but not self-serve. Don't deactivate to "pause" — use API key rotation or disable individual flows instead.
+> Deactivation is reversible by Self support but not self-serve. Don't deactivate to "pause". Use API key rotation or disable individual flows instead.
 
 ## Permissions
 

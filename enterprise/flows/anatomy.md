@@ -6,9 +6,9 @@ A **flow** is a published, versioned configuration for a product. This page is t
 
 ```
 Flow
-├─ Rules        — what the user must prove
-├─ Documents    — which credentials they can prove it with
-└─ Settings     — operational metadata (URLs, branding)
+├─ Rules        what the user must prove
+├─ Documents    which credentials they can prove it with
+└─ Settings     operational metadata (URLs, branding)
 ```
 
 Each layer is independently configurable. They combine into a **flow version** when you publish.
@@ -29,8 +29,8 @@ Example rule set:
 
 The user's ZK proof attests to:
 
-* `age_gte_18 = true` (they're at least 18 — but you don't see their DOB)
-* `nationality_not_in_US_CN_IR = true` (they're not from those countries — but you don't see which they are)
+* `age_gte_18 = true` (they're at least 18, but you don't see their DOB)
+* `nationality_not_in_US_CN_IR = true` (they're not from those countries, but you don't see which they are)
 * `ofac_clear = true` (their identity isn't on the OFAC list)
 
 See [Disclosures](disclosures.md) for the full catalog of rules.
@@ -39,26 +39,26 @@ See [Disclosures](disclosures.md) for the full catalog of rules.
 
 Which credential types satisfy this flow. The user picks from the documents you allow:
 
-* `biometric_passport` — ICAO 9303 e-passports. 60+ countries.
-* `aadhaar` — Indian national ID. See [Aadhaar spec](../reference/document-specifications/aadhaar.md).
-* `kyc_attestation` — partner-issued KYC. See [KYC spec](../reference/document-specifications/kyc.md).
+* `biometric_passport`: ICAO 9303 e-passports. 60+ countries.
+* `aadhaar`: Indian national ID. See [Aadhaar spec](../reference/document-specifications/aadhaar.md).
+* `kyc_attestation`: partner-issued KYC. See [KYC spec](../reference/document-specifications/kyc.md).
 
-Documents map to predicate capability. A KYC attestation might not support `age_gte` if the issuer didn't include date-of-birth — the dashboard warns you when a rule isn't satisfiable by an allowed document.
+Documents map to predicate capability. A KYC attestation might not support `age_gte` if the issuer didn't include date-of-birth, the dashboard warns you when a rule isn't satisfiable by an allowed document.
 
 ## Settings
 
-* **`displayName`** — what the user sees on the hosted page (e.g. "Acme Marketplace verification").
-* **`successUrl`** — redirect on success.
-* **`failureUrl`** — redirect on failure.
-* **`branding`** — logo URL + accent color.
+* **`displayName`**: what the user sees on the hosted page (e.g. "Acme Marketplace verification").
+* **`successUrl`**: redirect on success.
+* **`failureUrl`**: redirect on failure.
+* **`branding`**: logo URL + accent color.
 
-Per-session overrides for `successUrl` and `failureUrl` are accepted by the API — useful when the destination varies per user.
+Per-session overrides for `successUrl` and `failureUrl` are accepted by the API, useful when the destination varies per user.
 
 ## Versions
 
 A **flow** is the identity (the `flowId` you reference). A **flow version** is a frozen snapshot of `(rules, documents, settings)`. Every time you publish, a new version is created with a new `flowVersionId`.
 
-* A session is pinned to a `flowVersionId` at creation time — it cannot move to a newer version mid-flight.
+* A session is pinned to a `flowVersionId` at creation time, it cannot move to a newer version mid-flight.
 * The flow's `latestPublishedVersionId` is what new sessions use.
 * Older versions are retained for audit and rollback.
 
@@ -70,7 +70,7 @@ draft ──publish──▶ published v1 ──edit──▶ draft ──publis
                        └──── sessions still pinned to v1 ─────────┘
 ```
 
-There's no explicit "archive a version" — archive happens at the flow level (`archivedAt`). An archived flow stops accepting new sessions but its history is intact.
+There's no explicit "archive a version". Archive happens at the flow level (`archivedAt`). An archived flow stops accepting new sessions but its history is intact.
 
 ## Storage shape (for the curious)
 
@@ -93,11 +93,11 @@ flow_versions
 └─ publishedAt
 ```
 
-The `config` table holds the canonical predicate JSON — that's what the dashboard surfaces in the Configure tab.
+The `config` table holds the canonical predicate JSON. That's what the dashboard surfaces in the Configure tab.
 
 ## Related
 
-* [Disclosures](disclosures.md) — every available rule.
-* [Supported documents](supported-documents.md) — what each credential type can prove.
+* [Disclosures](disclosures.md): every available rule.
+* [Supported documents](supported-documents.md): what each credential type can prove.
 * [Test vs. live](test-vs-live.md).
 * [Publish a flow version](../dashboard/publish-a-flow-version.md).

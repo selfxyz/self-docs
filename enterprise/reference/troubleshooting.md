@@ -16,7 +16,7 @@ The API key is missing, malformed, or revoked.
 
 * Check the `Authorization: Bearer ...` header is present.
 * Confirm the key starts with `sk_test_` or `sk_live_`.
-* In the dashboard, check the key's **Last used at** — if it's never been used, you may be reading from the wrong env var. If it's been used recently, it may have been revoked.
+* In the dashboard, check the key's **Last used at**. If it's never been used, you may be reading from the wrong env var. If it's been used recently, it may have been revoked.
 * The full key is shown once on creation. If you've lost it, create a new key and revoke the old one.
 
 ### `403 forbidden`
@@ -45,7 +45,7 @@ The request body didn't match the schema. The `details.issues` array tells you w
 }
 ```
 
-Fix the field at `path`. Don't retry on `400` — the request will keep failing.
+Fix the field at `path`. Don't retry on `400`, the request will keep failing.
 
 ### `404 flow_not_found`
 
@@ -67,7 +67,7 @@ Your org's credit balance is too low to cover this session's cost.
 Per-API-key rate limit exceeded. Honor the `Retry-After` header.
 
 * If your traffic legitimately exceeds the limit, contact sales@self.xyz about higher limits or move to Enterprise.
-* If a single key is doing all the work, split traffic across multiple keys — limits are per-key.
+* If a single key is doing all the work, split traffic across multiple keys, limits are per-key.
 * The SDK retries 429s automatically; if you're getting them, you've exhausted SDK retries too.
 
 ### `5xx` errors
@@ -92,7 +92,7 @@ Your handler is rejecting the delivery. Most likely:
   * You're using the *raw* body, not a JSON-parsed object.
   * The signing secret matches the dashboard's `whsec_...` for this endpoint.
   * You're not rewriting headers between proxy and handler.
-* **Body schema mismatch.** Update to the latest SDK version — we may have added an event type your version doesn't know.
+* **Body schema mismatch.** Update to the latest SDK version, we may have added an event type your version doesn't know.
 
 ### Webhook deliveries fail with `5xx`
 
@@ -116,7 +116,7 @@ The package is ESM-only and requires Node 18+.
 
 The body or headers were modified between Self and your handler.
 
-* You're using `express.json()` before the webhook route — the body is now a parsed object, not the raw bytes Svix signed. Use `express.raw({ type: 'application/json' })` for the webhook path only.
+* You're using `express.json()` before the webhook route, the body is now a parsed object, not the raw bytes Svix signed. Use `express.raw({ type: 'application/json' })` for the webhook path only.
 * A proxy is normalizing or rewriting the body. Configure it to pass through untouched.
 * Wrong signing secret. Each webhook endpoint has its own.
 

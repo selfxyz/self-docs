@@ -6,21 +6,21 @@ If you've integrated [`@selfxyz/qrcode`](https://docs.self.xyz/self-pass) (the o
 
 The open-source SDK requires you to:
 
-* Stand up an off-chain verifier yourself (or run it in-process — slow cold starts).
+* Stand up an off-chain verifier yourself (or run it in-process and pay the cold-start cost).
 * Manage `ConfigStore` for predicate configurations.
 * Build your own webhook delivery, retry, and signature scheme.
 * Write your own audit log.
-* Bill yourself (you can't, really — it's free, with no SLA).
+* Bill yourself. You can't, really. It's free, with no SLA.
 
 Enterprise replaces all of that with a managed service. You keep your frontend integration largely identical; the backend collapses.
 
-If you're happy running your own verifier and don't need SLAs, billing, or a dashboard — stay on the open-source SDK. Otherwise, read on.
+If you're happy running your own verifier and don't need SLAs, billing, or a dashboard, stay on the open-source SDK. Otherwise, read on.
 
 ## Concept mapping
 
 | Open-source self-pass | Self Enterprise |
 | --- | --- |
-| `SelfAppBuilder` (frontend) | Same — but the `endpoint` becomes our hosted verifier; you don't host it. |
+| `SelfAppBuilder` (frontend) | Same, but the `endpoint` becomes our hosted verifier; you don't host it. |
 | `SelfBackendVerifier` | Replaced by our edge verifier. You don't run this anymore. |
 | `ConfigStore` (your impl of `IConfigStorage`) | Replaced by the dashboard's flow configuration. |
 | Predicate config object | A **flow** in the dashboard. `flowId` replaces inline config. |
@@ -82,7 +82,7 @@ app.post('/start-verification', async (req, res) => {
   res.json({ verificationUrl: session.verificationUrl });
 });
 
-// You no longer need a /verify endpoint — we deliver the result via webhook.
+// You no longer need a /verify endpoint, we deliver the result via webhook.
 ```
 
 ### 3. Replace inline verification with a webhook handler
@@ -108,7 +108,7 @@ The `external_uuid` is what you passed when creating the session (typically your
 
 ### 4. Update your frontend QR code component (if you use one)
 
-If you were rendering your own QR code via `@selfxyz/qrcode`, the simplest path is to **redirect to `session.verificationUrl`** instead — our hosted page renders the QR code and handles deeplinks.
+If you were rendering your own QR code via `@selfxyz/qrcode`, the simplest path is to **redirect to `session.verificationUrl`** instead. Our hosted page renders the QR code and handles deeplinks.
 
 If you'd rather keep rendering the QR inline:
 
@@ -127,7 +127,7 @@ The user-facing UX is unchanged.
 ## What stays the same
 
 * The **Self mobile app** is unchanged for your users.
-* The **disclosures** are the same — `age_gte`, `nationality_not_in`, `ofac_clear`, etc.
+* The **disclosures** are the same, `age_gte`, `nationality_not_in`, `ofac_clear`, etc.
 * The **proof system** is the same Groth16 under the hood.
 * Your **frontend** can continue rendering its own QR if you want, just pointed at our session URL.
 
@@ -142,7 +142,7 @@ The user-facing UX is unchanged.
 ## What's different
 
 * You pay per verification (see [Plans](../billing/plans.md)).
-* Your service no longer holds the raw proof — we verify it, you get the attributes. (You can still pull the raw proof from the `verification.completed` event if you really need it.)
+* Your service no longer holds the raw proof, we verify it, you get the attributes. (You can still pull the raw proof from the `verification.completed` event if you really need it.)
 
 ## Rolling out
 
@@ -157,4 +157,4 @@ A safe rollout pattern:
 
 ## Need help?
 
-migrating@self.xyz, or your CSM if you're on Enterprise.
+Email migrating@self.xyz, or your CSM if you're on Enterprise.

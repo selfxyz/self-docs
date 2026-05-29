@@ -6,7 +6,7 @@ End-to-end: from sign-up to a verified user, in about ten minutes.
 
 * A Self.xyz dashboard account ([sign up](https://dashboard.self.xyz)).
 * Node 18+ (for the SDK).
-* A way to receive a webhook locally — [ngrok](https://ngrok.com), Cloudflare Tunnel, or any public HTTPS endpoint.
+* A way to receive a webhook locally, [ngrok](https://ngrok.com), Cloudflare Tunnel, or any public HTTPS endpoint.
 
 ## 1. Create your organization
 
@@ -18,17 +18,17 @@ From the dashboard home, choose **Self Pass** and click **Create flow**.
 
 A flow has three parts:
 
-* **Rules** — the disclosures you want (e.g. `age >= 18`, `nationality not in ['US', 'CN']`, `not on OFAC list`).
-* **Documents** — which credentials are acceptable (passport, Aadhaar, KYC attestation).
-* **Settings** — things like success/failure redirect URLs.
+* **Rules**: the disclosures you want (e.g. `age >= 18`, `nationality not in ['US', 'CN']`, `not on OFAC list`).
+* **Documents**: which credentials are acceptable (passport, Aadhaar, KYC attestation).
+* **Settings**: things like success/failure redirect URLs.
 
-Fill them in, then click **Publish version**. Your flow now has a published `flowId` — copy it.
+Fill them in, then click **Publish version**. Your flow now has a published `flowId`, copy it.
 
 > **Test vs. live:** A flow published in your test environment only accepts mock passports and never bills credits. See [Test vs. live](../flows/test-vs-live.md).
 
 ## 3. Create an API key
 
-**Settings → API keys → Create key**. Choose `test` while you're integrating. The key (`sk_test_...`) is shown once — store it as `SELF_API_KEY` in your backend's secret manager.
+**Settings → API keys → Create key**. Choose `test` while you're integrating. The key (`sk_test_...`) is shown once, store it as `SELF_API_KEY` in your backend's secret manager.
 
 ## 4. Install the SDK
 
@@ -97,7 +97,7 @@ Open the `verificationUrl` from step 5, run through with a mock passport, and wa
 
 ## What's next
 
-* [Configure a product](../dashboard/configure-a-product.md) — go beyond defaults.
-* [Event catalog](../webhooks/events.md) — every webhook type and its payload.
-* [SDK reference](../sdk/nodejs.md) — every SDK method, with types.
-* [Error handling](../sdk/error-handling.md) — what each error means and how to handle it.
+* [Configure a product](../dashboard/configure-a-product.md): go beyond defaults.
+* [Event catalog](../webhooks/events.md): every webhook type and its payload.
+* [SDK reference](../sdk/nodejs.md): every SDK method, with types.
+* [Error handling](../sdk/error-handling.md): what each error means and how to handle it.

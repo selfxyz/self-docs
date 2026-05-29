@@ -41,7 +41,7 @@ Flows don't promote automatically. To take a tested configuration to production:
 3. Publish.
 4. Update your backend to point at the live `flowId` (and use the live API key).
 
-This is intentional — promoting a configuration is a deliberate act, not a side-effect of clicking around. The roadmap includes a one-click "promote to live" for orgs that want it.
+This is intentional, promoting a configuration is a deliberate act, not a side-effect of clicking around. The roadmap includes a one-click "promote to live" for orgs that want it.
 
 ## Common test-mode patterns
 

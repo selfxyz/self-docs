@@ -80,21 +80,21 @@ try {
   const event = SelfWebhooks.verify(raw, headers, secret);
 } catch (err) {
   if (err instanceof WebhookVerificationError) {
-    // Respond 400 — Svix won't retry a 4xx, which is what you want for a bad signature.
+    // Respond 400. Svix won't retry a 4xx, which is what you want for a bad signature.
   }
 }
 ```
 
-A separate failure mode: if the signature checks out but the body shape doesn't match any known event schema, `verify(...)` throws a Zod `ZodError`. That usually means you're on an old SDK version and the server is sending a newer event type — upgrade the SDK.
+A separate failure mode: if the signature checks out but the body shape doesn't match any known event schema, `verify(...)` throws a Zod `ZodError`. That usually means you're on an old SDK version and the server is sending a newer event type, upgrade the SDK.
 
 ## Retrying
 
 The SDK already retries internally on transient errors:
 
-* `429 rate_limited` — exponential backoff honoring `Retry-After`.
-* `5xx` — exponential backoff, capped at 5 attempts.
+* `429 rate_limited`: exponential backoff honoring `Retry-After`.
+* `5xx`: exponential backoff, capped at 5 attempts.
 
-You don't need to wrap calls in your own retry loop. If you do, retry only on these statuses — never on 4xx.
+You don't need to wrap calls in your own retry loop. If you do, retry only on these statuses, never on 4xx.
 
 ## Logging
 

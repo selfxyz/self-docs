@@ -9,7 +9,7 @@ For each billing period:
 | Line | What it is |
 | --- | --- |
 | Plan fee | Fixed monthly fee for Pro / Enterprise. Pro-rated on mid-cycle changes. |
-| Included credits | The credit grant for the period, at $0 — shows what was bundled in your plan. |
+| Included credits | The credit grant for the period, at $0, shows what was bundled in your plan. |
 | Overage usage | Per-product breakdown of metered consumption beyond the bundle. |
 | Discounts | Promo credits, contract discounts, manual adjustments. |
 | Tax | Where applicable (US sales tax, EU VAT, etc.). |
@@ -17,9 +17,9 @@ For each billing period:
 
 ## How charging works
 
-* **Cards** (Stripe) — auto-charged on invoice date. Failed charges retry on a backoff schedule and you'll see a "Payment failed" banner in the dashboard until resolved.
-* **ACH** — auto-debited where mandate allows; otherwise net-30 terms.
-* **Invoiced** (Enterprise) — net-30 by default, configurable.
+* **Cards** (Stripe), auto-charged on invoice date. Failed charges retry on a backoff schedule and you'll see a "Payment failed" banner in the dashboard until resolved.
+* **ACH**: auto-debited where mandate allows; otherwise net-30 terms.
+* **Invoiced** (Enterprise), net-30 by default, configurable.
 
 ## Failed payments
 
@@ -33,9 +33,9 @@ To avoid this: keep card on file current, and set up **Notifications → Payment
 
 ## Downloading invoices
 
-Each row has a **Download PDF** action. PDFs are the legal artifact — they're what you give to your accounts payable team and your tax filings.
+Each row has a **Download PDF** action. PDFs are the legal artifact. They're what you give to your accounts payable team and your tax filings.
 
-The CSV export (next to the PDF link) gives you the per-product, per-day breakdown for the period — useful for reconciling against your own metering.
+The CSV export (next to the PDF link) gives you the per-product, per-day breakdown for the period. Useful for reconciling against your own metering.
 
 ## Disputes
 
@@ -49,11 +49,11 @@ We'll investigate and credit or reissue as needed. Disputes raised within 60 day
 
 ## Tax
 
-* **US** — sales tax applied based on your billing address (where applicable).
-* **EU** — VAT applied unless you provide a valid VAT ID under **Settings → Billing → Tax details**.
-* **Other** — depends on jurisdiction; check with your CSM if your tax setup is unusual.
+* **US**: sales tax applied based on your billing address (where applicable).
+* **EU**: VAT applied unless you provide a valid VAT ID under **Settings → Billing → Tax details**.
+* **Other**: depends on jurisdiction; check with your CSM if your tax setup is unusual.
 
-A correctly-entered VAT ID can dramatically change your invoice — set it before your first paid cycle.
+A correctly-entered VAT ID can dramatically change your invoice. Set it before your first paid cycle.
 
 ## Related
 

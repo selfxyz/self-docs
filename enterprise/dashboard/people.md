@@ -6,8 +6,8 @@
 
 Click **Invite member**:
 
-* **Email** — they'll receive a sign-in link.
-* **Role** — currently `admin` (all members have full access; granular roles are on the roadmap).
+* **Email**: they'll receive a sign-in link.
+* **Role**: currently `admin` (all members have full access; granular roles are on the roadmap).
 
 The invite expires after 7 days. You can revoke a pending invite at any time.
 
@@ -26,13 +26,13 @@ Each row shows:
 
 **Remove** revokes their session and removes them from the org. Their personal authentication (WorkOS identity) is not affected; they just lose access to this org.
 
-API keys they created stay valid — keys are owned by the org, not the member. Revoke keys separately if needed.
+API keys they created stay valid, keys are owned by the org, not the member. Revoke keys separately if needed.
 
 ## Single sign-on (SSO)
 
 For enterprise plans, the org can be wired to a SSO provider via WorkOS (SAML, OIDC, Google Workspace, Okta, etc.). Contact support@self.xyz to enable.
 
-When SSO is enforced, invite-by-email is replaced by directory provisioning — new members appear automatically on first login from your IdP.
+When SSO is enforced, invite-by-email is replaced by directory provisioning, new members appear automatically on first login from your IdP.
 
 ## Audit
 

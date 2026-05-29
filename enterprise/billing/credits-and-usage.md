@@ -4,7 +4,7 @@ How we meter what you use and turn it into a bill.
 
 ## The credit model
 
-Usage is denominated in **credits** — an abstract unit. Each plan includes some credits per month, and your USD price-per-credit is set on your plan's rate card.
+Usage is denominated in **credits**, an abstract unit. Each plan includes some credits per month, and your USD price-per-credit is set on your plan's rate card.
 
 > Credits are not USD cents. The exchange rate is part of your contract; check **Settings → Billing → Plan card** for your current rate.
 
@@ -20,13 +20,13 @@ Each product has a per-verification credit cost, baked in at session creation ti
 
 | Product | Credit cost (illustrative) |
 | --- | --- |
-| Self Pass — biometric passport | 10 |
-| Self Pass — Aadhaar | 5 |
-| Self Pass — KYC attestation | 12 |
+| Self Pass, biometric passport | 10 |
+| Self Pass, Aadhaar | 5 |
+| Self Pass, KYC attestation | 12 |
 
 (Concrete costs live in your dashboard. The numbers above are illustrative.)
 
-The cost is debited from your credit balance the moment a session is created, with a hold. If the session expires unused, the hold is **released** — you only pay for verifications the user actually completed.
+The cost is debited from your credit balance the moment a session is created, with a hold. If the session expires unused, the hold is **released**, you only pay for verifications the user actually completed.
 
 ## What counts as "consumed"
 
@@ -34,8 +34,8 @@ The cost is debited from your credit balance the moment a session is created, wi
 | --- | --- |
 | `valid` | Yes |
 | `invalid` (predicate failed) | Yes |
-| `error` (technical failure) | No — automatically refunded |
-| `expired` (user never finished) | No — automatically refunded |
+| `error` (technical failure) | No, automatically refunded |
+| `expired` (user never finished) | No, automatically refunded |
 
 You pay for verification work, not for sessions the user never got to.
 
@@ -77,11 +77,11 @@ Test verifications never consume credits and never appear on invoices. They're n
 You expect 50,000 verifications in the first month, mostly biometric passport (cost 10 credits each):
 
 * Expected consumption: 50,000 × 10 = 500,000 credits.
-* If your plan includes 200,000, you'll need 300,000 in overage — verify your overage rate before launch.
+* If your plan includes 200,000, you'll need 300,000 in overage, verify your overage rate before launch.
 
 ### Diagnosing a spike
 
-The **Credits consumed** chart shows daily burn. If you see a spike, drill into the [Activity log](../dashboard/activity-log.md) for the same day — the External UUID column usually identifies the culprit (a stuck retry loop, a bot, a buggy integration).
+The **Credits consumed** chart shows daily burn. If you see a spike, drill into the [Activity log](../dashboard/activity-log.md) for the same day, the External UUID column usually identifies the culprit (a stuck retry loop, a bot, a buggy integration).
 
 ## Related
 

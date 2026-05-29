@@ -39,7 +39,7 @@ interface SelfClientOptions {
 }
 ```
 
-`environment` is a hint for your own code clarity — the live behavior is determined by the key prefix. `baseUrl` is useful for staging or self-hosted edges.
+`environment` is a hint for your own code clarity, the live behavior is determined by the key prefix. `baseUrl` is useful for staging or self-hosted edges.
 
 ## Sessions
 
@@ -135,8 +135,8 @@ See [Error handling](error-handling.md) for the full catalog and retry guidance.
 
 The SDK uses `.passthrough()` on webhook event schemas, so adding new fields on the server side is non-breaking. New event types or new request/response fields ship in a minor version; renames or removals ship in a major version.
 
-The package is pre-1.0 (`0.x`) — minor versions may contain breaking changes until 1.0. Pin to an exact version in production.
+The package is pre-1.0 (`0.x`). Minor versions may contain breaking changes until 1.0. Pin to an exact version in production.
 
 ## Open-source
 
-The SDK is open-source — issues and PRs welcome.
+The SDK is open-source. Issues and PRs welcome.

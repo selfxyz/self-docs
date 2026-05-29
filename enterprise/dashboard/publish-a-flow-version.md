@@ -5,7 +5,7 @@ Flows are versioned. The **Deploy** tab is where you turn a draft into a publish
 ## How versioning works
 
 * The **draft** is what you see in the Configure tab. It's mutable.
-* A **published version** is immutable — its rules, documents, and settings are frozen.
+* A **published version** is immutable. Its rules, documents, and settings are frozen.
 * The flow's `latestPublishedVersionId` points at the most recently published version. New sessions use that version.
 * In-flight sessions stay pinned to whatever version they were created against. Publishing never disturbs them.
 
@@ -21,7 +21,7 @@ The next `sessions.create(...)` call against this `flowId` will use the new vers
 
 ## Rollback
 
-There's no destructive rollback. To revert, edit the draft back to the previous state and publish again — this creates a new version whose contents match the old one. Audit history is preserved.
+There's no destructive rollback. To revert, edit the draft back to the previous state and publish again. This creates a new version whose contents match the old one. Audit history is preserved.
 
 ## Test before publishing
 
@@ -38,4 +38,4 @@ You don't need to publish for trivial dashboard-only changes (e.g. renaming the 
 ## Related
 
 * [Configure a product](configure-a-product.md).
-* [Activity log](activity-log.md) — see which version each session ran against.
+* [Activity log](activity-log.md): see which version each session ran against.

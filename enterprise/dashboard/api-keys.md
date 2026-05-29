@@ -6,10 +6,10 @@
 
 Click **Create key**. You'll choose:
 
-* **Environment** — `test` or `live`. The choice is baked into the key prefix and the routing — test keys can only create sessions against test flows, live keys against live flows. There's no cross-environment access.
-* **Name** — a human label (e.g. `prod-backend`, `staging`, `local-kartik`).
+* **Environment**: `test` or `live`. The choice is baked into the key prefix and the routing. Test keys can only create sessions against test flows; live keys against live flows. There's no cross-environment access.
+* **Name**: a human label (e.g. `prod-backend`, `staging`, `local-kartik`).
 
-The key is shown **once**. Copy it into your secret manager (e.g. GCP Secret Manager, AWS Secrets Manager, 1Password). We never display the full key again — we only show the `sk_test_•••8a3f` masked form afterward.
+The key is shown **once**. Copy it into your secret manager (e.g. GCP Secret Manager, AWS Secrets Manager, 1Password). We never display the full key again. From then on, only the masked form (`sk_test_•••8a3f`) is visible.
 
 ## Key shape
 
@@ -40,7 +40,7 @@ Best practice: rotate live keys at least every 90 days, and immediately on any s
 2. Roll the new value through your backends (typically a deploy with both `SELF_API_KEY_NEW` and `SELF_API_KEY_OLD` set, with traffic shifting).
 3. Once 100% of traffic is on the new key, **Revoke** the old one in the dashboard.
 
-Revoking is immediate — within seconds, any request bearing the old key gets `401 unauthorized`.
+Revoking is immediate. Within seconds, any request bearing the old key gets `401 unauthorized`.
 
 ## Revocation
 
@@ -50,9 +50,9 @@ You can revoke any key at any time from the list view. There's no undo. Revoked 
 
 The keys list shows:
 
-* **Created at** — when the key was issued.
-* **Last used at** — last time we authenticated a request with it. `Never` for unused keys (a fingerprint of misconfigured deploys).
-* **Created by** — which member issued it.
+* **Created at**: when the key was issued.
+* **Last used at**: last time we authenticated a request with it. `Never` for unused keys (a fingerprint of misconfigured deploys).
+* **Created by**: which member issued it.
 
 ## Security notes
 
@@ -63,4 +63,4 @@ The keys list shows:
 ## Related
 
 * [SDK reference](../sdk/nodejs.md).
-* [Test vs. live](../flows/test-vs-live.md) — environments are baked into the key prefix.
+* [Test vs. live](../flows/test-vs-live.md): environments are baked into the key prefix.
