@@ -1,0 +1,32 @@
+---
+icon: building
+description: Verify real-world identity in your product without holding the data.
+---
+
+# Self Enterprise
+
+Self Enterprise is the managed plane for builders integrating Self's zero-knowledge identity verification. You configure flows in a dashboard, call a single SDK, and receive signed webhook events when users verify — without standing up smart contracts, hosting verifier infrastructure, or storing personal data yourself.
+
+## What you get
+
+* **A dashboard** — configure verification flows, manage API keys and webhooks, see what's happening in real time.
+* **An SDK** — `@selfxyz/enterprise-sdk` for Node/TS, with typed sessions and webhook verification.
+* **Webhooks** — Svix-signed delivery of `verification.completed` and storage events to your backend.
+* **Usage-based billing** — pay only for the verifications you complete, metered automatically.
+
+## Pick your path
+
+* **Just want to try it?** → [Quickstart](get-started/quickstart.md) — go from zero to a verified user in ten minutes.
+* **Migrating from the open-source SDK?** → [From self-pass SDK](migration/from-self-pass-sdk.md).
+* **Mapping out an integration?** → [Concepts](get-started/concepts.md) → [SDK](sdk/nodejs.md).
+* **Configuring a product in the dashboard?** → [Dashboard overview](dashboard/overview.md).
+
+## Beyond Enterprise
+
+Self also publishes open-source protocols that aren't covered here:
+
+* **Self Pass (open-source)** — the underlying identity protocol. Smart contracts, on-chain verification, ZK proofs.
+* **Self Connect** — off-chain identifier → blockchain address mapping.
+* **Self Agent ID** — proof-of-human identity for AI agents (ERC-8004).
+
+Reference documentation for those products lives at [docs.self.xyz](https://docs.self.xyz).
