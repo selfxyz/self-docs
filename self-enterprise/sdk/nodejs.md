@@ -42,7 +42,7 @@ The API key is the only option you need to pass. Whether the client talks to tes
 
 ### Create
 
-Get the `flowId` by publishing a configuration in the dashboard, it's shown on the product's **Deploy** tab. See [Configure a product](../dashboard/configure-a-product.md).
+Get the `flowId` by publishing a configuration in the dashboard, it's shown on the product's **Test** and **Live** tabs. See [Configure a product](../dashboard/configure-a-product.md).
 
 ```ts
 const session = await self.sessions.create({
@@ -112,10 +112,8 @@ import type {
   CreateSessionInput,           // what you pass to .create()
   Session,                      // what .create() returns
   SessionDetail,                // what .get() returns
-  WebhookEvent,                 // discriminated-union of all event payloads
-  VerificationCompletedPayload,
-  VerificationStorageCommittedPayload,
-  VerificationStorageFailedPayload,
+  WebhookEvent,                 // discriminated-union of webhook event payloads
+  VerificationCompletedPayload, // the verification.completed payload
 } from '@selfxyz/enterprise-sdk';
 ```
 

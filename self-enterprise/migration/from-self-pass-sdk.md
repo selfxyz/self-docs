@@ -56,7 +56,7 @@ With Enterprise:
 
 1. In the dashboard, [create a flow](../dashboard/configure-a-product.md).
 2. Configure the same rules: minimum age 18, exclude `USA`, OFAC on.
-3. Publish it from the **Deploy** tab. Copy the `flowId`.
+3. Publish it. Copy the `flowId` from the **Test** or **Live** tab.
 
 ### 2. Replace `SelfBackendVerifier` with `SelfClient`
 

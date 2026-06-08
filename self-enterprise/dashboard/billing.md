@@ -19,9 +19,9 @@ Your current plan (**Free**, **Starter**, or **Enterprise**), its price, and, wh
 * **Manage plan**: opens the pricing dialog to change or upgrade your plan. Free is the default, Starter is self-serve, Enterprise is arranged with sales. See [Plans](../billing/plans.md).
 * **Update billing**: opens the secure Stripe customer portal, where you manage your payment method and view past invoices. Self never stores your card details, only a customer reference.
 
-## Low balance
+## Running low
 
-When your credit balance runs low you'll see a warning on this tab. To add capacity, upgrade your plan from **Manage plan** (or talk to sales about Enterprise).
+To add capacity, upgrade your plan from **Manage plan** (or talk to sales about Enterprise).
 
 ## Related
 

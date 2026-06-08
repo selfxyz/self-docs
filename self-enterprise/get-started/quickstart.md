@@ -16,7 +16,7 @@ After sign-up you'll be prompted to create an organization. An org owns flows, A
 
 ![Self Dashboard](../../.gitbook/assets/self-dashboard.png)
 
-The dashboard home shows a card for each of the three products. Every product lets you set a **Security level** (Standard or Biometric) and toggle an **OFAC** check; they differ in the age and country rules:
+The dashboard home shows a card for each of the three products. Every product lets you set a **Security level** (Standard or Hi-security) and toggle an **OFAC** check; they differ in the age and country rules:
 
 * **Pre KYC**: minimum age and country rules.
 * **Age Verification**: a minimum age (for example 18 or 21).
@@ -34,7 +34,7 @@ Once published, your configuration has a `flowId`. Copy it.
 
 ## 3. Create an API key
 
-On the product's **Deploy** tab, open the **Secret API Keys (server-side)** card, keep the environment on `test`, and click **Generate test API key**. The key (`sk_test_...`) is shown once, store it as `SELF_API_KEY` in your backend's secret manager. See [API keys](../dashboard/api-keys.md).
+Go to **Developer → API keys**, keep the **Test** tab selected, and click **Generate key**. The key (`sk_test_...`) is shown once, store it as `SELF_API_KEY` in your backend's secret manager. See [API keys](../dashboard/api-keys.md).
 
 ![Test API key](../../.gitbook/assets/api-key-test.png)
 
@@ -65,7 +65,7 @@ The user opens `verificationUrl` in their Self app, produces a proof, and the ap
 
 Your endpoint has to be **running and reachable first**: when you add it, Self sends a test event and only saves it (and reveals the secret) if your endpoint returns `2xx`. Deploy the step 7 handler below (or a bare `200` stub) on a public HTTPS URL before this step. See [Webhooks: stand up an endpoint first](../dashboard/webhooks.md) for the full detail.
 
-Then in **Settings → Webhooks → Add webhook**, paste your URL (e.g. `https://<your-tunnel>/webhooks/self`). On success the dashboard reveals a signing secret (`whsec_...`) **once**, store it as `SELF_WEBHOOK_SECRET`. Every endpoint receives all event types.
+Then in **Developer → Webhooks → Add webhook**, paste your URL (e.g. `https://<your-tunnel>/webhooks/self`). On success the dashboard reveals a signing secret (`whsec_...`) **once**, store it as `SELF_WEBHOOK_SECRET`. Every endpoint receives the `verification.completed` event.
 
 ## 7. Verify webhook deliveries
 

@@ -27,7 +27,7 @@ The Configure tab has three cards on the left. On the right, a live **proof-requ
 
 The predicates the user must satisfy. The user proves each one without revealing the underlying value.
 
-* **Security level** (all products): **Standard** verifies the document is genuine; **Biometric** also verifies the user physically scanned the document's chip.
+* **Security level** (all products): **Standard** verifies the document is genuine; **Hi-security** also verifies the user physically scanned the document's chip.
 * **OFAC check** (all products, on by default): match against the US Treasury OFAC sanctions list. Self keeps the list updated daily, and only the pass or fail result is disclosed.
 * **Minimum age** (Pre KYC, Age Verification): the age threshold. Only the pass or fail result is disclosed, never the date of birth.
 * **Excluded countries** (Pre KYC): documents issued by a country on this list fail. Only the pass or fail result is disclosed, not the user's country. ISO 3166-1 alpha-3 codes.
@@ -42,7 +42,7 @@ For **Pre KYC**, beyond the pass or fail rules, you can ask the user to disclose
 
 ## Save and publish
 
-Saving stores your changes. To take the configuration live, publish it from the **Deploy** tab, where it gets a `flowId` and you generate [API keys](api-keys.md). The dashboard validates the configuration before you can publish.
+Saving stores your changes. To take the configuration live, publish it; the dashboard validates the configuration first. Once published, the **Test** and **Live** tabs show its `flowId` and SDK snippets, and you generate [API keys](api-keys.md) under **Developer → API keys**.
 
 A product keeps one active configuration at a time. Once published, a configuration is immutable, you can't edit it. To change anything, archive it and create a new one. In-flight sessions keep using the version they were created against, so archiving never breaks an open session.
 

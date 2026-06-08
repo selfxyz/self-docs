@@ -29,16 +29,8 @@ app.post(
         process.env.SELF_WEBHOOK_SECRET!,
       );
 
-      switch (event.type) {
-        case 'verification.completed':
-          // event.verification_id, event.external_uuid, event.proof_attributes, event.status
-          break;
-        case 'verification.storage_committed':
-          // event.storage_uri, event.credential_id
-          break;
-        case 'verification.storage_failed':
-          // event.error
-          break;
+      if (event.type === 'verification.completed') {
+        // event.verification_id, event.external_uuid, event.proof_attributes, event.status
       }
 
       res.status(200).end();

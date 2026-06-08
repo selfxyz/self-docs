@@ -1,10 +1,10 @@
 # Event catalog
 
-Every event we send, with payload schemas.
+Self delivers a single webhook event: `verification.completed`. Every registered endpoint receives it; there's no per-event subscription.
 
 ## `verification.completed`
 
-Fires when off-chain verification finishes, either successfully or with a definitive failure. This is the event most integrations care about.
+Fires when off-chain verification finishes, either successfully or with a definitive failure. This is the event integrations care about.
 
 ### Payload
 
@@ -41,8 +41,8 @@ Fires when off-chain verification finishes, either successfully or with a defini
 | `proof_attributes` | object | The disclosed predicates (booleans for predicates, values for reveals). Empty object on non-`valid` statuses. |
 | `proof` | object \| null | Raw Groth16 proof JSON. Present when `status === 'valid'`. Most integrations ignore this; we already verified it. |
 | `verified_at` | ISO-8601 | When verification completed. |
-| `storage_state` | `'pending' \| 'committed' \| 'failed'` | Async storage state at time of fire. `pending` is common, wait for `verification.storage_committed` for the final state. |
-| `storage_uri` | string \| null | Set when storage has committed. |
+| `storage_state` | `'pending' \| 'committed' \| 'failed'` | Async storage state at the time the event fired, usually `pending`. For the final state, read the session with [`sessions.get(...)`](../sdk/nodejs.md). |
+| `storage_uri` | string \| null | Set once storage has committed, usually `null` at fire time. |
 
 ### Statuses
 
@@ -55,86 +55,21 @@ Fires when off-chain verification finishes, either successfully or with a defini
 
 The deduplication key is `<verification_id>-completed` (the same for every status, so a retry of this event reuses it).
 
----
+## Handling in TypeScript
 
-## `verification.storage_committed`
-
-Fires when the async decentralized-storage write for a verification succeeds.
-
-### Payload
-
-```json
-{
-  "type": "verification.storage_committed",
-  "verification_id": "7f3b2a1e-9c4d-4b2a-8e1f-2c6d5a4b3c2d",
-  "external_uuid": "a1b2c3d4-5678-4e9a-b012-3456789abcde",
-  "storage_uri": "ipfs://bafy...",
-  "credential_id": "cred_01H...",
-  "committed_at": "2026-05-29T17:33:25.110Z"
-}
-```
-
-`storage_uri` may be `null`; the `credential_id` is always present on this event.
-
-### When you'd care
-
-* You want to reference the on-chain or decentralized-store credential ID for cross-chain attestation.
-* You want a confirmation that the user's verified credential is durable, not just in our store.
-
-If you don't care about decentralized storage, ignore this event type.
-
-### Event ID (for deduplication)
-
-`<verification_id>-storage-committed`.
-
----
-
-## `verification.storage_failed`
-
-Fires when the storage write permanently fails (after retries exhausted).
-
-### Payload
-
-```json
-{
-  "type": "verification.storage_failed",
-  "verification_id": "7f3b2a1e-9c4d-4b2a-8e1f-2c6d5a4b3c2d",
-  "external_uuid": "a1b2c3d4-5678-4e9a-b012-3456789abcde",
-  "error": "ipfs_pin_timeout",
-  "failed_at": "2026-05-29T17:34:00.000Z"
-}
-```
-
-### What it means
-
-The verification itself is still authoritative, `verification.completed` already told you whether the user passed. Storage is a secondary durability layer; failure here doesn't invalidate the verification.
-
-If your integration depends on the storage record (e.g. minting a credential NFT), you'll want to handle this case: log it, alert ops, or fall back to the API for the verification result.
-
-### Event ID (for deduplication)
-
-`<verification_id>-storage-failed`.
-
----
-
-## Discriminated union
-
-In TypeScript:
+The payload is typed as a discriminated union on `event.type`, so branch on it. Today `verification.completed` is the only type delivered:
 
 ```ts
 import type { WebhookEvent } from '@selfxyz/enterprise-sdk';
 
 function handle(event: WebhookEvent) {
-  switch (event.type) {
-    case 'verification.completed':            // narrowed to VerificationCompletedPayload
-    case 'verification.storage_committed':    // narrowed to VerificationStorageCommittedPayload
-    case 'verification.storage_failed':       // narrowed to VerificationStorageFailedPayload
+  if (event.type === 'verification.completed') {
+    // narrowed to VerificationCompletedPayload
+    // event.verification_id, event.external_uuid, event.proof_attributes, event.status
   }
 }
 ```
 
 ## Forward compatibility
 
-We may add fields to existing events without bumping major versions. The SDK's `webhookEvent` schema uses `.passthrough()` so unknown fields are preserved (and ignored by your existing code).
-
-We may also add new event types over time. Subscribe explicitly to the ones you care about. That way your handler isn't surprised by a new type it doesn't know about.
+We may add fields to existing events without bumping major versions. The SDK's `webhookEvent` schema uses `.passthrough()`, so unknown fields are preserved (and ignored by your existing code). We may also add new event types over time, so branch on `event.type` and let your handler ignore any type it doesn't recognize.

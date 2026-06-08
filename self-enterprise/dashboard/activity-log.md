@@ -15,7 +15,7 @@ Each row shows:
 | Field | Meaning |
 | --- | --- |
 | Document | The credential type used (passport, Aadhaar, KYC). |
-| Security level | The assurance level the configuration required (standard or biometric). |
+| Security level | The assurance level the configuration required (Standard or High Security). |
 | Environment | `test` or `production`. |
 | Time | When the verification finished. |
 | ID | The verification's identifier. |

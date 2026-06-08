@@ -16,7 +16,7 @@ The API key is missing, malformed, or revoked.
 
 * Confirm the `apiKey` you pass to `SelfClient` is set and is the full value (it starts with `sk_test_` or `sk_live_`).
 * If it works locally but 401s in deploy, you're probably reading the wrong env var. If it worked before and suddenly 401s, the key was likely revoked.
-* The full key is shown once on creation. If you've lost it, generate a new one on the Deploy tab and revoke the old one.
+* The full key is shown once on creation. If you've lost it, generate a new one under **Developer → API keys** and revoke the old one.
 
 ### `403 forbidden`
 
@@ -77,10 +77,10 @@ Transient. Retry with exponential backoff. If it's persistent (more than 30 seco
 
 ### Webhook handler never receives events
 
-* Confirm the endpoint is registered under **Settings → Webhooks** for the **same environment** as the key creating sessions (test vs live).
+* Confirm the endpoint is registered under **Developer → Webhooks** for the **same environment** as the key creating sessions (test vs live).
 * Confirm your endpoint is reachable from the public internet (not behind a VPN, no firewall blocking POST).
 * If using a tunnel (ngrok, Cloudflare Tunnel), confirm the tunnel is still up.
-* Every endpoint receives all event types, so make sure your handler branches on the `event.type` you expect rather than assuming only one arrives.
+* The delivered event is `verification.completed`; branch on `event.type` so a future event type doesn't surprise your handler.
 
 ### Webhook deliveries fail with `400`
 

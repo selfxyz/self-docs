@@ -1,6 +1,6 @@
 # SDK API reference
 
-The complete public surface of `@selfxyz/enterprise-sdk`. For a guided walkthrough, start with the [SDK overview](nodejs.md).
+The public surface of `@selfxyz/enterprise-sdk` you use to create sessions and verify webhooks. For a guided walkthrough, start with the [SDK overview](nodejs.md).
 
 {% hint style="info" %}
 The Enterprise SDK is **backend-only**. There's no separate frontend SDK, your frontend just opens the `verificationUrl` a session returns (or renders it as a QR code). Everything below runs on your server.
@@ -21,14 +21,12 @@ import type {
   CreateSessionInput,                  // argument to sessions.create()
   Session,                             // return of sessions.create()
   SessionDetail,                       // return of sessions.get()
-  WebhookEvent,                        // discriminated union of all events
-  VerificationCompletedPayload,
-  VerificationStorageCommittedPayload,
-  VerificationStorageFailedPayload,
+  WebhookEvent,                        // discriminated union of webhook events
+  VerificationCompletedPayload,        // the verification.completed payload
 } from '@selfxyz/enterprise-sdk';
 ```
 
-The Zod schemas behind those types (`createSessionBody`, `sessionDetailResponse`, `webhookEvent`, and the per-event schemas) are also exported as values if you want runtime validation.
+The Zod schemas behind those types (`createSessionBody`, `sessionDetailResponse`, `webhookEvent`) are also exported as values if you want runtime validation.
 
 ---
 
@@ -125,16 +123,16 @@ Verifies a webhook signature and returns the typed, parsed event.
 
 Throws [`WebhookVerificationError`](#webhookverificationerror) if the signature is invalid or the timestamp is stale, and [`SelfValidationError`](#selfvalidationerror) if the body doesn't match any known event shape (usually an out-of-date SDK).
 
-**`WebhookEvent`** is a discriminated union on `type`:
+**`WebhookEvent`** is a discriminated union on `type`. The event delivered to your endpoints is `verification.completed` (`VerificationCompletedPayload`):
 
 ```ts
-type WebhookEvent =
-  | VerificationCompletedPayload         // 'verification.completed'
-  | VerificationStorageCommittedPayload  // 'verification.storage_committed'
-  | VerificationStorageFailedPayload;    // 'verification.storage_failed'
+if (event.type === 'verification.completed' && event.status === 'valid') {
+  // event is VerificationCompletedPayload here
+  await markUserVerified(event.external_uuid, event.proof_attributes);
+}
 ```
 
-See the [event catalog](../webhooks/events.md) for each payload's fields.
+See the [event catalog](../webhooks/events.md) for the payload's fields.
 
 ---
 

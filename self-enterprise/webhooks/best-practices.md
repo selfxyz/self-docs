@@ -41,11 +41,9 @@ app.post('/webhooks/self', express.raw({ type: 'application/json' }), async (req
 
 Slow handlers get retried, which produces duplicates, which compounds. Fast ack + queue is the only stable pattern.
 
-## 3. Don't trust ordering
+## 3. Treat each delivery in isolation
 
-`verification.completed` and `verification.storage_committed` are independent. You may see `storage_committed` before you've finished processing `completed` (or vice versa).
-
-Handle each event in isolation. If you need to know "did storage commit for verification X", query the API, don't infer from the event sequence.
+`verification.completed` is the only event delivered, so there's no cross-event ordering to reason about. Don't assume anything about the order of deliveries for different verifications either. If you need a verification's current storage state, read it with `sessions.get(...)` rather than inferring it from the webhook.
 
 ## 4. Distinguish status carefully
 

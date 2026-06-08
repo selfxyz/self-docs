@@ -1,6 +1,6 @@
 # Webhooks (dashboard)
 
-**Settings → Webhooks**. Register the HTTPS endpoints Self posts events to. For the delivery model, signatures, retries, and payloads, see the [Webhooks section](../webhooks/overview.md).
+**Developer → Webhooks**. Register the HTTPS endpoints Self posts events to. For the delivery model, signatures, retries, and payloads, see the [Webhooks section](../webhooks/overview.md).
 
 ![Webhooks settings](../../.gitbook/assets/webhook.png)
 
@@ -37,7 +37,7 @@ When you click **Test and save**, Self sends the test event and waits for the re
 * If your endpoint returns **`2xx`**, the endpoint is **saved** and the **signing secret** (`whsec_...`) is revealed **once**. This is the only time you'll see it, copy it into your secret manager as `SELF_WEBHOOK_SECRET`.
 * If it returns a non-`2xx` or doesn't respond in time, the endpoint is **not saved** ("webhook test failed"). Fix the endpoint and add it again.
 
-Every endpoint receives **all** event types (`verification.completed`, `verification.storage_committed`, `verification.storage_failed`); there's no per-endpoint event picker. Branch on `event.type` in your handler. See the [event catalog](../webhooks/events.md).
+Every endpoint receives the `verification.completed` event; there's no per-endpoint event picker. Branch on `event.type` in your handler. See the [event catalog](../webhooks/events.md).
 
 ## Verify the signature
 
