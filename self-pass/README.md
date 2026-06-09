@@ -6,6 +6,10 @@ icon: passport
 
 Privacy-preserving identity verification using zero-knowledge proofs.
 
+{% hint style="info" %}
+**Looking for Self Enterprise?** Self Pass is the open-source SDK where you render your own QR and run the verifier. On the managed Enterprise platform you do neither, see the [Enterprise quickstart](../self-enterprise/get-started/quickstart.md).
+{% endhint %}
+
 ## Overview
 
 Self Pass enables developers to verify real-world identity attributes without exposing personal data. Users scan their passport, national ID, Aadhaar card, or KYC attestation with the Self app, which generates a zero-knowledge proof on-device. Applications can then verify specific attributes (age, nationality, sanctions status) without ever seeing the underlying document.
