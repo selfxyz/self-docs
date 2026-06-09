@@ -7,8 +7,8 @@ The SDK ships a `SelfWebhooks.verify(...)` helper that checks the signature and 
 You need:
 
 * The **raw** request body (string or Buffer). Not the JSON-parsed object, signature verification operates on the byte string.
-* The request headers, at minimum `svix-id`, `svix-timestamp`, `svix-signature`.
-* The signing secret (`whsec_...`) for the webhook endpoint. You get it when you [add the endpoint](../dashboard/webhooks.md) (revealed once); note the endpoint must return `2xx` to be saved.
+* The request headers from the delivery. Pass them through as-is; they carry the signature the SDK checks.
+* The signing secret (`whsec_...`) for the webhook endpoint. You get it once, when you [add the endpoint](../dashboard/webhooks.md).
 
 ## Express
 
@@ -29,16 +29,8 @@ app.post(
         process.env.SELF_WEBHOOK_SECRET!,
       );
 
-      switch (event.type) {
-        case 'verification.completed':
-          // event.verification_id, event.external_uuid, event.proof_attributes, event.status
-          break;
-        case 'verification.storage_committed':
-          // event.storage_uri, event.credential_id
-          break;
-        case 'verification.storage_failed':
-          // event.error
-          break;
+      if (event.type === 'verification.completed') {
+        // event.verification_id, event.external_uuid, event.proof_attributes, event.status
       }
 
       res.status(200).end();
@@ -63,12 +55,8 @@ import { SelfWebhooks } from '@selfxyz/enterprise-sdk';
 const app = new Hono();
 
 app.post('/webhooks/self', async (c) => {
-  const raw = await c.req.text();                 // raw body as string
-  const headers: Record<string, string> = {
-    'svix-id': c.req.header('svix-id') ?? '',
-    'svix-timestamp': c.req.header('svix-timestamp') ?? '',
-    'svix-signature': c.req.header('svix-signature') ?? '',
-  };
+  const raw = await c.req.text();                          // raw body as string
+  const headers = Object.fromEntries(c.req.raw.headers);   // pass all headers through
 
   try {
     const event = SelfWebhooks.verify(raw, headers, process.env.SELF_WEBHOOK_SECRET!);
@@ -89,11 +77,7 @@ import { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {
   const raw = await req.text();
-  const headers: Record<string, string> = {
-    'svix-id': req.headers.get('svix-id') ?? '',
-    'svix-timestamp': req.headers.get('svix-timestamp') ?? '',
-    'svix-signature': req.headers.get('svix-signature') ?? '',
-  };
+  const headers = Object.fromEntries(req.headers);   // pass all headers through
 
   try {
     const event = SelfWebhooks.verify(raw, headers, process.env.SELF_WEBHOOK_SECRET!);

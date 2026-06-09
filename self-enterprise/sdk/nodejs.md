@@ -42,7 +42,7 @@ The API key is the only option you need to pass. Whether the client talks to tes
 
 ### Create
 
-Get the `flowId` by publishing a configuration in the dashboard, it's shown on the product's **Deploy** tab. See [Configure a product](../dashboard/configure-a-product.md).
+Get the `flowId` by publishing a configuration in the dashboard, it's shown on the product's **Test** and **Live** tabs. See [Configure a product](../dashboard/configure-a-product.md).
 
 ```ts
 const session = await self.sessions.create({
@@ -112,10 +112,8 @@ import type {
   CreateSessionInput,           // what you pass to .create()
   Session,                      // what .create() returns
   SessionDetail,                // what .get() returns
-  WebhookEvent,                 // discriminated-union of all event payloads
-  VerificationCompletedPayload,
-  VerificationStorageCommittedPayload,
-  VerificationStorageFailedPayload,
+  WebhookEvent,                 // discriminated-union of webhook event payloads
+  VerificationCompletedPayload, // the verification.completed payload
 } from '@selfxyz/enterprise-sdk';
 ```
 
@@ -150,9 +148,3 @@ try {
 ```
 
 Bad arguments (for example a `flowId` or `externalUuid` that isn't a UUID) throw `SelfValidationError` before any request is sent. The SDK doesn't retry, handle transient `429` and `5xx` responses yourself (back off and retry). See [Error handling](error-handling.md) for the full code catalog.
-
-## Compatibility
-
-The SDK uses `.passthrough()` on webhook event schemas, so adding new fields on the server side is non-breaking. New event types or new request/response fields ship in a minor version; renames or removals ship in a major version.
-
-The package is pre-1.0 (`0.x`). Minor versions may contain breaking changes until 1.0. Pin to an exact version in production.

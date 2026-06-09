@@ -10,7 +10,7 @@ A disclosure is what the user's proof attests to. You configure them per flow in
 Choose how strictly the document is checked:
 
 * **Standard**: the document is genuine.
-* **Biometric**: the user also physically scanned the document's chip.
+* **Hi-security**: the user also physically scanned the document's chip.
 
 ## Age (predicate)
 

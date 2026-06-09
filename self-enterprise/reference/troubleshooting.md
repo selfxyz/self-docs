@@ -6,7 +6,7 @@ icon: life-ring
 
 Things that commonly go wrong, and how to unstick them. Errors from the SDK arrive as `SelfApiError` (`err.statusCode`, `err.code`); the sections below are keyed by those.
 
-If none of these apply, email support@self.xyz with your org ID (from the dashboard URL) and, for a webhook issue, the `svix-id` header from the delivery.
+If none of these apply, email support@self.xyz with your org ID (from the dashboard URL) and, for a webhook issue, the `verification_id` from the event payload.
 
 ## Authentication
 
@@ -16,7 +16,7 @@ The API key is missing, malformed, or revoked.
 
 * Confirm the `apiKey` you pass to `SelfClient` is set and is the full value (it starts with `sk_test_` or `sk_live_`).
 * If it works locally but 401s in deploy, you're probably reading the wrong env var. If it worked before and suddenly 401s, the key was likely revoked.
-* The full key is shown once on creation. If you've lost it, generate a new one on the Deploy tab and revoke the old one.
+* The full key is shown once on creation. If you've lost it, generate a new one under **Developer → API keys** and revoke the old one.
 
 ### `403 forbidden`
 
@@ -77,10 +77,10 @@ Transient. Retry with exponential backoff. If it's persistent (more than 30 seco
 
 ### Webhook handler never receives events
 
-* Confirm the endpoint is registered under **Settings → Webhooks** for the **same environment** as the key creating sessions (test vs live).
+* Confirm the endpoint is registered under **Developer → Webhooks** for the **same environment** as the key creating sessions (test vs live).
 * Confirm your endpoint is reachable from the public internet (not behind a VPN, no firewall blocking POST).
 * If using a tunnel (ngrok, Cloudflare Tunnel), confirm the tunnel is still up.
-* Every endpoint receives all event types, so make sure your handler branches on the `event.type` you expect rather than assuming only one arrives.
+* The delivered event is `verification.completed`; branch on `event.type` so a future event type doesn't surprise your handler.
 
 ### Webhook deliveries fail with `400`
 
@@ -94,7 +94,7 @@ Your handler is rejecting the delivery. Most likely:
 
 ### Webhook deliveries fail with `5xx`
 
-Your handler is erroring before completing. Find the matching invocation in your logs by the `svix-id` header. Self retries `5xx`, so once you fix the handler the next retry should land.
+Your handler is erroring before completing. Find the matching invocation in your logs by the `verification_id` from the event payload. Self retries `5xx`, so once you fix the handler the next retry should land.
 
 ### Duplicate events
 
@@ -138,7 +138,7 @@ In a **test** environment (sessions created with an `sk_test_` key) you verify w
 Email support@self.xyz with:
 
 * Your Email.
-* The `err.code` and `err.message` from the `SelfApiError`, or the `svix-id` header for a webhook issue.
+* The `err.code` and `err.message` from the `SelfApiError`, or the `verification_id` from the event for a webhook issue.
 * What you expected vs. what happened, with approximate timestamps.
 
 The more of that you include, the faster we can trace it.

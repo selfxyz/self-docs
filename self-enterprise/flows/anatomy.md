@@ -7,7 +7,7 @@ A **flow** is a published, versioned configuration of one product. It's what a `
 * **A product**: Pre KYC, Age Verification, or Proof of Human. The product decides what the user proves and which rules you can set.
 * **A name** (plus a slug and an optional description): how you identify the flow.
 * **Rules**: the predicate config (minimum age, excluded countries, OFAC), see below.
-* From the Configure tab it also carries a **security level** (standard or biometric), any **Additional data** reveals you turn on, and an **application icon**.
+* From the Configure tab it also carries a **security level** (Standard or Hi-security), any **Additional data** reveals you turn on, and an **application icon**.
 
 Two things are **not** part of a flow:
 

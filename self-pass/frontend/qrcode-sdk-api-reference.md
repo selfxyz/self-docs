@@ -4,6 +4,10 @@ description: API Reference for @selfxyz/qrcode
 
 # QRCode SDK - API Reference
 
+{% hint style="info" %}
+**On Self Enterprise?** You don't use this SDK or render your own QR, see the [Enterprise quickstart](../../self-enterprise/get-started/quickstart.md).
+{% endhint %}
+
 ## Exports
 
 * SelfQRCodeWrapper

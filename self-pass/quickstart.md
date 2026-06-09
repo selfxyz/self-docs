@@ -4,6 +4,10 @@ icon: bullseye-arrow
 
 # Quickstart
 
+{% hint style="warning" %}
+**Using Self Enterprise? This is the wrong quickstart.** This page is for the open-source **Self Pass** SDK (`@selfxyz/qrcode` + `@selfxyz/core`), where you render the QR code yourself. On the managed **Self Enterprise** platform you do **NOT** install `@selfxyz/qrcode` and you do **NOT** render your own QR: your backend calls one SDK and you redirect the user to a hosted `verificationUrl` that Self serves. Go to the [Self Enterprise quickstart](../self-enterprise/get-started/quickstart.md).
+{% endhint %}
+
 > ⚠️ Forking the [boilerplate repo](https://github.com/selfxyz/self-integration-boilerplate) is a great starting point for your project to integrate Self. It contains a basic working example that demonstrates how to integrate Self. From this, you can add your own logic/requirements as needed.
 
 ## Before You Start

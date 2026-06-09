@@ -31,11 +31,11 @@ A bearer secret the SDK uses, scoped to one org and one environment:
 * `sk_test_…`: test flows, mock passports, never billed.
 * `sk_live_…`: production, real proofs, real credits.
 
-Test and live are fully isolated; the prefix decides which one a request hits. You generate keys on a product's **Deploy** tab. See [API keys](../dashboard/api-keys.md).
+Test and live are fully isolated; the prefix decides which one a request hits. You generate keys under **Developer → API keys**. See [API keys](../dashboard/api-keys.md).
 
 ## Webhook endpoint
 
-An HTTPS URL you register under **Settings → Webhooks** to receive signed events like `verification.completed`. We deliver with automatic retries; verify the signature with the SDK. See the [event catalog](../webhooks/events.md).
+An HTTPS URL you register under **Developer → Webhooks** to receive signed events like `verification.completed`. We deliver with automatic retries; verify the signature with the SDK. See the [event catalog](../webhooks/events.md).
 
 ## Related
 
