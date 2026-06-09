@@ -148,9 +148,3 @@ try {
 ```
 
 Bad arguments (for example a `flowId` or `externalUuid` that isn't a UUID) throw `SelfValidationError` before any request is sent. The SDK doesn't retry, handle transient `429` and `5xx` responses yourself (back off and retry). See [Error handling](error-handling.md) for the full code catalog.
-
-## Compatibility
-
-The SDK uses `.passthrough()` on webhook event schemas, so adding new fields on the server side is non-breaking. New event types or new request/response fields ship in a minor version; renames or removals ship in a major version.
-
-The package is pre-1.0 (`0.x`). Minor versions may contain breaking changes until 1.0. Pin to an exact version in production.

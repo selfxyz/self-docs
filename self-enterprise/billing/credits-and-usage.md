@@ -14,13 +14,13 @@ See [Plans](plans.md).
 
 Each verification costs a fixed number of credits, decided by the product and set when the session is created (not at completion):
 
-| Product | Credit cost (illustrative) |
+| Product | Credit cost |
 | --- | --- |
-| Pre KYC | 1 |
-| Age Verification | 2 |
-| Proof of Human | 3 |
+| Pre KYC | 25 |
+| Age Verification | 10 |
+| Proof of Human | 10 |
 
-Concrete costs are shown in the dashboard; the numbers above are illustrative. To estimate spend, multiply your expected verifications by the product's cost.
+The dashboard shows the cost when you configure a product. A session is charged its cost at creation, and an in-flight session keeps the price it was created with. To estimate spend, multiply your expected verifications by the product's cost.
 
 ## What you're charged for
 
