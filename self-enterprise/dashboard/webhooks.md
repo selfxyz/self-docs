@@ -29,8 +29,12 @@ Don't try to verify the signature yet, you don't have the signing secret until t
 Click **Add webhook** and fill in:
 
 * **Name**: a label for the endpoint.
-* **Webhook URL**: the public HTTPS URL from above.
+* **Webhook URL**: the **full** public HTTPS URL including your handler's path, e.g. `https://yourapp.com/webhooks/self`, not just the domain.
 * **Environment**: `test` or `live` (defaults to test).
+
+{% hint style="warning" %}
+Always include the path. If you register a bare domain (`https://yourapp.com`), the test event usually lands on your web app's page route, which returns `200`, so the endpoint saves but real deliveries get swallowed by that route and never reach your handler.
+{% endhint %}
 
 When you click **Test and save**, Self sends the test event and waits for the result:
 

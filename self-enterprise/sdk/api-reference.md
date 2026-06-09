@@ -3,7 +3,7 @@
 The public surface of `@selfxyz/enterprise-sdk` you use to create sessions and verify webhooks. For a guided walkthrough, start with the [SDK overview](nodejs.md).
 
 {% hint style="info" %}
-The Enterprise SDK is **backend-only**. There's no separate frontend SDK, your frontend just opens the `verificationUrl` a session returns (or renders it as a QR code). Everything below runs on your server.
+The Enterprise SDK is **backend-only**, and there's no frontend SDK or QR code to render yourself. Your frontend just redirects the user to the `verificationUrl` a session returns; Self hosts the QR and deeplink. Everything below runs on your server.
 {% endhint %}
 
 ## Exports

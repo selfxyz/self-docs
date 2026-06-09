@@ -118,15 +118,13 @@ app.post('/webhooks/self', express.raw({ type: 'application/json' }), (req, res)
 
 `external_uuid` is what you passed when creating the session (typically your user ID). See [Verify webhooks](../sdk/verify-webhooks.md).
 
-### 4. Update your frontend QR component (if you have one)
+### 4. Drop your frontend QR component
 
-If you rendered your own QR via `@selfxyz/qrcode`, the simplest path is to **redirect to `session.verificationUrl`**, our hosted page renders the QR and handles deeplinks.
-
-If you'd rather keep rendering inline: call `self.sessions.create(...)` on your backend and pass `session.verificationUrl` to your QR component as the data. The user-facing UX is unchanged.
+With Enterprise you don't render your own QR. Wherever you used `@selfxyz/qrcode`, call `self.sessions.create(...)` on your backend and **redirect the user to `session.verificationUrl`** instead; Self's hosted page renders the QR and handles deeplinks. Then remove `@selfxyz/qrcode`.
 
 ### 5. Delete the old code paths
 
-* Remove `@selfxyz/core` (and `@selfxyz/qrcode`, unless you're still rendering the QR yourself).
+* Remove `@selfxyz/core` and `@selfxyz/qrcode`.
 * Remove your `ConfigStore` implementation.
 * Remove your `/verify` route, Enterprise delivers via webhook.
 * Remove any code that loaded verifier circuit files at boot.
@@ -136,7 +134,7 @@ If you'd rather keep rendering inline: call `self.sessions.create(...)` on your 
 * The **Self mobile app** is unchanged for your users.
 * The **disclosures** are the same, age, nationality, OFAC, etc. See [Disclosures](../flows/disclosures.md).
 * The **proof system** is the same under the hood.
-* Your **frontend** can keep rendering its own QR, just pointed at our session URL.
+* Your **frontend** gets simpler: send the user to the hosted `verificationUrl`, no QR rendering required.
 
 ## What's better
 
