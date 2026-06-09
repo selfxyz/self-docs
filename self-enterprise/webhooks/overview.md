@@ -4,7 +4,7 @@ Webhooks are the canonical way to learn that a verification finished. Polling wo
 
 ## How they work
 
-1. You register an HTTPS endpoint in the dashboard ([Developer → Webhooks](../dashboard/webhooks.md)). It must be live and return `2xx` to the test event to be saved, then you get the signing secret.
+1. You register an HTTPS endpoint in the dashboard ([Developer → Webhooks](../dashboard/webhooks.md)) and get the signing secret when you save it. (You can send a test request afterwards to confirm it's reachable.)
 2. When an event fires, we POST a JSON payload to your endpoint, signed so you can verify it came from us.
 3. Your handler verifies the signature (via the SDK) and processes the event.
 4. You return `2xx` to acknowledge. A non-2xx (or timeout) triggers a retry.

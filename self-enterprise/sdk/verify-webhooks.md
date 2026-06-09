@@ -8,7 +8,7 @@ You need:
 
 * The **raw** request body (string or Buffer). Not the JSON-parsed object, signature verification operates on the byte string.
 * The request headers, at minimum `svix-id`, `svix-timestamp`, `svix-signature`.
-* The signing secret (`whsec_...`) for the webhook endpoint. You get it when you [add the endpoint](../dashboard/webhooks.md) (revealed once); note the endpoint must return `2xx` to be saved.
+* The signing secret (`whsec_...`) for the webhook endpoint. You get it once, when you [add the endpoint](../dashboard/webhooks.md).
 
 ## Express
 

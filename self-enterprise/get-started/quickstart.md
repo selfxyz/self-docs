@@ -63,9 +63,9 @@ The user opens `verificationUrl` in their Self app, produces a proof, and the ap
 
 ## 6. Add a webhook endpoint
 
-Your endpoint has to be **running and reachable first**: when you add it, Self sends a test event and only saves it (and reveals the secret) if your endpoint returns `2xx`. Deploy the step 7 handler below (or a bare `200` stub) on a public HTTPS URL before this step. See [Webhooks: stand up an endpoint first](../dashboard/webhooks.md) for the full detail.
+In **Developer → Webhooks → Add webhook**, paste the full URL to your handler (e.g. `https://<your-tunnel>/webhooks/self`, including the path) and click **Save**. The endpoint saves right away and the dashboard reveals a signing secret (`whsec_...`) **once**, store it as `SELF_WEBHOOK_SECRET`. Every endpoint receives the `verification.completed` event.
 
-Then in **Developer → Webhooks → Add webhook**, paste your URL (e.g. `https://<your-tunnel>/webhooks/self`). On success the dashboard reveals a signing secret (`whsec_...`) **once**, store it as `SELF_WEBHOOK_SECRET`. Every endpoint receives the `verification.completed` event.
+Once your handler (step 7) is deployed, you can hit **Send Test Request** on the endpoint to confirm it's reachable. See [Webhooks](../dashboard/webhooks.md) for the full detail.
 
 ## 7. Verify webhook deliveries
 
