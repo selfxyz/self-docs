@@ -118,7 +118,7 @@ Verifies a webhook signature and returns the typed, parsed event.
 | Parameter | Notes |
 | --- | --- |
 | `payload` | The **raw** request body (string or Buffer), not a parsed object. |
-| `headers` | Must include `svix-id`, `svix-timestamp`, `svix-signature`. |
+| `headers` | The request headers from the delivery (pass the full headers object; they carry the signature). |
 | `secret` | The endpoint's signing secret (`whsec_…`). |
 
 Throws [`WebhookVerificationError`](#webhookverificationerror) if the signature is invalid or the timestamp is stale, and [`SelfValidationError`](#selfvalidationerror) if the body doesn't match any known event shape (usually an out-of-date SDK).

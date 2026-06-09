@@ -29,23 +29,6 @@ A single POST with a JSON body, typed as a discriminated union on `type`. One ev
 
 See [Event catalog](events.md) for the full payload.
 
-## Headers
-
-Every delivery carries these signature headers:
-
-```
-svix-id: msg_2abc...               # unique message ID
-svix-timestamp: 1716998400         # unix seconds
-svix-signature: v1,base64...       # HMAC signature
-content-type: application/json
-```
-
-On a redelivered event you may also see:
-
-```
-svix-replay: true
-```
-
 ## Ordering and delivery guarantees
 
 * **At-least-once.** The same event can arrive more than once (a retry after a failed delivery, a network blip). Make your handler idempotent.
@@ -53,11 +36,11 @@ svix-replay: true
 
 ## Idempotency
 
-The `svix-id` header is unique per delivery. The event itself carries a stable ID derived from the verification, so retries of the same event share it:
+The event carries a stable ID derived from the verification, so retries of the same event share it:
 
 * `verification.completed`: `<verification_id>-completed`
 
-Dedupe in your handler on this ID (or on `verification_id`). See [Best practices](best-practices.md).
+Dedupe in your handler on `verification_id`. See [Best practices](best-practices.md).
 
 ## Reliability
 

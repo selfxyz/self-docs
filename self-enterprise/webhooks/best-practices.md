@@ -25,7 +25,7 @@ if (inserted.rowCount === 0) {
 await applyVerification(event);
 ```
 
-Use the `verification_id` (stable across retries), not the `svix-id` (unique per delivery).
+Use the `verification_id` from the event, it's stable across retries.
 
 ## 2. Acknowledge quickly, work async
 
@@ -101,12 +101,12 @@ Don't share a single endpoint between staging and production. They'll have diffe
 
 Alert on your own handler's error rate (the `5xx` and signature-failure responses it returns). A handler that's been silently failing is a known production incident pattern, and you'll spot it faster from your own metrics than from the deliveries. Failed deliveries are retried automatically, so once you fix the handler the backlog drains on its own.
 
-## 9. Log the delivery ID
+## 9. Log the verification ID
 
-Every delivery includes `svix-id`. Log it on every handler invocation:
+Log `event.verification_id` on every handler invocation:
 
 ```ts
-log.info({ msg: 'webhook_received', svixId: req.headers['svix-id'], type: event.type });
+log.info({ msg: 'webhook_received', verificationId: event.verification_id, type: event.type });
 ```
 
 When you ask support about a missing or wrong delivery, that's the ID to quote.

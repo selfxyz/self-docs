@@ -6,7 +6,7 @@ icon: life-ring
 
 Things that commonly go wrong, and how to unstick them. Errors from the SDK arrive as `SelfApiError` (`err.statusCode`, `err.code`); the sections below are keyed by those.
 
-If none of these apply, email support@self.xyz with your org ID (from the dashboard URL) and, for a webhook issue, the `svix-id` header from the delivery.
+If none of these apply, email support@self.xyz with your org ID (from the dashboard URL) and, for a webhook issue, the `verification_id` from the event payload.
 
 ## Authentication
 
@@ -94,7 +94,7 @@ Your handler is rejecting the delivery. Most likely:
 
 ### Webhook deliveries fail with `5xx`
 
-Your handler is erroring before completing. Find the matching invocation in your logs by the `svix-id` header. Self retries `5xx`, so once you fix the handler the next retry should land.
+Your handler is erroring before completing. Find the matching invocation in your logs by the `verification_id` from the event payload. Self retries `5xx`, so once you fix the handler the next retry should land.
 
 ### Duplicate events
 
@@ -138,7 +138,7 @@ In a **test** environment (sessions created with an `sk_test_` key) you verify w
 Email support@self.xyz with:
 
 * Your Email.
-* The `err.code` and `err.message` from the `SelfApiError`, or the `svix-id` header for a webhook issue.
+* The `err.code` and `err.message` from the `SelfApiError`, or the `verification_id` from the event for a webhook issue.
 * What you expected vs. what happened, with approximate timestamps.
 
 The more of that you include, the faster we can trace it.

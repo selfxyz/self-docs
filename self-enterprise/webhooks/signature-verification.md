@@ -1,17 +1,13 @@
 # Signature verification
 
-Every webhook delivery is signed using HMAC-SHA256. Verify the signature before trusting the payload.
+Every webhook delivery is signed with HMAC-SHA256. Verify the signature before trusting the payload, and don't roll your own check, the SDK does it correctly in one call.
 
-## What to verify
+## What the SDK verifies
 
 * The body matches the signature.
-* The timestamp is recent (defends against replay).
+* The timestamp is recent (a 5-minute tolerance, which defends against replay).
 
-The Enterprise SDK does both for you. We strongly recommend using it. Rolling your own HMAC check is a footgun.
-
-## Node (recommended path)
-
-The SDK does it in one call:
+## Node
 
 ```ts
 import { SelfWebhooks } from '@selfxyz/enterprise-sdk';
@@ -19,32 +15,7 @@ import { SelfWebhooks } from '@selfxyz/enterprise-sdk';
 const event = SelfWebhooks.verify(rawBody, headers, secret);
 ```
 
-See [SDK: Verify webhooks](../sdk/verify-webhooks.md) for the full setup including raw-body wiring.
-
-## Other languages
-
-The Node SDK is the official client today. From any other language, verify manually with HMAC-SHA256 (see below). The scheme is standard, so an off-the-shelf webhook-signature library that follows it works too.
-
-## Manual verification
-
-The signing scheme:
-
-```
-signed_payload = <svix-id> + "." + <svix-timestamp> + "." + <body>
-signature      = base64(HMAC-SHA256(secret_bytes, signed_payload))
-```
-
-Where `<svix-id>`, `<svix-timestamp>`, and `<body>` come from the request:
-
-* `<svix-id>`, the `svix-id` HTTP header.
-* `<svix-timestamp>`, the `svix-timestamp` HTTP header (Unix seconds).
-* `<body>`, the raw request body (UTF-8 bytes, exactly as received).
-
-The `svix-signature` header may contain multiple comma-separated signatures (each prefixed with a version, e.g. `v1,<base64>`). Your computed signature matches if any one of them matches.
-
-You **must** also enforce a timestamp tolerance (default: 5 minutes) to prevent replay attacks. Compare `svix-timestamp` against the current time and reject deliveries outside the window.
-
-The webhook signing secret (`whsec_...`) is the raw secret bytes after stripping the `whsec_` prefix and base64-decoding the remainder.
+`SelfWebhooks.verify` reads the signature off the request headers for you, so just pass the request headers through. See [SDK: Verify webhooks](../sdk/verify-webhooks.md) for the full setup including raw-body wiring.
 
 ## Rotating the secret
 
