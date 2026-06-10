@@ -6,6 +6,10 @@ description: Terminal-based agent registration and deregistration workflows
 
 Self Agent ID includes a cross-language CLI for registering and deregistering agents from the terminal. Available in TypeScript, Python, and Rust with identical command surfaces.
 
+{% hint style="info" %}
+The CLI talks to the API at `https://agent-api.self.xyz`. Override it with the `SELF_AGENT_API_BASE` environment variable if you run your own deployment. The CLI fetches the scannable QR from the API (`GET /api/qr/{sessionToken}`), so no consumer web app is needed.
+{% endhint %}
+
 ## Install
 
 {% tabs %}
@@ -166,7 +170,7 @@ The session file (`.self/session.json`) contains:
   "agentAddress": "0x...",
   "agentPrivateKey": "0x...",
   "sessionId": "uuid",
-  "handoffUrl": "https://selfagentid.xyz/cli/register?session=...",
+  "handoffUrl": "https://agent-api.self.xyz/qr/...",
   "status": "pending",
   "createdAt": "2026-02-22T..."
 }

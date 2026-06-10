@@ -4,11 +4,13 @@ description: REST API endpoints for agent registration, queries, and discovery
 
 # REST API
 
-Self Agent ID exposes REST endpoints for registration workflows, agent queries, and A2A discovery. All endpoints are served from the web app deployment.
+Self Agent ID exposes REST endpoints for registration workflows, agent queries, and A2A discovery. The base URL is `https://agent-api.self.xyz`. There is no consumer web app, but the full API stays available at this host. Prefix the paths below with the base URL.
 
 The full OpenAPI 3.1 spec is available at [`openapi.yaml`](https://github.com/selfxyz/self-agent-id/blob/main/openapi.yaml) in the main repository — import it into Postman or use it to generate clients.
 
-For interactive documentation, visit [selfagentid.xyz/api-docs](https://selfagentid.xyz/api-docs).
+{% hint style="info" %}
+Most query endpoints are thin wrappers over registry contract reads, so you can also reproduce them directly with the SDK or a plain RPC call. See [Smart Contracts](smart-contracts.md). To register without calling the API at all, render the QR in your own frontend with the SDK — see [Register Without the Web App](register-without-the-app.md).
+{% endhint %}
 
 ## Public Query Endpoints
 
@@ -178,7 +180,7 @@ Returns the service discovery document with API base URL, supported networks, re
 {
   "name": "Self Agent ID",
   "version": "1.0",
-  "apiBase": "https://selfagentid.xyz/api/agent",
+  "apiBase": "https://agent-api.self.xyz/api/agent",
   "networks": ["mainnet", "testnet"],
   "registrationModes": ["linked", "wallet-free", "ed25519", "ed25519-linked", "privy", "smartwallet"],
   "capabilities": ["register", "deregister", "verify", "credentials", "agent-card", "a2a"],

@@ -60,7 +60,7 @@ Add to your MCP configuration file:
 | `SELF_AGENT_PRIVATE_KEY` | No | — | Agent private key (hex). Enables identity and auth tools. |
 | `SELF_NETWORK` | No | `mainnet` | `mainnet` or `testnet` |
 | `SELF_RPC_URL` | No | Network default | Custom RPC endpoint |
-| `SELF_API_URL` | No | `https://selfagentid.xyz` | Custom API base URL |
+| `SELF_AGENT_API_BASE` | No | `https://agent-api.self.xyz` | API base URL. Override to use your own deployment. |
 
 {% hint style="info" %}
 **Mainnet is the default.** Registration on mainnet requires a real passport via the Self app. Use `SELF_NETWORK=testnet` for development — testnet also requires the Self app, but you can generate mock documents within the app instead of using a real passport.

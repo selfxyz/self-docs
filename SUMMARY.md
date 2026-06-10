@@ -67,6 +67,7 @@
 ## Self Agent ID
 
 * [Overview](agent-id/overview.md)
+* [Register Without the Web App](agent-id/register-without-the-app.md)
 * [Registration Modes](agent-id/registration-modes.md)
 * [SDK Integration](agent-id/sdk-integration.md)
 * [Verification Patterns](agent-id/verification-patterns.md)
