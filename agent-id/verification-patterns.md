@@ -83,7 +83,7 @@ Services can enforce their own sybil policies using three approaches:
 
 ```typescript
 const verifier = SelfAgentVerifier.create()
-  .maxAgentsPerHuman(1)
+  .sybilLimit(1)
   .build();
 ```
 
@@ -91,7 +91,7 @@ const verifier = SelfAgentVerifier.create()
 
 ```typescript
 const verifier = SelfAgentVerifier.create()
-  .maxAgentsPerHuman(5)
+  .sybilLimit(5)
   .build();
 ```
 
@@ -100,7 +100,7 @@ const verifier = SelfAgentVerifier.create()
 ```typescript
 // Allow unlimited, but check relationships
 const verifier = SelfAgentVerifier.create()
-  .maxAgentsPerHuman(0) // unlimited
+  .sybilLimit(0) // unlimited
   .build();
 
 // Then use sameHuman() for analytics

@@ -33,8 +33,8 @@ Returns agent registration details, verification status, and credentials.
   "agentAddress": "0x83fa4380903fecb801F4e123835664973001ff00",
   "isVerified": true,
   "proofProvider": "0x5E61c3051Bf4115F90AacEAE6212bc419f8aBB6c",
-  "verificationStrength": 2,
-  "strengthLabel": "Standard",
+  "verificationStrength": 100,
+  "strengthLabel": "passport",
   "credentials": {
     "nationality": "GBR",
     "olderThan": 18,
@@ -69,20 +69,25 @@ Returns all agent IDs registered by a specific human wallet address.
 GET /api/agent/verify/{chainId}/{agentId}
 ```
 
-Checks whether an agent has valid proof-of-human verification, the proof provider address, verification strength, and Sybil metrics.
+Checks whether an agent has valid proof-of-human verification, the proof provider address, verification strength, and Sybil metrics. `isSelfProvider` is `true` when the proof was issued by Self Protocol's provider. `agentCountForHuman` is how many agents share this human's nullifier.
 
 **Example response:**
 
 ```json
 {
   "agentId": 5,
+  "chainId": 11142220,
   "isVerified": true,
   "proofProvider": "0x5E61c3051Bf4115F90AacEAE6212bc419f8aBB6c",
-  "strengthLabel": "Standard",
-  "humanAgentCount": 1,
-  "maxAgentsPerHuman": 1
+  "isSelfProvider": true,
+  "verificationStrength": 100,
+  "strengthLabel": "passport",
+  "humanNullifier": "12345678901234567890",
+  "agentCountForHuman": 1
 }
 ```
+
+When an agent has no proof, the response is `{ "agentId", "chainId", "isVerified": false, "proofProvider": "0x000…000", "isSelfProvider": false, "verificationStrength": 0, "strengthLabel": "None", "humanNullifier": "0", "agentCountForHuman": 0 }`.
 
 ### Get Agent Card
 
@@ -104,12 +109,14 @@ Returns the agent's verification strength score from the proof provider.
 
 ```json
 {
-  "score": 2,
+  "score": 100,
   "hasProof": true,
   "providerName": "Self Protocol",
-  "proofType": "Standard"
+  "proofType": "passport"
 }
 ```
+
+The `score` is the provider's `verificationStrength()` (0-100). `proofType` is the SDK label for that score: `passport` (≥100), `kyc` (≥80), `govt_id` (≥60), `liveness` (≥40), else `unknown`. Self Protocol's provider currently returns `100` / `passport`.
 
 ### Get Verification Status
 
@@ -124,11 +131,13 @@ Returns real-time proof status and freshness.
 ```json
 {
   "verified": true,
-  "proofType": "Standard",
+  "proofType": "passport",
   "registeredAtBlock": "12345678",
   "providerAddress": "0x5E61c3051Bf4115F90AacEAE6212bc419f8aBB6c"
 }
 ```
+
+When the agent has no proof, the response is simply `{ "verified": false }`.
 
 ### A2A Discovery
 

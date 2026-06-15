@@ -215,7 +215,41 @@ The verifier checks that `getProofProvider(agentId)` matches Self Protocol's pro
 ```
 Per-agent sliding-window rate limits.
 
-## 9. Error Handling
+## 9. Request Body Fidelity (raw bytes)
+
+Signature verification is byte-sensitive: the signature covers a hash of the exact request body. Verify against the raw bytes your HTTP server received, not a re-serialized object.
+
+- Prefer raw-body capture (for example, a JSON parser `verify` hook that stashes `req.rawBody`).
+- Do not mutate, normalize, or re-stringify parsed JSON before verifying.
+- If you cannot access raw bytes, enforce a single canonical serialization end to end.
+
+```typescript
+import express from "express";
+
+const app = express();
+app.use(
+  express.json({
+    verify: (req: any, _res, buf) => {
+      req.rawBody = typeof buf === "string" ? buf : buf.toString("utf8");
+    },
+  }),
+);
+app.use("/api", verifier.auth());
+```
+
+## 10. Verification Drills
+
+Run these three drills against a registered agent to confirm an integration is wired correctly:
+
+| Drill | Action | Expected result |
+|-------|--------|-----------------|
+| **Tamper** | Sign body `A`, then send body `B` with the same signed headers | Invalid-signature rejection (`403`) |
+| **Expired** | Send a timestamp older than the configured `maxAge` (default 5 min) | Timestamp-freshness rejection (`403`) |
+| **Replay** | Submit an identical signed request twice | First accepted, second rejected (replay protection on) |
+
+A quick pre-deploy smoke check: one registered-agent success request plus at least two of the failure drills above, with the verifier health endpoint confirmed reachable.
+
+## 11. Error Handling
 
 The middleware returns standard HTTP errors:
 

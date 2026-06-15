@@ -118,6 +118,31 @@ Sign an HTTP POST request to https://api.example.com/data with body {"query": "t
 Make an authenticated request to https://api.example.com/protected.
 ```
 
+## Claude Code Plugin (guided workflows)
+
+For Claude Code specifically, the repo also ships a **plugin** that adds six skills. Each skill is a self-contained knowledge module (decision trees, code examples, reference docs) that loads automatically when your request matches, giving Claude full protocol context without manual setup.
+
+```bash
+# Clone the repo, then add the plugin from the local checkout
+git clone https://github.com/selfxyz/self-agent-id.git
+claude plugin add ./self-agent-id/plugin
+```
+
+| Skill | Covers |
+|-------|--------|
+| `self-agent-id-overview` | Architecture, contracts, trust model, ERC-8004, provider system |
+| `register-agent` | Registration in every mode (linked, wallet-free, ed25519, ed25519-linked, privy, smartwallet) |
+| `sign-requests` | ECDSA request signing, the 3-header auth system, signed-fetch patterns |
+| `verify-agents` | On-chain verification, `SelfAgentVerifier` middleware, reputation, freshness, sybil detection |
+| `query-credentials` | ZK-attested credentials, A2A agent cards, reputation scores |
+| `integrate-self-id` | End-to-end integration: agent-side, service-side, on-chain gating, MCP setup |
+
+The plugin and the MCP server are complementary: the plugin teaches Claude the protocol, while the MCP server gives it live tools to act on-chain.
+
+## Agents without MCP support
+
+Frameworks that cannot run an MCP server (LangChain, AutoGPT, custom runtimes) do not need it. The [REST API](../rest-api.md) and [A2A JSON-RPC endpoint](../rest-api.md#a2a-protocol-json-rpc) at `https://agent-api.self.xyz` expose registration, verification, lookup, and deregistration directly over HTTP, so any agent can drive the full lifecycle with plain requests.
+
 ## Resources
 
 The server exposes two MCP resources:

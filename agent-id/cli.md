@@ -157,24 +157,79 @@ For automated onboarding, your backend or agent runtime orchestrates the CLI com
 The agent-guided flow is the recommended integration pattern for services that onboard users programmatically. The CLI handles all the complexity of session management and proof verification.
 {% endhint %}
 
-## Session Schema (v1)
+## Canonical challenge domain
 
-The session file (`.self/session.json`) contains:
+For every mode except `self-custody`, the agent key signs a challenge proving it controls the key. All SDKs hash the same domain so a session created by one CLI is verifiable by any other:
 
-```json
-{
-  "version": 1,
-  "mode": "linked",
-  "network": "mainnet",
-  "humanAddress": "0x...",
-  "agentAddress": "0x...",
-  "agentPrivateKey": "0x...",
-  "sessionId": "uuid",
-  "handoffUrl": "https://agent-api.self.xyz/qr/...",
-  "status": "pending",
-  "createdAt": "2026-02-22T..."
-}
 ```
+keccak256(abi.encodePacked("self-agent-id:register:", humanIdentifier, chainId, registryAddress, nonce))
+```
+
+The hashing and the `(r, s, v)` signature split must match across TypeScript, Python, and Rust. The same value is reproduced on-chain when the registry verifies the agent signature alongside the Self ZK proof.
+
+## Session schema (v1)
+
+The session file (`.self/session.json`) is a structured record, not a flat blob. Top-level keys:
+
+| Key | Notes |
+|-----|-------|
+| `version` | Schema version (`1`) |
+| `operation` | `register` or `deregister` |
+| `sessionId`, `createdAt`, `expiresAt` | Session identity and TTL |
+| `mode`, `disclosures` | Registration mode and selected disclosures |
+| `network` | `{ chainId, rpcUrl, registryAddress, endpointType, appUrl, appName, scope }` |
+| `registration` | `{ humanIdentifier, agentAddress, userDefinedData, challengeHash, signature, smartWalletTemplate? }` (`challengeHash`/`signature` for non-`self-custody` modes) |
+| `callback` | `{ listenHost: "127.0.0.1", listenPort, path: "/callback", stateToken, used, lastStatus?, lastError? }` |
+| `state` | `{ stage, updatedAt, lastError?, agentId?, guardianAddress? }` |
+| `secrets` | `{ agentPrivateKey }` — generated-key modes only (`linked`, `wallet-free`, `smartwallet`) |
+
+### Local session stages
+
+The local session file moves through these `state.stage` values:
+
+```
+initialized → handoff_opened → callback_received → onchain_verified
+                                                  → onchain_deregistered   (deregister flow)
+                                                  → failed | expired
+```
+
+{% hint style="info" %}
+These are the **local CLI** stages. They are distinct from the **API** registration stages (`qr-ready`, `proof-received`, `completed`, `failed`) returned by `GET /api/agent/register/status`. The CLI reconciles the API/on-chain state into its own session file.
+{% endhint %}
+
+## Browser handoff & callback contract
+
+`register open` encodes the session into a `payload=<base64url(json)>` parameter for the API's `/cli/register` handoff page. The payload carries: `version`, `operation`, `sessionId`, `stateToken`, `callbackUrl`, `mode`, `chainId`, `registryAddress`, `endpointType`, `appName`, `scope`, `humanIdentifier`, `expectedAgentAddress`, `expiresAt`, and optionally `disclosures`, `userDefinedData`, `smartWalletTemplate`.
+
+When the browser flow completes, it POSTs JSON back to the CLI's loopback callback (`http://127.0.0.1:<port>/callback`): `{ sessionId, stateToken, status: "success" | "error", timestamp, operation?, error?, guardianAddress? }`. The CLI rejects callbacks whose `sessionId` / `stateToken` do not match, and rejects replays.
+
+## Security
+
+1. Exporting the agent private key is blocked unless `--unsafe` is passed explicitly.
+2. Session and key files use restricted file permissions. Treat them as sensitive local state.
+3. The callback listener binds to the loopback host only.
+4. Session expiry is enforced before handoff and wait operations.
+5. Rotate or delete old session files after a successful registration.
+
+## Refreshing an expired proof
+
+Human proofs expire at `min(document expiry, registration time + maxProofAge)` (default `maxProofAge` ≈ 365 days). After expiry, `isProofFresh(agentId)` returns `false`. The CLI surfaces `proofExpiresAt` in `register status` and warns when expiry is within 30 days.
+
+There is no in-place CLI refresh command. To refresh, run the full deregister flow then a new register flow, which mints a **new** `agentId` (update any stored references):
+
+```bash
+self-agent deregister init --mode linked --human-address 0x... --agent-address 0x... --network mainnet --out .self/dereg.json
+self-agent deregister open --session .self/dereg.json    # complete Self proof
+self-agent deregister wait --session .self/dereg.json
+
+self-agent register init --mode linked --human-address 0x... --network mainnet --out .self/refresh.json
+self-agent register open --session .self/refresh.json     # complete Self proof
+self-agent register wait --session .self/refresh.json
+```
+
+{% hint style="info" %}
+The REST API also exposes an in-place [refresh endpoint](rest-api.md#proof-refresh-endpoints) (`POST /api/agent/refresh`) that re-proves an existing agent without minting a new ID. The CLI does not wrap it yet.
+{% endhint %}
 
 ## Network Flag
 
