@@ -8,6 +8,10 @@ Self Agent ID is an on-chain identity registry that binds AI agent identities to
 
 The system implements the [ERC-8004 Proof-of-Human extension](https://eips.ethereum.org/EIPS/eip-8004) and provides SDK implementations in TypeScript, Python, and Rust with identical feature parity.
 
+{% hint style="info" %}
+There is no consumer website. You use Agent ID through the SDK, the on-chain registry, the REST/A2A API at `https://agent-api.self.xyz`, or the `self-agent` CLI. See [Register Without the Web App](register-without-the-app.md) to register, sign, and verify an agent.
+{% endhint %}
+
 ## Who This Is For
 
 | Audience | What You Do |
@@ -51,14 +55,16 @@ No personal data ever leaves the user's device. Only a ZK proof and nullifier ar
 Celo Sepolia chain ID is **11142220**, not 44787 (deprecated Alfajores).
 {% endhint %}
 
-## Live Deployment
+## Where It Lives
 
-- Web app: [https://selfagentid.xyz](https://selfagentid.xyz)
-- GitHub: [https://github.com/selfxyz/self-agent-id](https://github.com/selfxyz/self-agent-id)
+- API (REST + A2A): `https://agent-api.self.xyz`
+- Contracts: on Celo (addresses above)
+- SDKs: `@selfxyz/agent-sdk` (TypeScript), `selfxyz-agent-sdk` (Python), `self-agent-sdk` (Rust)
+- Source: [github.com/selfxyz/self-agent-id](https://github.com/selfxyz/self-agent-id)
 
 ## A2A Protocol
 
-Agents can interact programmatically via the A2A JSON-RPC endpoint at `/api/a2a`. This supports registration, verification, lookup, deregistration, and proof freshness checks — all through structured intents or natural language.
+Agents can interact programmatically via the A2A JSON-RPC endpoint at `https://agent-api.self.xyz/api/a2a`. This supports registration, verification, lookup, deregistration, and proof freshness checks — all through structured intents or natural language.
 
 Send `{ "intent": "help" }` to get a full list of capabilities and a decision guide for choosing the right registration mode.
 

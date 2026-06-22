@@ -37,7 +37,7 @@ The contract is a soulbound ERC-721 (non-transferable) using UUPS upgradeable pa
 
 ## API Endpoints
 
-All visa endpoints are served from the Self Agent ID web app.
+All visa endpoints are served at `https://agent-api.self.xyz`. The read endpoints are wrappers over `CeloAgentVisa` contract reads, so you can also call the contract directly; the claim and review endpoints use a relayer.
 
 ### Get Visa Status
 

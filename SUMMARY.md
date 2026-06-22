@@ -67,10 +67,13 @@
 ## Self Agent ID
 
 * [Overview](agent-id/overview.md)
+* [Register Without the Web App](agent-id/register-without-the-app.md)
 * [Registration Modes](agent-id/registration-modes.md)
 * [SDK Integration](agent-id/sdk-integration.md)
 * [Verification Patterns](agent-id/verification-patterns.md)
 * [Smart Contracts](agent-id/smart-contracts.md)
+* [ERC-8004 & Proof-of-Human](agent-id/erc-8004.md)
+* [Agent Registration JSON & Agent Cards](agent-id/agent-registration-json.md)
 * [REST API](agent-id/rest-api.md)
 * [CLI](agent-id/cli.md)
 * [Celo Agent Visa](agent-id/celo-agent-visa.md)

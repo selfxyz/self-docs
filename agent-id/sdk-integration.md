@@ -88,7 +88,7 @@ import { SelfAgentVerifier } from "@selfxyz/agent-sdk";
 const verifier = SelfAgentVerifier.create()
   .requireAge(18)
   .requireOFAC()
-  .maxAgentsPerHuman(1)
+  .sybilLimit(1)
   .build();
 
 // Express middleware
@@ -103,7 +103,7 @@ from self_agent_sdk import SelfAgentVerifier
 verifier = (SelfAgentVerifier.create()
     .require_age(18)
     .require_ofac()
-    .max_agents_per_human(1)
+    .sybil_limit(1)
     .build())
 
 # Flask middleware
@@ -122,7 +122,7 @@ use self_agent_sdk::SelfAgentVerifier;
 let verifier = SelfAgentVerifier::builder()
     .require_age(18)
     .require_ofac()
-    .max_agents_per_human(1)
+    .sybil_limit(1)
     .build()?;
 
 // Axum middleware (requires `axum` feature)
@@ -157,7 +157,7 @@ if (result.valid) {
 | Setting | Default | Description |
 |---------|---------|-------------|
 | `requireSelfProvider` | `true` | Only accept proofs from Self Protocol's provider |
-| `maxAgentsPerHuman` | `1` | One agent per human (sybil resistance) |
+| `sybilLimit` | `1` | One agent per human (sybil resistance); `0` disables the cap |
 | Replay protection | Enabled | Signature nonce + timestamp freshness |
 | Timestamp window | 300 seconds | Reject requests older than 5 minutes |
 

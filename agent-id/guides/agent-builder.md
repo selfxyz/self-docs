@@ -29,27 +29,9 @@ Six registration modes — choose based on your use case:
 | `privy` | Social login (Google, Twitter) | No |
 | `smartwallet` | Consumer-facing, passkey UX | No |
 
-### Via the dApp (simplest)
+### Via the SDK (simplest)
 
-1. Go to [selfagentid.xyz](https://selfagentid.xyz)
-2. Select your registration mode and network
-3. Scan your passport with the Self app
-4. Copy the agent private key from the export page
-
-#### What your user will see
-
-The dApp walks users through a guided wizard:
-
-1. **Role selection** — "I'm building an agent" or "I'm a human registering for my agent"
-2. **Key type** — ECDSA or Ed25519, with framework-specific hints (e.g. OpenClaw and Eliza use Ed25519)
-3. **Mode selection** — The wizard narrows the six modes to the ones that match the chosen key type, with a comparison table showing wallet requirements, NFT ownership, and revocation methods
-4. **Network** — Mainnet (real passport) or Testnet (mock documents)
-5. **Verification config** — Optional age threshold and OFAC screening
-6. **Key generation / import** — For ECDSA modes, a fresh keypair is generated in the browser. For Ed25519 modes, the user pastes the agent's existing public key
-7. **Passport scan** — A QR code or deep link opens the Self app for ZK proof-of-human verification
-8. **Confirmation** — On-chain registration completes and the agent key is available for export
-
-The entire flow takes under two minutes. No crypto knowledge is required for wallet-free, privy, or smartwallet modes.
+Render the passport-scan QR in your own frontend and read the result from the chain. No hosted service is involved. This is the recommended path. See [Register Without the Web App](../register-without-the-app.md) for the full runnable example (generate the agent key, sign the challenge, build the QR with `@selfxyz/qrcode`, mint on-chain).
 
 ### Via CLI
 
@@ -65,7 +47,7 @@ self-agent register init \
   --minimum-age 18 \
   --ofac
 
-# Open the browser handoff URL
+# Print the QR (fetched from the API) to scan with the Self app
 self-agent register open --session .self/session-*.json
 
 # Wait for verification to complete
@@ -75,12 +57,14 @@ self-agent register wait --session .self/session-*.json
 self-agent register export --session .self/session-*.json --unsafe --print-private-key
 ```
 
+The CLI talks to `https://agent-api.self.xyz` by default (override with `SELF_AGENT_API_BASE`).
+
 ### Via A2A Protocol (for agents)
 
 Agents can self-register by sending a JSON-RPC request to the A2A endpoint:
 
 ```bash
-curl -X POST https://selfagentid.xyz/api/a2a \
+curl -X POST https://agent-api.self.xyz/api/a2a \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -100,7 +84,7 @@ The endpoint returns a QR code and deep link. A human scans the QR with the Self
 ### Via REST API
 
 ```bash
-curl -X POST https://selfagentid.xyz/api/agent/register \
+curl -X POST https://agent-api.self.xyz/api/agent/register \
   -H "Content-Type: application/json" \
   -d '{
     "mode": "linked",
@@ -114,11 +98,7 @@ Poll `/api/agent/register/status?token=<token>` until `stage: "completed"`.
 
 ### Via Smart Wallet (passkeys)
 
-1. Go to [selfagentid.xyz](https://selfagentid.xyz)
-2. Select "Smart Wallet" mode
-3. Create a passkey — this generates a ZeroDev Kernel smart account as your guardian
-4. Scan your passport with the Self app
-5. On mainnet, transactions are gasless via Pimlico paymaster
+Smart-wallet mode uses a passkey to create a ZeroDev Kernel smart account as the guardian, with gasless operations via the Pimlico paymaster on mainnet. Build the passkey step into your own frontend with `@zerodev/sdk` and `@zerodev/passkey-validator`; the agent keypair and challenge are generated the same way as `linked`. The gasless bundler and paymaster are proxied through `https://agent-api.self.xyz/api/aa/*`. See [Registration Modes](../registration-modes.md#smart-wallet).
 
 ## 3. Sign Outbound Requests
 
