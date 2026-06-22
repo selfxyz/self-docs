@@ -107,7 +107,7 @@ Agents registered through the **Hub V2 Self Protocol flow** (the `verifySelfProo
 You **must** call `setAgentURI()` after registration:
 
 ```solidity
-registry.setAgentURI(agentId, "https://my-agent.example.com/.well-known/agent.json");
+registry.setAgentURI(agentId, "https://my-agent.example.com/.well-known/agent-card.json");
 ```
 
 Until `setAgentURI()` is called:
